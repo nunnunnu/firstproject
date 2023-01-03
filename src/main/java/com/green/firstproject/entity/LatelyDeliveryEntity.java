@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +22,8 @@ import lombok.NoArgsConstructor;
 public class LatelyDeliveryEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="ld_seq") private Long ldSeq;
-     @Column(name="ld_mi_seq") private Long ldMiSeq;
+     @ManyToOne
+     @JoinColumn(name="ld_mi_seq") private MemberInfoEntity member;
      @Column(name="ld_address") private String ldAddress;
      @Column(name="ld_detail_address") private String ldDetailAddress;
      @Column(name="ld_del_date") private LocalDate ldDelDate;
