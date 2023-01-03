@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.green.firstproject.entity.BurgerInfoEntity;
-import com.green.firstproject.entity.CategoryEntity;
-import com.green.firstproject.entity.GradeInfoEntity;
-import com.green.firstproject.entity.MemberInfoEntity;
-import com.green.firstproject.entity.MenuInfoEntity;
-import com.green.firstproject.entity.OrderInfoEntity;
-import com.green.firstproject.repository.BurgerInfoRepository;
-import com.green.firstproject.repository.CategoryRepository;
+import com.green.firstproject.entity.member.GradeInfoEntity;
+import com.green.firstproject.entity.member.MemberInfoEntity;
+import com.green.firstproject.entity.menu.CategoryEntity;
+import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
+import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
+import com.green.firstproject.entity.order.OrderInfoEntity;
+import com.green.firstproject.repository.menu.CategoryRepository;
+import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 
 @SpringBootTest
 
@@ -40,5 +40,6 @@ public class AddTest {
      }
      @Test
      void 주문(){
+          
      }
 }
