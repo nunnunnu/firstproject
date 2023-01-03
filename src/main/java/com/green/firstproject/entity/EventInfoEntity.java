@@ -3,6 +3,7 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,9 +27,9 @@ public class EventInfoEntity {
      @Column(name="ei_end_dt") private LocalDate eiEndDt;
      @Column(name="ei_price") private Integer eiPrice;
      @Column(name="ei_detail") private String eiDetail;
-     @ManyToOne @JoinColumn(name="ei_di_seq")
+     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="ei_di_seq")
      private DrinkInfoEntity eiDiSeq;
-     @ManyToOne @JoinColumn(name="ei_di2_seq")
+     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="ei_di2_seq")
      private DrinkInfoEntity eiDi2Seq;
      @Column(name="ei_cate") private Long eiCate;
      @Column(name="ei_file") private String eiFile;

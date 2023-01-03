@@ -25,7 +25,7 @@ public class BurgerInfoEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="bi_seq") private String biSeq;
      @Column(name="bi_name") private String biName;
-     @Column(name="bi_cate") private String biCate;
+     @Column(name="bi_cate") private Long biCate;
      @Column(name="bi_detail") private String biDetail;
      @Column(name="bi_file") private String biFile;
      @Column(name="bi_uri") private String biUri;
