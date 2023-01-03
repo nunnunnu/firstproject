@@ -30,10 +30,6 @@ public class MenuInfoEntity {
     @Column(name = "menu_price")            private Integer menuPrice;
     @Column(name = "menu_file")             private String menuFile;
     @Column(name = "menu_uri")              private String menuUri;
-    @Column(name = "menu_reg_dt")     @ColumnDefault("CURRENT_TIMESTAMP")      
-    private LocalDateTime menuRegDt;
-    @Column(name = "menu_sales_rate") @ColumnDefault("0")      
-    private Integer menuSalesRate;
     @Column(name = "menu_ex")               private String menuEx;
     // @Column(name = "menu_bi_seq")           private Integer menuBiSeq;
     @ManyToOne @JoinColumn(name = "menu_bi_seq") BurgerInfoEntity burger;
