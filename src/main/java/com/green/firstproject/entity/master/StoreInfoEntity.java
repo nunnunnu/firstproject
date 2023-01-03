@@ -1,4 +1,4 @@
-package com.green.firstproject.entity;
+package com.green.firstproject.entity.master;
 
 import java.time.LocalTime;
 
