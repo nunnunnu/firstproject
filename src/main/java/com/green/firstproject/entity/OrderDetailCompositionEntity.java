@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,4 +26,7 @@ public class OrderDetailCompositionEntity {
     @Column(name="odc_od_seq") private Long odcOdSeq;
     @Column(name="odc_lsopt_seq") private Long odcLostSeq;
     @Column(name="odc_ldopt_seq") private Long odcLdoptSeq;
+    @ManyToOne @JoinColumn(name="odc_od_seq") OrderDetailEntity orderDetail;
+    @ManyToOne @JoinColumn(name="odc_lsopt_seq") SideOptionEntity side;
+    @ManyToOne @JoinColumn(name="odc_ldopt_seq") DrinkOptionEntity drink;
 }
