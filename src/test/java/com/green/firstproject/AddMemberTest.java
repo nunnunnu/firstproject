@@ -6,10 +6,9 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 
-import com.green.firstproject.entity.MemberInfoEntity;
-import com.green.firstproject.repository.MemberInfoReposiroty;
+import com.green.firstproject.entity.member.MemberInfoEntity;
+import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.utils.AESAlgorithm;
 @SpringBootTest
 public class AddMemberTest {
