@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 @Repository
 public interface SideInfoRepository extends JpaRepository<SideInfoEntity, Long> {
-     
+        
 }
