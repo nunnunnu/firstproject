@@ -30,6 +30,7 @@ public class MemberInfoEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="mi_seq") private Long miSeq;
     @Column(name="mi_email") private String miEmail;
+    @Column(name="mi_pwd") private String miPwd;
     @Column(name="mi_name") private String miName;
     @Column(name="mi_phone") private String miPhone;
     @Column(name="mi_gen")  @ColumnDefault("0")
