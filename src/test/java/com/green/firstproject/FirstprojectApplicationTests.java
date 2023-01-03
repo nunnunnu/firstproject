@@ -1,20 +1,14 @@
 package com.green.firstproject;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-<<<<<<< HEAD
+import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
-=======
-import com.green.firstproject.entity.SideInfoEntity;
-import com.green.firstproject.repository.BurgerInfoRepository;
-import com.green.firstproject.repository.CategoryRepository;
-import com.green.firstproject.repository.DrinkInfoRepository;
-import com.green.firstproject.repository.SideInfoRepository;
->>>>>>> jeun
+import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
+import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
+
 
 @SpringBootTest
 class FirstprojectApplicationTests {
