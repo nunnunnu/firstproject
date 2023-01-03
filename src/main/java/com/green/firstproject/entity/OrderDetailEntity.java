@@ -26,10 +26,10 @@ import lombok.NoArgsConstructor;
 public class OrderDetailEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="od_seq") private Long odSeq;
-    @Column(name="od_oi_seq") 
-    private Long odOiSeq;
-    @Column(name="od_bi_seq") private Long odBiSeq;
-    @Column(name="od_ei_seq") private Long odEiSeq;
+    // @Column(name="od_oi_seq") 
+    // private Long odOiSeq;
+    // @Column(name="od_bi_seq") private Long odBiSeq;
+    // @Column(name="od_ei_seq") private Long odEiSeq;
     @Column(name="od_count") @ColumnDefault("1")
     private Integer odCount;
     @ManyToOne @JoinColumn(name="od_oi_seq") OrderInfoEntity order;

@@ -23,9 +23,9 @@ import lombok.NoArgsConstructor;
 public class OrderDetailCompositionEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="odc_seq") private Long odcSeq;
-    @Column(name="odc_od_seq") private Long odcOdSeq;
-    @Column(name="odc_lsopt_seq") private Long odcLostSeq;
-    @Column(name="odc_ldopt_seq") private Long odcLdoptSeq;
+    // @Column(name="odc_od_seq") private Long odcOdSeq;
+    // @Column(name="odc_lsopt_seq") private Long odcLostSeq;
+    // @Column(name="odc_ldopt_seq") private Long odcLdoptSeq;
     @ManyToOne @JoinColumn(name="odc_od_seq") OrderDetailEntity orderDetail;
     @ManyToOne @JoinColumn(name="odc_lsopt_seq") SideOptionEntity side;
     @ManyToOne @JoinColumn(name="odc_ldopt_seq") DrinkOptionEntity drink;

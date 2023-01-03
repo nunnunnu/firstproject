@@ -20,8 +20,8 @@ import lombok.NoArgsConstructor;
 public class OrderIngredientsDetailEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="odi_seq") private Long odiSeq;
-    @Column(name="odi_odc_seq") private Long odiOdcSeq;
-    @Column(name="odi_ii_seq") private Long odiIiSeq;
+    // @Column(name="odi_odc_seq") private Long odiOdcSeq;
+    // @Column(name="odi_ii_seq") private Long odiIiSeq;
     @ManyToOne @JoinColumn(name="odi_odc_seq") OrderDetailEntity orderdetail;
     @ManyToOne @JoinColumn(name="odi_ii_seq") IngredientsInfoEntity ingredient;
 }

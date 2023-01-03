@@ -37,7 +37,7 @@ public class OrderInfoEntity {
     @Column(name = "oi_status")          @ColumnDefault("1")   
     private Integer oiStatus;
     // @Column(name = "oi_pay_seq")            private Long oiPaySeq;
-    @OneToMany @JoinColumn(name = "oi_pay_seq") PaymentInfoEntity pay;
+    @ManyToOne @JoinColumn(name = "oi_pay_seq") PaymentInfoEntity pay;
     // @Column(name = "oi_ci_seq")             private Long oiCiSeq;
-    @OneToOne @JoinColumn(name = "oi_ci_seq") CouponInfoEntity coupon;
+    @ManyToOne @JoinColumn(name = "oi_ci_seq") CouponInfoEntity coupon;
 }
