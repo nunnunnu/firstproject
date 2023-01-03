@@ -7,5 +7,5 @@ import com.green.firstproject.entity.MemberInfoEntity;
 
 @Repository
 public interface MemberInfoReposiroty extends JpaRepository<MemberInfoEntity, Long> {
-    
+    public Integer countByMiEmail(String miEmail);
 }
