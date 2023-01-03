@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,8 +24,8 @@ import lombok.NoArgsConstructor;
 public class BurgetStockEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bs_seq") private Long bsSeq;
-    @Column(name = "bs_si_seq") private Long bsSiSeq;
-    @Column(name = "bs_bi_seq") private Long bsBiSeq;
+    @ManyToOne @JoinColumn(name = "bs_si_seq") private StoreInfoEntity store;
+    @ManyToOne @JoinColumn(name = "bs_bi_seq") private BurgerInfoEntity burger;
     @Column(name = "bs_stock") @ColumnDefault("0") 
     private int bsStock;
 }
