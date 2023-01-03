@@ -11,6 +11,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +35,8 @@ public class MemberInfoEntity {
     @Column(name="mi_gen")  @ColumnDefault("0")
     private Integer miGen;
     @Column(name="mi_birth") private LocalDate miBirth;
-    @Column(name="mi_grade") private Integer miGrade;
+    // @Column(name="mi_grade") private Integer miGrade;
     @Column(name="mi_status") @ColumnDefault("1")
     private Integer miStatus;
+    @ManyToOne @JoinColumn(name="mi_grade") GradeInfoEntity miGrade;
 }
