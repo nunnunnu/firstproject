@@ -22,7 +22,7 @@ public class SideInfoEntity {
      @Column(name="side_seq") private Long sideSeq;
      @Column(name="side_name") private String sideName;
      @ManyToOne
-     @JoinColumn(name="side_cate") private SideInfoEntity cate;
+     @JoinColumn(name="side_cate") private CategoryEntity cate;
      @Column(name="side_detail") private String sideDetail;
      @Column(name="side_file") private String sideFile;
      @Column(name="side_uri") private String sideUri;
