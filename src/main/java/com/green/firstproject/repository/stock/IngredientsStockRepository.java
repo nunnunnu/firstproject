@@ -9,5 +9,5 @@ import com.green.firstproject.entity.stock.IngredientsStockEntity;
 
 @Repository
 public interface IngredientsStockRepository extends JpaRepository<IngredientsStockEntity, Long>{
-     IngredientsInfoEntity findByStoreAndIngredient(StoreInfoEntity store, IngredientsInfoEntity ingredient);
+     IngredientsStockEntity findByStoreAndIngredient(StoreInfoEntity store, IngredientsInfoEntity ingredient);
 }

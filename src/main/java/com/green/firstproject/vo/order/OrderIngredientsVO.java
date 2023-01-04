@@ -13,12 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderIngredientsVO {
      private Long seq;
-     private OrderDetailEntity orderDetail;
      private IngredientsInfoEntity ingredient;
 
      public OrderIngredientsVO(OrderIngredientsDetailEntity orderIngredients){
           this.seq = orderIngredients.getOdiSeq();
-          this.orderDetail = orderIngredients.getOrderdetail();
           this.ingredient = orderIngredients.getIngredient();
      }
 }
