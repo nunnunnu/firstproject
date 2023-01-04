@@ -37,4 +37,3 @@ public class OrderDetailEntity {
     @ManyToOne @JoinColumn(name="od_ldot_seq")         private DrinkOptionEntity odLdotSeq;
     @ManyToOne @JoinColumn(name="od_ldot2_seq")        private DrinkOptionEntity odLdot2Seq;
 }
-od_seq;od_oi_seq;od_bi_seq;od_ei_seq;od_count;od_lsot_seq;od_ldot_seq;od_ldot2_seq
