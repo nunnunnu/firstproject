@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
@@ -57,7 +58,7 @@ public class OrderTest {
      @Autowired OrderIngredientsDetailRepository oidRepo;
      
      @Test
-     // @Transactional
+     @Transactional
      void 주문(){
           MemberInfoEntity m = miRepo.findAll().get(0);
           System.out.println(m);
