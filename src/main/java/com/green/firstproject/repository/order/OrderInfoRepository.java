@@ -7,5 +7,5 @@ import com.green.firstproject.entity.order.OrderInfoEntity;
 
 @Repository
 public interface OrderInfoRepository extends JpaRepository<OrderInfoEntity, Long>{
-    
+     OrderInfoEntity findByOiSeq(Long seq);
 }

@@ -1,6 +1,9 @@
 package com.green.firstproject.entity.order;
 
+import java.util.List;
+
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
+import com.green.firstproject.entity.order.cart.CartDetail;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,4 +29,5 @@ public class OrderIngredientsDetailEntity {
     // @Column(name="odi_ii_seq") private Long odiIiSeq;
     @ManyToOne @JoinColumn(name="odi_odc_seq") private OrderDetailEntity orderdetail;
     @ManyToOne @JoinColumn(name="odi_ii_seq")  private IngredientsInfoEntity ingredient;
+    
 }

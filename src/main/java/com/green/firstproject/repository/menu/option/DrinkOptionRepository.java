@@ -7,5 +7,5 @@ import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 
 @Repository
 public interface DrinkOptionRepository extends JpaRepository<DrinkOptionEntity,Long>{
-    
+     DrinkOptionEntity findByDoSeq(Long ser);
 }
