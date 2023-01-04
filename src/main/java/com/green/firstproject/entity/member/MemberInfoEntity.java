@@ -39,5 +39,5 @@ public class MemberInfoEntity {
     // @Column(name="mi_grade") private Integer miGrade;
     @Column(name="mi_status") @ColumnDefault("1")
     private Integer miStatus;
-    @ManyToOne @JoinColumn(name="mi_grade") @ColumnDefault("1") GradeInfoEntity Grade;
+    @ManyToOne @JoinColumn(name="mi_grade") @ColumnDefault("1") GradeInfoEntity miGrade;
 }
