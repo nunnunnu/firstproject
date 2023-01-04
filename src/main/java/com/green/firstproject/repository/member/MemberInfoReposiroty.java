@@ -7,6 +7,8 @@ import com.green.firstproject.entity.member.MemberInfoEntity;
 
 @Repository
 public interface MemberInfoReposiroty extends JpaRepository<MemberInfoEntity, Long> {
-     MemberInfoEntity findByMiSeq(Long seq);
+     public MemberInfoEntity findByMiSeq(Long seq);
      Integer countByMiEmail(String miEmail);
+     Integer countByMiNameAndMiPhone(String miName, String miPhone);
+     Integer countByMiNameAndMiEmail(String miName, String miEmail);
 }
