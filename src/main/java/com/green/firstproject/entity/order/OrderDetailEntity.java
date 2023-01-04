@@ -29,6 +29,7 @@ import lombok.NoArgsConstructor;
 public class OrderDetailEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="od_seq")              private Long odSeq ;
+    @ManyToOne @JoinColumn(name="od_oi_seq")           private OrderInfoEntity odOiseq;
     @ManyToOne @JoinColumn(name="od_bi_seq")           private MenuInfoEntity odBiseq;
     @ManyToOne @JoinColumn(name="od_ei_seq")           private EventInfoEntity odEiSeq;
     @Column(name="od_count")                           private Integer odCount;
@@ -36,3 +37,4 @@ public class OrderDetailEntity {
     @ManyToOne @JoinColumn(name="od_ldot_seq")         private DrinkOptionEntity odLdotSeq;
     @ManyToOne @JoinColumn(name="od_ldot2_seq")        private DrinkOptionEntity odLdot2Seq;
 }
+od_seq;od_oi_seq;od_bi_seq;od_ei_seq;od_count;od_lsot_seq;od_ldot_seq;od_ldot2_seq
