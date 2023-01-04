@@ -9,5 +9,5 @@ import com.green.firstproject.entity.stock.SideStockEntity;
 
 @Repository
 public interface SideStockRepository extends JpaRepository<SideStockEntity,Long>{
-     SideInfoEntity findByStoreAndSide(StoreInfoEntity store, SideInfoEntity side);
+     SideStockEntity findByStoreAndSide(StoreInfoEntity store, SideInfoEntity side);
 }
