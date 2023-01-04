@@ -36,13 +36,9 @@ public class MenuInfoEntity {
     @Column(name = "menu_file")             private String menuFile;
     @Column(name = "menu_uri")              private String menuUri;
     @Column(name = "menu_ex")               private String menuEx;
-    // @Column(name = "menu_bi_seq")           private Integer menuBiSeq;
     @ManyToOne @JoinColumn(name = "menu_bi_seq") BurgerInfoEntity burger;
-    // @Column(name = "menu_side_seq")         private Integer menuSideSeq;
     @ManyToOne @JoinColumn(name = "menu_side_seq") SideInfoEntity side;
-    // @Column(name = "menu_di_seq")           private Integer menuDiSeq;
     @ManyToOne @JoinColumn(name = "menu_di_seq") DrinkInfoEntity drink;
-    // @Column(name = "menu_dog_seq")          private Integer menuDogSeq;
     @ManyToOne @JoinColumn(name = "menu_dog_seq") DogInfoEntity dog;
     @Column(name = "menu_size")             private Integer menuSize;
     @Column(name = "menu_select")     @ColumnDefault("false")      

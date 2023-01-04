@@ -1,27 +1,24 @@
-package com.green.firstproject;
+package com.green.firstproject.service.order;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
-import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
-import com.green.firstproject.entity.menu.option.SideOptionEntity;
-import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
-import com.green.firstproject.entity.order.cart.CartIngredientsDetail;
+import com.green.firstproject.entity.stock.BurgerStockEntity;
 import com.green.firstproject.repository.master.PaymentInfoRepository;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
@@ -33,11 +30,12 @@ import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 import com.green.firstproject.repository.order.OrderDetailRepository;
 import com.green.firstproject.repository.order.OrderInfoRepository;
 import com.green.firstproject.repository.order.OrderIngredientsDetailRepository;
+import com.green.firstproject.repository.stock.BurgerStockRepository;
 import com.green.firstproject.vo.order.OrderDetailVO;
 import com.green.firstproject.vo.order.OrderVO;
 
-@SpringBootTest
-public class OrderTest {
+@Service
+public class OrderService {
      
      @Autowired MemberInfoReposiroty mRepo;
      @Autowired StoreInfoRepository siRepo;
@@ -50,63 +48,54 @@ public class OrderTest {
      @Autowired OrderInfoRepository oiRepository;
      @Autowired PaymentInfoRepository piRepo;
      @Autowired OrderIngredientsDetailRepository oidRepo;
+     @Autowired BurgerStockRepository bsRepo;
 
-     @Test
-     // @Transactional
-     void 일반메뉴주문(){
-          MemberInfoEntity member = mRepo.findAll().get(0);
-          StoreInfoEntity store = siRepo.findAll().get(0);
-          List<CartDetail> carts = new ArrayList<>();
-          for(int i=0;i<2;i++){
-               MenuInfoEntity menu = menuRepo.findAll().get(i);
-               CartDetail cart = new CartDetail(1, menu);
-               if(menu.getBurger()!=null && menu.getDrink()!=null && menu.getSide()!=null){
-                    SideOptionEntity sideOption = soRepo.findAll().get(i);
-                    DrinkOptionEntity drinkOption = diRepo.findAll().get(i);
-                    cart.setSide(sideOption);
-                    cart.setDrink(drinkOption);
-               }
-               List<IngredientsInfoEntity> ingredients = new ArrayList<>();
-               
-               cart.addIngredient(iiRepo.findAll().get(i));
-               cart.addIngredient(iiRepo.findAll().get(i+1));
-               
-               carts.add(cart);
-               
+     public Map<String, Object> order(MemberInfoEntity member, StoreInfoEntity store,
+     Long paySeq ,List<CartDetail> carts){
+          Map<String, Object> resultMap = new LinkedHashMap<>();
+          if(carts==null){
+               resultMap.put("status", false);
+               resultMap.put("message", "아직 장바구니에 아무것도 추가되지않았습니다. 장바구니에 메뉴를 먼저 담아주세요.");
+               resultMap.put("code", HttpStatus.BAD_REQUEST);
+               return resultMap;
           }
-
-          System.out.println(carts);
-          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, null, piRepo.findAll().get(0), null);
-          System.out.println("----");
-          Long orderSeq = oiRepository.save(order).getOiSeq();
-          System.out.println(orderSeq);
-          order = oiRepository.findByOiSeq(orderSeq);
+          PaymentInfoEntity pay = piRepo.findByPaySeq(paySeq);
+          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null);
+          
+          oiRepository.save(order);
+          // order = oiRepository.findByOiSeq(orderSeq);
           System.out.println(order);
-
           OrderVO orderVo = new OrderVO(order);
-          System.out.println(orderVo);
-          OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
-          OrderDetailVO oDetailVO;
+          List<Object> list = new ArrayList<>();
           for(CartDetail c : carts){
+               OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
                OrderDetailEntity orderDetail = new OrderDetailEntity(c);
                orderDetail.setOdOiseq(order);
                odRepo.save(orderDetail);
+               BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, orderDetail.getOdBiseq().getBurger());
+               int bStock = burgerStock.getBsStock() - orderDetail.getOdCount();
+               burgerStock.setBsStock(bStock);
+               
+               System.out.println(burgerStock.getBsStock());
+               
                for(IngredientsInfoEntity i : c.getIngredient()){
                     orderIngredient.setIngredient(i);
                     orderIngredient.setOrderdetail(orderDetail);
                     oidRepo.save(orderIngredient);
                }
-               oDetailVO = new OrderDetailVO(orderDetail);
-               System.out.println(oDetailVO);
+               OrderDetailVO oDetailVO = new OrderDetailVO(orderDetail);
                orderVo.setTotalPrice(oDetailVO);
+               
+               list.add(oDetailVO);
           }
           
-          System.out.println(orderVo);
-          
+          resultMap.put("order", orderVo);
+          resultMap.put("status", true);
+          resultMap.put("message", "주문이 완료되었습니다.");
+          resultMap.put("code", HttpStatus.ACCEPTED);
+          resultMap.put("detail", list);
+          return resultMap;
+     }
 
 
-     }
-     @Test
-     void 확인(){
-     }
 }

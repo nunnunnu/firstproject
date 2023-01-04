@@ -1,12 +1,14 @@
 package com.green.firstproject.entity.order;
 
-import org.hibernate.annotations.ColumnDefault;
+import java.util.List;
+
 import org.hibernate.annotations.DynamicInsert;
 
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
 import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
+import com.green.firstproject.entity.order.cart.CartDetail;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,5 +38,14 @@ public class OrderDetailEntity {
     @ManyToOne @JoinColumn(name="od_lsot_seq")         private SideOptionEntity odLsotSeq;
     @ManyToOne @JoinColumn(name="od_ldot_seq")         private DrinkOptionEntity odLdotSeq;
     @ManyToOne @JoinColumn(name="od_ldot2_seq")        private DrinkOptionEntity odLdot2Seq;
+
+    public OrderDetailEntity(CartDetail cart){
+        this.odCount=cart.getOdCount();
+        this.odBiseq=cart.getMenu();
+        this.odEiSeq=cart.getEvent();
+        this.odLsotSeq=cart.getSide();
+        this.odLdotSeq=cart.getDrink();
+        this.odLdot2Seq=cart.getDrink2();
+        
+    }
 }
-od_seq;od_oi_seq;od_bi_seq;od_ei_seq;od_count;od_lsot_seq;od_ldot_seq;od_ldot2_seq

@@ -9,6 +9,7 @@ import com.green.firstproject.entity.master.CouponInfoEntity;
 import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
+import com.green.firstproject.entity.order.cart.CartDetail;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,4 +40,5 @@ public class OrderInfoEntity {
     private Integer oiStatus;
     @ManyToOne @JoinColumn(name = "oi_pay_seq") private PaymentInfoEntity pay;
     @ManyToOne @JoinColumn(name = "oi_ci_seq")  private CouponInfoEntity coupon;
+    
 }

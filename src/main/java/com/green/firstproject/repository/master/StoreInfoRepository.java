@@ -7,5 +7,5 @@ import com.green.firstproject.entity.master.StoreInfoEntity;
 
 @Repository
 public interface StoreInfoRepository extends JpaRepository<StoreInfoEntity, Long>{
-    
+     
 }

@@ -7,5 +7,5 @@ import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 
 @Repository
 public interface IngredientsInfoRepository extends JpaRepository<IngredientsInfoEntity, Long>{
-    
+     IngredientsInfoEntity findByIiSeq(Long seq);
 }

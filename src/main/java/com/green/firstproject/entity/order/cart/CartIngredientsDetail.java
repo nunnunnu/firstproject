@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
-import com.green.firstproject.entity.order.OrderDetailEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartIngredientsDetail {
-     private CartDetail orderdetail;
+     private CartDetail cartDetail;
      private List<IngredientsInfoEntity> ingredient = new ArrayList<>();;
 }

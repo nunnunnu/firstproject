@@ -7,5 +7,5 @@ import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 
 @Repository
 public interface MenuInfoRepository extends JpaRepository<MenuInfoEntity, Long>{
-    
+     MenuInfoEntity findByMenuSeq(Long seq);
 }

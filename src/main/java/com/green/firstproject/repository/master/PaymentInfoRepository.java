@@ -7,5 +7,5 @@ import com.green.firstproject.entity.master.PaymentInfoEntity;
 
 @Repository
 public interface PaymentInfoRepository extends JpaRepository<PaymentInfoEntity, Long>{
-    
+     PaymentInfoEntity findByPaySeq(Long seq);
 }
