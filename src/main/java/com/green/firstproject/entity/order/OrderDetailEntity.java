@@ -38,6 +38,9 @@ public class OrderDetailEntity {
     @ManyToOne @JoinColumn(name="od_lsot_seq")         private SideOptionEntity odLsotSeq;
     @ManyToOne @JoinColumn(name="od_ldot_seq")         private DrinkOptionEntity odLdotSeq;
     @ManyToOne @JoinColumn(name="od_ldot2_seq")        private DrinkOptionEntity odLdot2Seq;
+<<<<<<< HEAD
+}
+=======
 
     public OrderDetailEntity(CartDetail cart){
         this.odCount=cart.getOdCount();
@@ -49,3 +52,4 @@ public class OrderDetailEntity {
         
     }
 }
+>>>>>>> bffb7a7658849135d172cab86a6dd978c1dd21d3

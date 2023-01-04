@@ -10,4 +10,6 @@ public interface MemberInfoReposiroty extends JpaRepository<MemberInfoEntity, Lo
      MemberInfoEntity findByMiSeq(Long seq);
      MemberInfoEntity findByMiEmailAndMiPwd(String miEmail, String miPwd);
      Integer countByMiEmail(String miEmail);
+     Integer countByMiNameAndMiPhone(String miName, String miPhone);
+     Integer countByMiNameAndMiEmail(String miName, String miEmail);
 }
