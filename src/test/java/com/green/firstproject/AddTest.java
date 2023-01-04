@@ -18,7 +18,6 @@ import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 
 @SpringBootTest
-
 public class AddTest {
      @Autowired BurgerInfoRepository biRepo;
      @Autowired CategoryRepository cRepo;

@@ -2,20 +2,19 @@ package com.green.firstproject.entity.order;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.ManyToAny;
 
+import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
+import com.green.firstproject.entity.menu.option.SideOptionEntity;
 import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,14 +28,11 @@ import lombok.NoArgsConstructor;
 @DynamicInsert
 public class OrderDetailEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="od_seq") private Long odSeq;
-    // @Column(name="od_oi_seq") 
-    // private Long odOiSeq;
-    // @Column(name="od_bi_seq") private Long odBiSeq;
-    // @Column(name="od_ei_seq") private Long odEiSeq;
-    @Column(name="od_count") @ColumnDefault("1")
-    private Integer odCount;
-    @ManyToOne @JoinColumn(name="od_oi_seq") OrderInfoEntity order;
-    @ManyToOne @JoinColumn(name="od_bi_seq") MenuInfoEntity menu;
-    @ManyToOne @JoinColumn(name="od_ei_seq") EventInfoEntity event;
+    @Column(name="od_seq")              private Long odSeq ;
+    @ManyToOne @JoinColumn(name="od_bi_seq")           private MenuInfoEntity odBiseq;
+    @ManyToOne @JoinColumn(name="od_ei_seq")           private EventInfoEntity odEiSeq;
+    @Column(name="od_count")                           private Integer odCount;
+    @ManyToOne @JoinColumn(name="od_lsot_seq")         private SideOptionEntity odLsotSeq;
+    @ManyToOne @JoinColumn(name="od_ldot_seq")         private DrinkOptionEntity odLdotSeq;
+    @ManyToOne @JoinColumn(name="od_ldot2_seq")        private DrinkOptionEntity odLdot2Seq;
 }
