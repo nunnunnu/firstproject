@@ -25,5 +25,9 @@ class FirstprojectApplicationTests {
 	void sideList(){
 		System.out.println(sideRepo.findAll());
 	}
-	
+	@Test
+	void 카테고리_검색(){
+		final String SearchCategory="side";
+		
+	}
 }
