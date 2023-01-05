@@ -26,7 +26,7 @@ public class OrderVO {
      @JsonIgnore
      private final Integer L_SIZE_DRINK_PRICE = 2800;
      
-     private Long Seq;
+     private Long seq;
      private MemberInfoEntity member;
      private LocalDateTime orderDate;
      private StoreInfoEntity store;
@@ -37,7 +37,7 @@ public class OrderVO {
      private List<OrderDetailVO> orderDetail;
 
      public OrderVO(OrderInfoEntity order) {
-          this.Seq = order.getOiSeq();
+          this.seq = order.getOiSeq();
           this.member=order.getMember();
           this.orderDate = order.getOiOrderTime();
           this.store=order.getStore();
