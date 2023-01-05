@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderVO {
-     @JsonIgnore
+     // @JsonIgnore
      private final Integer R_SIZE_SIDE_PRICE=2700;
-     @JsonIgnore
+     // @JsonIgnore
      private final Integer L_SIZE_SIDE_PRICE=3200;
-     @JsonIgnore
+     // @JsonIgnore
      private final Integer R_SIZE_DRINK_PRICE = 2600;
-     @JsonIgnore
+     // @JsonIgnore
      private final Integer L_SIZE_DRINK_PRICE = 2800;
      
      private Long seq;

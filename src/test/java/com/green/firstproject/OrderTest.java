@@ -59,7 +59,7 @@ public class OrderTest {
           List<CartDetail> carts = new ArrayList<>();
           for(int i=0;i<2;i++){
                MenuInfoEntity menu = menuRepo.findAll().get(i);
-               CartDetail cart = new CartDetail(1, menu);
+               CartDetail cart = new CartDetail(1L,1, menu);
                if(menu.getBurger()!=null && menu.getDrink()!=null && menu.getSide()!=null){
                     SideOptionEntity sideOption = soRepo.findAll().get(i);
                     DrinkOptionEntity drinkOption = diRepo.findAll().get(i);
@@ -77,7 +77,6 @@ public class OrderTest {
 
           System.out.println(carts);
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, null, piRepo.findAll().get(0), null);
-          System.out.println("----");
           Long orderSeq = oiRepository.save(order).getOiSeq();
           System.out.println(orderSeq);
           order = oiRepository.findByOiSeq(orderSeq);
@@ -101,7 +100,6 @@ public class OrderTest {
                orderVo.setTotalPrice(oDetailVO);
           }
           
-          System.out.println(orderVo);
           
 
 
