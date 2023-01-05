@@ -13,7 +13,12 @@ import org.springframework.stereotype.Service;
 import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
+import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
@@ -147,5 +152,47 @@ public class OrderService {
           int ingStock = ing.getIsStock()-1;
           ing.setIsStock(ingStock);
      }
+     //매장 재고 검사
+     // public Boolean stockCheck(List<CartDetail> carts, StoreInfoEntity store){
+     //      for(CartDetail c : carts){
+     //           BurgerInfoEntity burger = c.getMenu().getBurger();
+     //           DogInfoEntity dog = c.getMenu().getDog();
+     //           DrinkInfoEntity drink = c.getMenu().getDrink();
+     //           SideInfoEntity side = c.getMenu().getSide();
+     //           EventInfoEntity event = c.getEvent();
+               
+     //           if(burger!=null){
+     //                BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
+     //                if(bs.getBsStock()<c.getOdCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+     //           if(dog!=null){
+     //                DogStockEntity dogstock = dogsRepo.findByStoreAndDog(store, dog);
+     //                if(dogstock.getDogsStock()<c.getOdCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+     //           if(drink!=null){
+     //                DrinkStockEntity ds = dsRepo.findByStoreAndDrink(store, drink);
+     //                if(ds.getDsStock()<c.getOdCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+     //           if(burger!=null){
+     //                BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
+     //                if(bs.getBsStock()<c.getOdCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+     //           if(burger!=null){
+     //                BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
+     //                if(bs.getBsStock()<c.getOdCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+
+     //      }
+     // }
      
 }
