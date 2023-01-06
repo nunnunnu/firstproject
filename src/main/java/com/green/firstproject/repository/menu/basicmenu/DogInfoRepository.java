@@ -15,4 +15,5 @@ public interface DogInfoRepository extends JpaRepository<DogInfoEntity, Long>{
 =======
     DogInfoEntity findByDogSeq(Long seq);
 >>>>>>> eunn
+     public Integer countByDogName(String dogName);
 }

@@ -75,15 +75,11 @@ public class OrderTest {
                
           }
 
-          System.out.println(carts);
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, null, piRepo.findAll().get(0), null);
           Long orderSeq = oiRepository.save(order).getOiSeq();
-          System.out.println(orderSeq);
           order = oiRepository.findByOiSeq(orderSeq);
-          System.out.println(order);
 
           OrderVO orderVo = new OrderVO(order);
-          System.out.println(orderVo);
           OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
           OrderDetailVO oDetailVO;
           for(CartDetail c : carts){
@@ -96,7 +92,6 @@ public class OrderTest {
                     oidRepo.save(orderIngredient);
                }
                oDetailVO = new OrderDetailVO(orderDetail);
-               System.out.println(oDetailVO);
                orderVo.setTotalPrice(oDetailVO);
           }
           

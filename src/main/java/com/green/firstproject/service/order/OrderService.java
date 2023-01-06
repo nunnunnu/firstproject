@@ -78,9 +78,9 @@ public class OrderService {
           @Nullable Long... seq
      ){   
           Map<String, Object> resultMap = new LinkedHashMap<>();
-          if(c==null){
+          if(c==null || c.size()==0){
                resultMap.put("status", false);
-               resultMap.put("message", "아직 장바구니에 아무것도 추가되지않았습니다. 장바구니에 메뉴를 먼저 담아주세요.");
+               resultMap.put("message", "아직 카트에 아무것도 추가되지않았습니다. 장바구니에 메뉴를 먼저 담아주세요.");
                resultMap.put("code", HttpStatus.BAD_REQUEST);
                return resultMap;
           }
@@ -92,7 +92,6 @@ public class OrderService {
                for(CartDetail cart : c){
                     Boolean check = false;
                     for(Long no : seq){
-                         System.out.println(no==cart.getSeq());
                          if(no==cart.getSeq()){
                               carts.add(cart);
                               check=true;
@@ -102,6 +101,12 @@ public class OrderService {
                          notOrders.add(cart);
                     }
                }
+          }
+          if(c.size()==notOrders.size()){
+               resultMap.put("status", false);
+               resultMap.put("message", "카트 번호를 잘못선택하셨습니다.");
+               resultMap.put("code", HttpStatus.BAD_REQUEST);
+               return resultMap;
           }
           if(!stockCheck(carts, store)){
                resultMap.put("status", false);
@@ -114,20 +119,17 @@ public class OrderService {
           
           oiRepository.save(order);
           // order = oiRepository.findByOiSeq(orderSeq);
-          System.out.println(order);
           OrderVO orderVo = new OrderVO(order);
           List<Object> list = new ArrayList<>();
           for(CartDetail ca : carts){
                OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
                OrderDetailEntity orderDetail = new OrderDetailEntity(ca);
-               System.out.println(orderDetail);
                orderDetail.setOdOiseq(order);
                
                //재고 감소 기능
                discountStock(store, orderDetail);
                
                odRepo.save(orderDetail);
-
                OrderDetailVO oDetailVO = new OrderDetailVO(orderDetail);
                List<OrderIngredientsVO> ingList = new ArrayList<>();
                for(IngredientsInfoEntity i : ca.getIngredient()){
@@ -155,11 +157,8 @@ public class OrderService {
      public void discountStock(StoreInfoEntity store, OrderDetailEntity orderDetail){   
           if(orderDetail.getOdBiseq().getBurger()!=null){
                BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, orderDetail.getOdBiseq().getBurger());
-               System.out.println(burgerStock);
                int bStock = burgerStock.getBsStock() - orderDetail.getOdCount();
-               System.out.println(bStock);
                burgerStock.setBsStock(bStock);
-               // System.out.println(burgerStock.getBsStock());
           }
           if(orderDetail.getOdBiseq().getDog()!=null){
                DogStockEntity dogStock = dogsRepo.findByStoreAndDog(store, orderDetail.getOdBiseq().getDog());
@@ -197,46 +196,39 @@ public class OrderService {
                DrinkInfoEntity drink = c.getMenu().getDrink();
                SideInfoEntity side = c.getMenu().getSide();
                EventInfoEntity event = c.getEvent();
-               
                if(burger!=null){
                     BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
                     if(bs.getBsStock()<c.getOdCount()){
-                         System.out.println("1111");
                          return false; //재고없음
                     }
                }
                if(dog!=null){
                     DogStockEntity dogstock = dogsRepo.findByStoreAndDog(store, dog);
                     if(dogstock.getDogsStock()<c.getOdCount()){
-                         System.out.println("2");
                          return false; //재고없음
                     }
                }
                if(drink!=null){
                     DrinkStockEntity ds = dsRepo.findByStoreAndDrink(store, drink);
                     if(ds.getDsStock()<c.getOdCount()){
-                         System.out.println("3");
                          return false; //재고없음
                     }
                }
                if(side!=null){
                     SideStockEntity ss = ssRepo.findByStoreAndSide(store, side);
                     if(ss.getSsStock()<c.getOdCount()){
-                         System.out.println("4");
                          return false; //재고없음
                     }
                }
                if(event!=null){
                     EventStockEntity es = esRepo.findByStoreAndEvent(store, event);
                     if(es.getEsStock()<c.getOdCount()){
-                         System.out.println("5");
                          return false; //재고없음
                     }
                }
                for(IngredientsInfoEntity i : c.getIngredient()){
                     IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, i);
                     if(ing.getIsStock()<c.getOdCount()){
-                         System.out.println("6");
                          return false;
                     }
                }
