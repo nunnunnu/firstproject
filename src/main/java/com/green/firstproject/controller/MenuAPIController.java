@@ -17,7 +17,7 @@ import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
-import com.green.firstproject.service.MenuService;
+import com.green.firstproject.service.category.MenuService;
 
 @RestController
 @RequestMapping("/api/menu")
@@ -38,9 +38,6 @@ public class MenuAPIController {
     @GetMapping("/category")
     public Map<String, Object> selectCategories(@RequestParam Long seq) {
         Map<String, Object> resultMap = mService.cateSeq(seq);
-        // List<BurgerInfoEntity> list = bRepo.findAll();
-        // resultMap.put("total", list.size());
-        // resultMap.put("list", list);
         return resultMap;
     }
 
