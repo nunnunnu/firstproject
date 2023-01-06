@@ -7,5 +7,5 @@ import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 
 @Repository
 public interface DrinkInfoRepository extends JpaRepository<DrinkInfoEntity, Long> {
-     
+     public Integer countByDiName(String diName);
 }

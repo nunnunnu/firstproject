@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.utils.AESAlgorithm;
-import com.green.firstproject.vo.member.FindIdVO;
 import com.green.firstproject.vo.member.LoginUserVO;
 @Service
 public class MemberService {

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 @Repository
 public interface DogInfoRepository extends JpaRepository<DogInfoEntity, Long>{
-     
+     public Integer countByDogName(String dogName);
 }
