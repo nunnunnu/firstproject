@@ -11,4 +11,5 @@ import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 public interface SideInfoRepository extends JpaRepository<SideInfoEntity, Long> {
     List <SideInfoEntity> findByCate(CategoryEntity cate);
         public Integer countBySideName(String sideName);
+        SideInfoEntity findBySideSeq(Long seq);
 }

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
+
 @Repository
 public interface DogInfoRepository extends JpaRepository<DogInfoEntity, Long>{
     List<DogInfoEntity> findByCate(CategoryEntity cate);
      public Integer countByDogName(String dogName);
+     DogInfoEntity findByDogSeq(Long seq);
 }
