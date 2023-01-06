@@ -25,6 +25,6 @@ public class DogInfoEntity {
      @ManyToOne
      @JoinColumn(name="dog_cate") private CategoryEntity cate;
      @Column(name="dog_detail") private String dogDetail;
-     @Column(name="di_file") private String diFile;
-     @Column(name="di_uri") private String diUri;
+     @Column(name="dog_file") private String dogFile;
+     @Column(name="dog_uri") private String dogUri;
 }

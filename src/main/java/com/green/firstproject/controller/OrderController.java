@@ -118,7 +118,10 @@ public class OrderController {
           @PathVariable String type,
           @RequestParam @Nullable Long seq,
           @RequestParam @Nullable Integer cnt,
-          @RequestParam @Nullable Long optSeq
+          @RequestParam @Nullable Long sideOptSeq,
+          @RequestParam @Nullable Long drinkOptSeq,
+          @RequestParam @Nullable Long drink2OoptSeq,
+          @RequestParam @Nullable Long...ingredient
      ){
           Map<String, Object> map = new LinkedHashMap<>();
           List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
@@ -128,28 +131,19 @@ public class OrderController {
                map.put("code", HttpStatus.ACCEPTED);
                return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           }
-          CartDetail cart = new CartDetail();
-          System.out.println(cartService.findCart(carts, seq));
-          cart = cartService.findCart(carts, seq);
-          System.out.println(cart);
+          CartDetail cart = cartService.findCart(carts, seq);
           if(cart == null){
                map.put("status", false);
                map.put("message", "수정할 카트번호를 잘못 입력하셨습니다.");
                map.put("code", HttpStatus.BAD_REQUEST);
                return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           }
-          int idx = carts.indexOf(cart);
-          System.out.println(idx);
+
           if(type.equals("count") && cnt!=null){
-               cart.setOdCount(cnt);
-               // carts.set(idx, cart);
-               map.put("status", true);
-               map.put("message", "메뉴를 수정하였습니다.");
-               map.put("code", HttpStatus.ACCEPTED);
-          }else if(type.equals("option") && optSeq!=null){
-               map = cartService.cartOptionChange(carts, optSeq);
+               map = cartService.cartCountChange(cart, seq, cnt);
+          }else if(type.equals("option")){
+               map = cartService.cartOptionChange(cart, sideOptSeq, drinkOptSeq, drink2OoptSeq, ingredient);
           }else if(type.equals("delete")){
-               carts.remove(idx);
                map.put("status", true);
                map.put("message", "메뉴를 삭제하였습니다.");
                map.put("code", HttpStatus.ACCEPTED);

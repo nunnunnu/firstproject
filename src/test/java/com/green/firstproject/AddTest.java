@@ -28,7 +28,6 @@ public class AddTest {
      void 버거정보추가(){
           Optional<CategoryEntity> c = cRepo.findById(1L);
           BurgerInfoEntity b = new BurgerInfoEntity(null, "치즈버거1", c.get(), "치즈버거입니다", "file.jpg", "치즈버거", null, null);
-          System.out.println(b);
           biRepo.save(b);
      }
      @Test
