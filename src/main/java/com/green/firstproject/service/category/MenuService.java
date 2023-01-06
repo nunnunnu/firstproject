@@ -1,4 +1,4 @@
-package com.green.firstproject.service;
+package com.green.firstproject.service.category;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
