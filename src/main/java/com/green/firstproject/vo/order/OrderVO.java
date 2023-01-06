@@ -8,7 +8,10 @@ import com.green.firstproject.entity.master.CouponInfoEntity;
 import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
+import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
+import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
 
 import lombok.AllArgsConstructor;
@@ -65,6 +68,55 @@ public class OrderVO {
           for(OrderDetailVO vo : orderDetailVOs){
                this.orderDetail.add(vo);
           }
+     }
+
+     public void setOrderPrice(OrderDetailEntity orderDetail){
+          Integer rSizeSidePrice=2700;
+          Integer lSizeSidePrice=3200;
+          Integer rSizeDrinkPrice = 2600;
+          Integer lSizeDrinkPrice = 2800;
+          if(orderDetail.getOdBiseq()!=null){
+               this.totalPrice += orderDetail.getOdBiseq().getMenuPrice();
+          }else if(orderDetail.getOdEiSeq()!=null){
+               this.totalPrice += orderDetail.getOdEiSeq().getEiPrice();
+          }
+          if(orderDetail.getOdBiseq().getBurger()!=null && orderDetail.getOdBiseq().getSide()!=null && orderDetail.getOdBiseq().getDrink()!=null){
+               if(orderDetail.getOdLsotSeq()!=null){
+                    totalPrice += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               }
+               if(orderDetail.getOdLdotSeq()!=null){
+                    totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+          }else if(orderDetail.getOdEiSeq() !=null){
+               if(orderDetail.getOdLsotSeq()!=null){
+                    totalPrice += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               }
+               if(orderDetail.getOdLdotSeq()!=null){
+                    totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+               if(orderDetail.getOdLdot2Seq()!=null){
+                    totalPrice += orderDetail.getOdLdot2Seq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+          }
+          
+          // int count = 0;
+          // if(orderDetail.getOdBiseq().getMenuSelect()){
+          //      for(IngredientsInfoEntity i : orderDetail.get){
+          //           if(i.getIiPrice()==0){
+          //                if(count>1){
+          //                     totalPrice+=400;
+          //                }
+          //                count++;
+          //           }else{
+          //                totalPrice+= i.getIiPrice();
+          //           }
+          //      }
+          // }
+
+     }
+
+     public void addIngredientPrice(OrderIngredientsDetailEntity ing){
+          this.totalPrice += ing.getIngredient().getIiPrice();
      }
      
 }

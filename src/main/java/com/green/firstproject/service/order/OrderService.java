@@ -193,7 +193,6 @@ public class OrderService {
                int eventStock = event.getEsStock() - orderDetail.getOdCount();
                event.setEsStock(eventStock);
           }
-
      }
      //재료 재고 감소
      public void discountIngredientStock(StoreInfoEntity store, IngredientsInfoEntity ingredirent){
@@ -293,7 +292,18 @@ public class OrderService {
           List<OrderVO> resultOrder = new ArrayList<>();
           for(OrderInfoEntity o : orders){
                OrderVO order = new OrderVO(o);
-               
+               List<OrderDetailEntity> orderDetails = odRepo.findByOdOiseq(o);
+               if(orderDetails!=null){
+                    for(OrderDetailEntity od : orderDetails){
+                         order.setOrderPrice(od);
+                         List<OrderIngredientsDetailEntity> ingredients = oidRepo.findByOrderdetail(od);
+                         if(ingredients!=null){
+                              for(OrderIngredientsDetailEntity i : ingredients){
+                                   order.addIngredientPrice(i);
+                              }
+                         }
+                    }   
+               }
                resultOrder.add(order);
           }
           
