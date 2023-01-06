@@ -2,6 +2,7 @@ package com.green.firstproject.vo.order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
@@ -45,4 +46,5 @@ public class OrderDetailVO {
                this.ingredients.add(vo);
           }
      }
+
 }

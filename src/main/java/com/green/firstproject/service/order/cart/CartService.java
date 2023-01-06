@@ -1,8 +1,10 @@
 package com.green.firstproject.service.order.cart;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +39,7 @@ import com.green.firstproject.repository.stock.DrinkStockRepository;
 import com.green.firstproject.repository.stock.EventStockRepository;
 import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
+import com.green.firstproject.vo.order.OrderIngredientsVO;
 
 @Service
 public class CartService {
@@ -109,7 +112,6 @@ public class CartService {
                     for(Long seq : ingredientsSeq){
                          cart.addIngredient(iiRepo.findByIiSeq(seq));
                     }
-                    
                }
                map.put("message",  menu.getMenuName()+"을/를 카트에 담았습니다.");
                map.put("cart",  cart);
@@ -246,13 +248,16 @@ public class CartService {
                }
           }else if(cart.getMenu().getMenuSelect()){
                System.out.println(cart.getIngredient().size());
+               Set<IngredientsInfoEntity> ing = new HashSet<>();
                if(ingredient.length!=0){
                     for(Long ingSeq : ingredient){
                          IngredientsInfoEntity i = iiRepo.findByIiSeq(ingSeq);
-                         cart.addIngredient(i);
+                         ing.add(i);
+                         
                     }
                     System.out.println(cart.getIngredient().size());
                }
+               cart.changeIngredient(ing);
           }else{
                map.put("status", false);
                map.put("message", "옵션을 변경할 수 없는 메뉴입니다.");
