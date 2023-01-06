@@ -1,6 +1,5 @@
 package com.green.firstproject.entity.menu.basicmenu;
 import com.green.firstproject.entity.menu.CategoryEntity;
-import com.green.firstproject.vo.menu.HiaDogAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.green.firstproject.vo.menu.HiaDogAddVO;
 
 @Data
 @AllArgsConstructor
