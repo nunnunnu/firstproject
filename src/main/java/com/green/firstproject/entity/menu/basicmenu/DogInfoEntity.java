@@ -1,5 +1,6 @@
 package com.green.firstproject.entity.menu.basicmenu;
 import com.green.firstproject.entity.menu.CategoryEntity;
+import com.green.firstproject.vo.menu.HiaDogAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,4 +28,14 @@ public class DogInfoEntity {
      @Column(name="dog_detail") private String dogDetail;
      @Column(name="dog_file") private String dogFile;
      @Column(name="dog_uri") private String dogUri;
+
+     public DogInfoEntity(HiaDogAddVO data){
+          this.dogName=data.getName();
+          this.dogDetail=data.getDetail();
+          this.dogFile=data.getFile();
+          this.dogUri=data.getUri();
+     }
+     public void setCategory(CategoryEntity cate){
+          this.cate = cate;
+     }
 }

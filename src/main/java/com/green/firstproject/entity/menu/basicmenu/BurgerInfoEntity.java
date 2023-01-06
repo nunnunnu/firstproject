@@ -1,11 +1,15 @@
 package com.green.firstproject.entity.menu.basicmenu;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.green.firstproject.entity.menu.CategoryEntity;
+import com.green.firstproject.vo.menu.HiaBurgerAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +38,18 @@ public class BurgerInfoEntity {
      @Column(name="bi_detail") private String biDetail;
      @Column(name="bi_file") private String biFile;
      @Column(name="bi_uri") private String biUri;
-     @Column(name="bi_reg_dt") @ColumnDefault("CURRENT_TIMESTAMP") private String biRegDt;
-     @Column(name="bi_sales_rate") @ColumnDefault("0") private String biSalesRate;
+     @Column(name="bi_reg_dt") @ColumnDefault("CURRENT_TIMESTAMP") private LocalDateTime biRegDt;
+     @Column(name="bi_sales_rate") @ColumnDefault("0") private Integer biSalesRate;
+
+     public BurgerInfoEntity(HiaBurgerAddVO data){
+        this.biName= data.getName();
+        this.biDetail=data.getDetail();
+        this.biFile=data.getFile();
+        this.biUri=data.getUri();
+        this.biRegDt=data.getRegDt();
+        this.biSalesRate=data.getSalesRate();
+     }
+     public void setCategory(CategoryEntity cate){
+        this.cate = cate;
+     }
 }
