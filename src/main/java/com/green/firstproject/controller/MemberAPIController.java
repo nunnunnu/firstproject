@@ -17,17 +17,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.service.member.MemberService;
 import com.green.firstproject.vo.member.LoginUserVO;
 
 import jakarta.servlet.http.HttpSession;
+import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
+// import com.green.firstproject.service.MemberService;
+
 
 @RestController
 @RequestMapping("/api/member")
 public class MemberAPIController {
     @Autowired MemberService mService;
+    @Autowired MenuInfoRepository menuRepo;
     @PutMapping("/join")
     public ResponseEntity<Object> memberJoin(@RequestBody MemberInfoEntity data){
         Map<String, Object> resultMap = mService.addMember(data);

@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartDetail {
+     private Long seq;
      private Integer odCount;
      // private OrderInfoEntity order;
      private MenuInfoEntity menu;
@@ -25,12 +26,14 @@ public class CartDetail {
      private DrinkOptionEntity drink2;
      private List<IngredientsInfoEntity> ingredient;
 
-     public CartDetail(Integer count, MenuInfoEntity menu){
+     public CartDetail(Long seq, Integer count, MenuInfoEntity menu){
+          this.seq = seq;
           this.odCount=count;
           this.menu=menu;
           this.ingredient = new ArrayList<>();
      }
-     public CartDetail(Integer count, EventInfoEntity event){
+     public CartDetail(Long seq, Integer count, EventInfoEntity event){
+          this.seq = seq;
           this.odCount=count;
           this.event=event;
           this.ingredient = new ArrayList<>();
