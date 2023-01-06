@@ -10,10 +10,13 @@ import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 
 @Repository
 public interface BurgerInfoRepository extends JpaRepository<BurgerInfoEntity, Long> {
-<<<<<<< HEAD
-     List<BurgerInfoEntity> findByCate(CategoryEntity cate);
-=======
-     BurgerInfoEntity findByBiSeq(Long seq);
      // List<BurgerInfoEntity> searchBurgerSeq(Long seq);
->>>>>>> eunn
+
+    int countByBiName(String biName);
+
+
+     BurgerInfoEntity findByBiSeq(Long seq);
+
+
+    List<BurgerInfoEntity> findByCate(CategoryEntity cate);
 }

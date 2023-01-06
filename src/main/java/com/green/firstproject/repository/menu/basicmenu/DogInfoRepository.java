@@ -10,10 +10,7 @@ import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 
 @Repository
 public interface DogInfoRepository extends JpaRepository<DogInfoEntity, Long>{
-<<<<<<< HEAD
     List<DogInfoEntity> findByCate(CategoryEntity cate);
-=======
-    DogInfoEntity findByDogSeq(Long seq);
->>>>>>> eunn
      public Integer countByDogName(String dogName);
+     DogInfoEntity findByDogSeq(Long seq);
 }
