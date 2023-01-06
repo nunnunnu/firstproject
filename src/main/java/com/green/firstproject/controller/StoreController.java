@@ -30,7 +30,6 @@ public class StoreController {
     public ResponseEntity<Object> getStoreSearch (
         @PageableDefault(size = 8) Pageable pageable, @RequestParam @Nullable String keyword,
         @PathVariable @Nullable String type) {
-            // if(type.equals("name")
             if (type == null) {
                 return new ResponseEntity<>(siService.getStoreInfo(pageable, keyword), HttpStatus.BAD_REQUEST);
             }

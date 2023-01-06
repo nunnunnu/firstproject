@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Table(name="burger_info")
 public class BurgerInfoEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-     @Column(name="bi_seq") private String biSeq;
+     @Column(name="bi_seq") private Long biSeq;
      @Column(name="bi_name") private String biName;
      @ManyToOne
      @JoinColumn(name="bi_cate") private CategoryEntity cate;
