@@ -32,6 +32,7 @@ import com.green.firstproject.entity.stock.SideStockEntity;
 import com.green.firstproject.repository.master.PaymentInfoRepository;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
+import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.IngredientsInfoRepository;
 import com.green.firstproject.repository.menu.option.DrinkOptionRepository;
 import com.green.firstproject.repository.menu.option.SideOptionRepository;
@@ -46,6 +47,7 @@ import com.green.firstproject.repository.stock.DrinkStockRepository;
 import com.green.firstproject.repository.stock.EventStockRepository;
 import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
+import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.order.OrderDetailVO;
 import com.green.firstproject.vo.order.OrderIngredientsVO;
 import com.green.firstproject.vo.order.OrderVO;
@@ -72,6 +74,7 @@ public class OrderService {
      @Autowired SideStockRepository ssRepo;
      @Autowired IngredientsStockRepository isRepo;
      @Autowired EventStockRepository esRepo;
+     @Autowired BurgerInfoRepository biRepo;
 
      public Map<String, Object> order(MemberInfoEntity member, StoreInfoEntity store,
           Long paySeq ,List<CartDetail> c, 
@@ -102,16 +105,20 @@ public class OrderService {
                     }
                }
           }
+          System.out.println(carts.size());
+          System.out.println(notOrders.size());
           if(c.size()==notOrders.size()){
                resultMap.put("status", false);
                resultMap.put("message", "카트 번호를 잘못선택하셨습니다.");
                resultMap.put("code", HttpStatus.BAD_REQUEST);
+               resultMap.put("notOrders", notOrders);
                return resultMap;
           }
           if(!stockCheck(carts, store)){
                resultMap.put("status", false);
                resultMap.put("message", "비정상적인 접근입니다.");
                resultMap.put("code", HttpStatus.BAD_REQUEST);
+               resultMap.put("notOrders", notOrders);
                return resultMap;
           }
           PaymentInfoEntity pay = piRepo.findByPaySeq(paySeq);
@@ -125,12 +132,18 @@ public class OrderService {
                OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
                OrderDetailEntity orderDetail = new OrderDetailEntity(ca);
                orderDetail.setOdOiseq(order);
+               if(ca.getMenu().getBurger()!=null){
+                    BurgerInfoEntity burger = biRepo.findByBiSeq(ca.getMenu().getBurger().getBiSeq());
+                    burger.upSales(); //판매량 증가
+                    biRepo.save(burger);
+               }
                
                //재고 감소 기능
                discountStock(store, orderDetail);
                
                odRepo.save(orderDetail);
                OrderDetailVO oDetailVO = new OrderDetailVO(orderDetail);
+               oDetailVO.setDetailPrice(ca);
                List<OrderIngredientsVO> ingList = new ArrayList<>();
                for(IngredientsInfoEntity i : ca.getIngredient()){
                     orderIngredient.setIngredient(i);
@@ -139,7 +152,7 @@ public class OrderService {
                     oidRepo.save(orderIngredient);
                     ingList.add(new OrderIngredientsVO(orderIngredient));
                }
-               orderVo.setTotalPrice(oDetailVO);
+               orderVo.setTotalPrice(carts);
                oDetailVO.addOrderIngredients(ingList);
                list.add(oDetailVO);
           }
@@ -235,5 +248,59 @@ public class OrderService {
           }
           return true;
      }
+
+     //주문 취소
+     public Map<String, Object> orderCancle(Long seq, LoginUserVO login){
+          Map<String, Object> map = new LinkedHashMap<>();
+          MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
+          OrderInfoEntity order = oiRepository.findByOiSeqAndMember(seq, member);
+          if(order==null){
+               map.put("status", false);
+               map.put("message", "일치하는 주문이 없습니다. 본인이 주문한 주문이 아니거나 주문번호가 잘못되었습니다.");
+               map.put("code", HttpStatus.BAD_REQUEST);
+               return map;
+          }
+          if(order.getOiStatus()==3 || order.getOiStatus()==4){
+               map.put("status", false);
+               map.put("message", "이미 배송중이거나 배송이 완료된 주문은 취소할 수 없습니다.");
+               map.put("code", HttpStatus.BAD_REQUEST);
+               return map;
+          }
+          order.setOiStatus(5);
+          oiRepository.save(order);
+          map.put("status", true);
+          map.put("message", "주문이 취소되었습니다.");
+          map.put("code", HttpStatus.ACCEPTED);
+          return map;
+     }
      
+     //주문 리스트 조회
+     public Map<String, Object> showMyOrder(LoginUserVO login){
+          Map<String, Object> map = new LinkedHashMap<>();
+          /* 귀찮아서 주석함 나중에 풀어야함 */
+          // MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
+          
+          MemberInfoEntity member = mRepo.findAll().get(0);
+          
+          List<OrderInfoEntity> orders = oiRepository.findByMember(member);
+          
+          if(orders.size()==0){
+               map.put("status", false);
+               map.put("message", "주문내역이 존재하지 않습니다.");
+               map.put("code", HttpStatus.ACCEPTED);
+               return map;
+          }
+          List<OrderVO> resultOrder = new ArrayList<>();
+          for(OrderInfoEntity o : orders){
+               OrderVO order = new OrderVO(o);
+               
+               resultOrder.add(order);
+          }
+          
+          map.put("status", true);
+          map.put("message", "주문 내역을 조회했습니다.");
+          map.put("code", HttpStatus.ACCEPTED);
+          map.put("list", resultOrder);
+          return map;
+     }
 }

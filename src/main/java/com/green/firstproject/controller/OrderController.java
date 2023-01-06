@@ -23,6 +23,7 @@ import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.service.order.OrderService;
 import com.green.firstproject.service.order.cart.CartService;
+import com.green.firstproject.vo.member.LoginUserVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -44,6 +45,7 @@ public class OrderController {
           HttpSession session,
           @RequestParam @Nullable Long... ingredients
      ){
+          /* 나중에 밑에꺼 바꿔야함 */
           StoreInfoEntity store = sRepository.findAll().get(0); //일단 선택 매장 고정
 
           Map<String, Object> map = new LinkedHashMap<>();
@@ -84,14 +86,14 @@ public class OrderController {
      ){
           Map<String, Object> map = new LinkedHashMap<>();
           // if(session.getAttribute("loginUser")==null){
-          //      map.put("status", false);
-          //      map.put("message", "로그인을 먼저 해주세요.");
-          //      map.put("code", HttpStatus.ACCEPTED);
-          //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          // } //로그인 기능 아직 안됨
+               //      map.put("status", false);
+               //      map.put("message", "로그인을 먼저 해주세요.");
+               //      map.put("code", HttpStatus.ACCEPTED);
+               //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+               // } //로그인 기능 아직 안됨
           MemberInfoEntity member = mReposiroty.findAll().get(0); //로그인회원 임시 고정
           StoreInfoEntity store = sRepository.findAll().get(0); //선택 매장 임시 고정
-
+          
           if(LocalTime.now().isBefore(store.getSiOpenTiem()) || LocalTime.now().isAfter(store.getSiCloseTime())){
                map.put("status", false);
                map.put("message", "현재 선택된 매장은 영업시간이 아닙니다. "+store.getSiOpenTiem()+"~"+store.getSiCloseTime()+"사이에 주문해주세요.");
@@ -102,7 +104,7 @@ public class OrderController {
           
           map = orderService.order(member, store, paySeq, carts, cartSeq);  
           session.setAttribute("cart", map.get("notOrders"));
-          
+
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
      @GetMapping("/cart/list")
@@ -115,13 +117,13 @@ public class OrderController {
      }
      @GetMapping("/cart/list/{type}")
      public ResponseEntity<Object> updateCart(HttpSession session,
-          @PathVariable String type,
-          @RequestParam @Nullable Long seq,
-          @RequestParam @Nullable Integer cnt,
-          @RequestParam @Nullable Long sideOptSeq,
-          @RequestParam @Nullable Long drinkOptSeq,
-          @RequestParam @Nullable Long drink2OoptSeq,
-          @RequestParam @Nullable Long...ingredient
+     @PathVariable String type,
+     @RequestParam @Nullable Long seq,
+     @RequestParam @Nullable Integer cnt,
+     @RequestParam @Nullable Long sideOptSeq,
+     @RequestParam @Nullable Long drinkOptSeq,
+     @RequestParam @Nullable Long drink2OoptSeq,
+     @RequestParam @Nullable Long...ingredient
      ){
           Map<String, Object> map = new LinkedHashMap<>();
           List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
@@ -138,21 +140,53 @@ public class OrderController {
                map.put("code", HttpStatus.BAD_REQUEST);
                return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           }
-
+          
           if(type.equals("count") && cnt!=null){
                map = cartService.cartCountChange(cart, seq, cnt);
           }else if(type.equals("option")){
                map = cartService.cartOptionChange(cart, sideOptSeq, drinkOptSeq, drink2OoptSeq, ingredient);
           }else if(type.equals("delete")){
-               map.put("status", true);
-               map.put("message", "메뉴를 삭제하였습니다.");
-               map.put("code", HttpStatus.ACCEPTED);
+               map = cartService.cartMenuDelete(carts, seq);
           }else{
                map.put("status", false);
                map.put("message", "주소를 잘못 입력하셨습니다. {예시: count, option, delete");
                map.put("code", HttpStatus.ACCEPTED);
           }
           
+          return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+     }
+     
+     @GetMapping("/order/cancle")
+     public ResponseEntity<Object> orderCancle(@RequestParam Long seq, HttpSession session){
+          Map<String, Object> map = new LinkedHashMap<>();
+          
+          // LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
+          // if(loginUser==null){
+          //      map.put("status", false);
+          //      map.put("message", "로그인 후 사용가능한 기능입니다.");
+          //      map.put("code", HttpStatus.BAD_GATEWAY);
+          
+          //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+          // } //귀찮아서 주석처리함
+          LoginUserVO loginUser = new LoginUserVO(mReposiroty.findAll().get(0));
+          map = orderService.orderCancle(seq, loginUser);
+          
+          return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+     }
+     
+     @GetMapping("/order/list")
+     public ResponseEntity<Object> showMyOrderList(HttpSession session){
+          Map<String, Object> map = new LinkedHashMap<>();
+          // LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
+          // if(loginUser==null){
+          //      map.put("status", false);
+          //      map.put("message", "로그인 후 사용가능한 기능입니다.");
+          //      map.put("code", HttpStatus.BAD_GATEWAY);
+               
+          //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+          // } //귀찮아서 주석처리함
+          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
+          map=orderService.showMyOrder(login);
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
 }

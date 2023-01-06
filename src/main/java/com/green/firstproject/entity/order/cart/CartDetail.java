@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartDetail {
+
      private Long seq;
      private Integer odCount;
      // private OrderInfoEntity order;
@@ -27,6 +28,7 @@ public class CartDetail {
      private DrinkOptionEntity drink;
      private DrinkOptionEntity drink2;
      private Set<IngredientsInfoEntity> ingredient; //중복 제거를 위해 set으로 변경함
+     private int price;
 
      public CartDetail(Long seq, Integer count, MenuInfoEntity menu){
           this.seq = seq;
@@ -46,5 +48,48 @@ public class CartDetail {
      }
      public void changeIngredient(Set<IngredientsInfoEntity> ing){
           ingredient = ing;
+     }
+     public void setTotalPrice(){
+          Integer rSizeSidePrice=2700;
+          Integer lSizeSidePrice=3200;
+          Integer rSizeDrinkPrice = 2600;
+          Integer lSizeDrinkPrice = 2800;
+          if(menu!=null){
+               this.price = menu.getMenuPrice();
+          }else if(event!=null){
+               this.price = event.getEiPrice();
+          }
+          if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){
+               if(side!=null){
+                    price += side.getSoPrice()-(menu.getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               }
+               if(drink!=null){
+                    price += drink.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+          }else if(event !=null){
+               if(side!=null){
+                    price += side.getSoPrice()-(menu.getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               }
+               if(drink!=null){
+                    price += drink.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+               if(drink2!=null){
+                    price += drink2.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+          }
+          
+          int count = 0;
+          if(menu.getMenuSelect()){
+               for(IngredientsInfoEntity i : ingredient){
+                    if(i.getIiPrice()==0){
+                         if(count>1){
+                              price+=400;
+                         }
+                         count++;
+                    }else{
+                         price+= i.getIiPrice();
+                    }
+               }
+          }
      }
 }

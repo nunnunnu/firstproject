@@ -11,6 +11,7 @@ import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
+import com.green.firstproject.entity.order.cart.CartDetail;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class OrderDetailVO {
      private DrinkOptionEntity drinkOpt;
      private DrinkOptionEntity drinkopt2;
      private List<OrderIngredientsVO> ingredients = new ArrayList<>();
+     private int price;
 
      public OrderDetailVO(OrderDetailEntity orderDetail){
           this.Seq = orderDetail.getOdSeq();
@@ -45,6 +47,10 @@ public class OrderDetailVO {
           for(OrderIngredientsVO vo : ingredientsVOs){
                this.ingredients.add(vo);
           }
+     }
+
+     public void setDetailPrice(CartDetail cart){
+          this.price = cart.getPrice();
      }
 
 }

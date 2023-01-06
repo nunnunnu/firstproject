@@ -92,7 +92,6 @@ public class OrderTest {
                     oidRepo.save(orderIngredient);
                }
                oDetailVO = new OrderDetailVO(orderDetail);
-               orderVo.setTotalPrice(oDetailVO);
           }
           
           

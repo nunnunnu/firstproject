@@ -30,26 +30,31 @@ import lombok.NoArgsConstructor;
 @DynamicInsert
 @Table(name="burger_info")
 public class BurgerInfoEntity {
-     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-     @Column(name="bi_seq") private String biSeq;
-     @Column(name="bi_name") private String biName;
-     @ManyToOne
-     @JoinColumn(name="bi_cate") private CategoryEntity cate;
-     @Column(name="bi_detail") private String biDetail;
-     @Column(name="bi_file") private String biFile;
-     @Column(name="bi_uri") private String biUri;
-     @Column(name="bi_reg_dt") @ColumnDefault("CURRENT_TIMESTAMP") private LocalDateTime biRegDt;
-     @Column(name="bi_sales_rate") @ColumnDefault("0") private Integer biSalesRate;
+      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+      @Column(name="bi_seq") private Long biSeq;
+      @Column(name="bi_name") private String biName;
+      @ManyToOne
+      @JoinColumn(name="bi_cate") private CategoryEntity cate;
+      @Column(name="bi_detail") private String biDetail;
+      @Column(name="bi_file") private String biFile;
+      @Column(name="bi_uri") private String biUri;
+      @Column(name="bi_reg_dt") @ColumnDefault("CURRENT_TIMESTAMP") private LocalDateTime biRegDt;
+      @Column(name="bi_sales_rate") @ColumnDefault("0") private Integer biSalesRate;
 
-     public BurgerInfoEntity(HiaBurgerAddVO data){
-        this.biName= data.getName();
-        this.biDetail=data.getDetail();
-        this.biFile=data.getFile();
-        this.biUri=data.getUri();
-        this.biRegDt=data.getRegDt();
-        this.biSalesRate=data.getSalesRate();
-     }
-     public void setCategory(CategoryEntity cate){
-        this.cate = cate;
-     }
+      public BurgerInfoEntity(HiaBurgerAddVO data){
+         this.biName= data.getName();
+         this.biDetail=data.getDetail();
+         this.biFile=data.getFile();
+         this.biUri=data.getUri();
+         this.biRegDt=data.getRegDt();
+         this.biSalesRate=data.getSalesRate();
+      }
+      public void setCategory(CategoryEntity cate){
+         this.cate = cate;
+      }
+
+      public void upSales(){
+         int sales = biSalesRate+1;
+         this.biSalesRate = sales;
+      }
 }

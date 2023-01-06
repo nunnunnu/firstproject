@@ -70,7 +70,6 @@ public class CartService {
           @Nullable Long[] ingredientsSeq
      ){
           Map<String, Object> map = new LinkedHashMap<>();
-          
           CartDetail cart;
           if((eventSeq!=null&&menuSeq!=null) || (eventSeq==null&&menuSeq==null)){
                map.put("status",  false);
@@ -113,6 +112,7 @@ public class CartService {
                          cart.addIngredient(iiRepo.findByIiSeq(seq));
                     }
                }
+               cart.setTotalPrice();
                map.put("message",  menu.getMenuName()+"을/를 카트에 담았습니다.");
                map.put("cart",  cart);
           }
@@ -189,7 +189,7 @@ public class CartService {
      //장바구니 조회
      public Map<String, Object> showCart(List<CartDetail> cart){
           Map<String, Object> map = new LinkedHashMap<>();
-          if(cart==null){
+          if(cart==null || cart.size()==0){
                map.put("status", false);
                map.put("message", "카트에 담긴 메뉴가 없습니다.");
                map.put("code", HttpStatus.ACCEPTED);
@@ -217,12 +217,6 @@ public class CartService {
      //장바구니 옵션 변경
      public Map<String, Object> cartOptionChange(CartDetail cart ,Long side, Long drink, Long drink2, Long...ingredient){
           Map<String, Object> map = new LinkedHashMap<>();
-          if(cart==null){
-               map.put("status", false);
-               map.put("message", "메뉴를 잘못 선택하셨습니다.");
-               map.put("code", HttpStatus.BAD_REQUEST);
-               return map;
-          }
           Boolean setMenu = cart.getMenu().getBurger()!=null && cart.getMenu().getSide()!=null && cart.getMenu().getDrink()!=null;
           if(setMenu){
                if(side!=null){
@@ -246,8 +240,8 @@ public class CartService {
                     DrinkOptionEntity drinkOpt2 = doptRepo.findByDoSeq(drink2);
                     cart.setDrink(drinkOpt2);
                }
-          }else if(cart.getMenu().getMenuSelect()){
-               System.out.println(cart.getIngredient().size());
+          }
+          if(cart.getMenu().getMenuSelect()){
                Set<IngredientsInfoEntity> ing = new HashSet<>();
                if(ingredient.length!=0){
                     for(Long ingSeq : ingredient){
@@ -255,9 +249,8 @@ public class CartService {
                          ing.add(i);
                          
                     }
-                    System.out.println(cart.getIngredient().size());
                }
-               cart.changeIngredient(ing);
+               cart.setIngredient(ing);
           }else{
                map.put("status", false);
                map.put("message", "옵션을 변경할 수 없는 메뉴입니다.");
@@ -269,18 +262,14 @@ public class CartService {
           map.put("code", HttpStatus.ACCEPTED);
           return map;
      }
-     //장바구니 메뉴 삭제 변경
+     //장바구니 메뉴 삭제
      public Map<String, Object> cartMenuDelete(List<CartDetail> carts ,Long seq){
           Map<String, Object> map = new LinkedHashMap<>();
           CartDetail cart = findCart(carts, seq);
-          if(cart==null){
-               map.put("status", false);
-               map.put("message", "메뉴를 잘못 선택하셨습니다.");
-               map.put("code", HttpStatus.BAD_REQUEST);
-               return map;
-          }
-          
-          
+          carts.remove(cart);
+          map.put("status", true);
+          map.put("message", "카트에서 메뉴를 삭제했습니다.");
+          map.put("code", HttpStatus.BAD_REQUEST);
           return map;
      }
      //선택 장바구니 찾기
