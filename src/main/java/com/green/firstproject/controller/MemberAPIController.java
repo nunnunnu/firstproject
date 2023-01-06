@@ -46,7 +46,6 @@ public class MemberAPIController {
         return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
       
-    // @GetMapping("/login")
     @PostMapping("/login")
     public ResponseEntity<Object> memberLogin(@RequestBody LoginUserVO data, HttpSession session){
       Map<String, Object> resultMap = mService.loginMember(data);
