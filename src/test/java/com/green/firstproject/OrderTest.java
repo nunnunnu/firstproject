@@ -33,6 +33,7 @@ import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 import com.green.firstproject.repository.order.OrderDetailRepository;
 import com.green.firstproject.repository.order.OrderInfoRepository;
 import com.green.firstproject.repository.order.OrderIngredientsDetailRepository;
+import com.green.firstproject.vo.menu.IngredientVo;
 import com.green.firstproject.vo.order.OrderDetailVO;
 import com.green.firstproject.vo.order.OrderVO;
 
@@ -77,7 +78,7 @@ public class OrderTest {
 
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, null, piRepo.findAll().get(0), null);
           Long orderSeq = oiRepository.save(order).getOiSeq();
-          order = oiRepository.findByOiSeq(orderSeq);
+          // order = oiRepository.findByOiSeq(orderSeq);
 
           OrderVO orderVo = new OrderVO(order);
           OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
@@ -86,10 +87,10 @@ public class OrderTest {
                OrderDetailEntity orderDetail = new OrderDetailEntity(c);
                orderDetail.setOdOiseq(order);
                odRepo.save(orderDetail);
-               for(IngredientsInfoEntity i : c.getIngredient()){
-                    orderIngredient.setIngredient(i);
-                    orderIngredient.setOrderdetail(orderDetail);
-                    oidRepo.save(orderIngredient);
+               for(IngredientVo i : c.getIngredient()){
+                    // orderIngredient.setIngredient();
+                    // orderIngredient.setOrderdetail(orderDetail);
+                    // oidRepo.save(orderIngredient);
                }
                oDetailVO = new OrderDetailVO(orderDetail);
           }

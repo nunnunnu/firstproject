@@ -1,8 +1,7 @@
 package com.green.firstproject.entity.order.cart;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
@@ -10,6 +9,7 @@ import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
 import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
+import com.green.firstproject.vo.menu.IngredientVo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +27,7 @@ public class CartDetail {
      private SideOptionEntity side;
      private DrinkOptionEntity drink;
      private DrinkOptionEntity drink2;
-     private Set<IngredientsInfoEntity> ingredient; //중복 제거를 위해 set으로 변경함
+     private Set<IngredientVo> ingredient; //중복 제거를 위해 set으로 변경함
      private int price;
 
      public CartDetail(Long seq, Integer count, MenuInfoEntity menu){
@@ -44,10 +44,16 @@ public class CartDetail {
      }
 
      public void addIngredient(IngredientsInfoEntity ingrEntities){
-          this.ingredient.add(ingrEntities);
+          IngredientVo ing = new IngredientVo(ingrEntities);
+          this.ingredient.add(ing);
      }
-     public void changeIngredient(Set<IngredientsInfoEntity> ing){
-          ingredient = ing;
+     public void changeIngredient(Set<IngredientsInfoEntity> ingrEntities){
+          Set<IngredientVo> ingSet = new LinkedHashSet<>();
+          for(IngredientsInfoEntity i : ingrEntities){
+               IngredientVo ing = new IngredientVo(i);
+               ingSet.add(ing);
+          }
+          ingredient = ingSet;
      }
      public void setTotalPrice(){
           Integer rSizeSidePrice=2700;
@@ -80,14 +86,14 @@ public class CartDetail {
           
           int count = 0;
           if(menu.getMenuSelect()){
-               for(IngredientsInfoEntity i : ingredient){
-                    if(i.getIiPrice()==0){
+               for(IngredientVo i : ingredient){
+                    if(i.getIngredientPrice()==0){
                          if(count>1){
                               price+=400;
                          }
                          count++;
                     }else{
-                         price+= i.getIiPrice();
+                         price+= i.getIngredientPrice();
                     }
                }
           }

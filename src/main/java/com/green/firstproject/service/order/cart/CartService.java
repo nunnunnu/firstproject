@@ -1,5 +1,6 @@
 package com.green.firstproject.service.order.cart;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.green.firstproject.entity.menu.option.SideOptionEntity;
 import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
+import com.green.firstproject.entity.order.cart.CartVo;
 import com.green.firstproject.entity.stock.BurgerStockEntity;
 import com.green.firstproject.entity.stock.DogStockEntity;
 import com.green.firstproject.entity.stock.DrinkStockEntity;
@@ -39,7 +41,7 @@ import com.green.firstproject.repository.stock.DrinkStockRepository;
 import com.green.firstproject.repository.stock.EventStockRepository;
 import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
-import com.green.firstproject.vo.order.OrderIngredientsVO;
+import com.green.firstproject.vo.menu.IngredientVo;
 
 @Service
 public class CartService {
@@ -95,7 +97,8 @@ public class CartService {
                return map;
                
           }else if(menuSeq!=null){
-               MenuInfoEntity menu = menuRepo.findByMenuSeq(menuSeq);
+               MenuInfoEntity menu = menuRepo.findMenuSeq(menuSeq);
+               System.out.println(menu);
                cart = new CartDetail(seq, 1, menu); //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
                if(menu.getBurger()!=null && menu.getSide()!=null&&menu.getDrink()!=null){
                     if(sideOptSeq!=null){
@@ -167,11 +170,12 @@ public class CartService {
                     soldout+=event.getEiName()+", ";
                }
           }
-          for(IngredientsInfoEntity i : c.getIngredient()){
-               IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, i);
+          for(IngredientVo i : c.getIngredient()){
+               IngredientsInfoEntity ingredientsInfoEntity = iiRepo.findByIiSeq(i.getIngredirentSeq());
+               IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredientsInfoEntity);
                if(ing.getIsStock()<c.getOdCount()){
                     check = false;
-                    soldout+=i.getIiName()+", ";
+                    soldout+=i.getIngredientName()+", ";
                }
           }
           if(check){
@@ -194,10 +198,16 @@ public class CartService {
                map.put("message", "카트에 담긴 메뉴가 없습니다.");
                map.put("code", HttpStatus.ACCEPTED);
           }else{
+               List<CartVo> carts = new ArrayList<>();
+
+               for(CartDetail c : cart){
+                    carts.add(new CartVo(c));
+               }
+
                map.put("status", true);
                map.put("message", "카트를 조회했습니다.");
                map.put("code", HttpStatus.ACCEPTED);
-               map.put("cart", cart);
+               map.put("cart", carts);
           }
           
           return map;
@@ -242,11 +252,11 @@ public class CartService {
                }
           }
           if(cart.getMenu().getMenuSelect()){
-               Set<IngredientsInfoEntity> ing = new HashSet<>();
+               Set<IngredientVo> ing = new HashSet<>();
                if(ingredient.length!=0){
                     for(Long ingSeq : ingredient){
                          IngredientsInfoEntity i = iiRepo.findByIiSeq(ingSeq);
-                         ing.add(i);
+                         ing.add(new IngredientVo(i));
                          
                     }
                }

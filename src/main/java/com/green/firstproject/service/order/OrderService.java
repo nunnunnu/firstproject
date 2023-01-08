@@ -48,6 +48,7 @@ import com.green.firstproject.repository.stock.EventStockRepository;
 import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
 import com.green.firstproject.vo.member.LoginUserVO;
+import com.green.firstproject.vo.menu.IngredientVo;
 import com.green.firstproject.vo.order.OrderDetailVO;
 import com.green.firstproject.vo.order.OrderIngredientsVO;
 import com.green.firstproject.vo.order.OrderVO;
@@ -89,7 +90,7 @@ public class OrderService {
           }
           List<CartDetail> carts = new ArrayList<>();
           List<CartDetail> notOrders = new ArrayList<>();
-          if(seq.length==0){
+          if(seq==null || seq.length==0 ){
                carts = c;
           }else{
                for(CartDetail cart : c){
@@ -134,7 +135,7 @@ public class OrderService {
                orderDetail.setOdOiseq(order);
                if(ca.getMenu().getBurger()!=null){
                     BurgerInfoEntity burger = biRepo.findByBiSeq(ca.getMenu().getBurger().getBiSeq());
-                    burger.upSales(); //판매량 증가
+                    // burger.upSales(); //판매량 증가
                     biRepo.save(burger);
                }
                
@@ -145,7 +146,8 @@ public class OrderService {
                OrderDetailVO oDetailVO = new OrderDetailVO(orderDetail);
                oDetailVO.setDetailPrice(ca);
                List<OrderIngredientsVO> ingList = new ArrayList<>();
-               for(IngredientsInfoEntity i : ca.getIngredient()){
+               for(IngredientVo ing : ca.getIngredient()){
+                    IngredientsInfoEntity i = iiRepo.findByIiSeq(ing.getIngredirentSeq());
                     orderIngredient.setIngredient(i);
                     orderIngredient.setOrderdetail(orderDetail);
                     discountIngredientStock(store, i);
@@ -238,8 +240,9 @@ public class OrderService {
                          return false; //재고없음
                     }
                }
-               for(IngredientsInfoEntity i : c.getIngredient()){
-                    IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, i);
+               for(IngredientVo i : c.getIngredient()){
+                    IngredientsInfoEntity ingredientsInfoEntity = iiRepo.findByIiSeq(i.getIngredirentSeq());
+                    IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredientsInfoEntity);
                     if(ing.getIsStock()<c.getOdCount()){
                          return false;
                     }
@@ -280,8 +283,9 @@ public class OrderService {
           // MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
           
           MemberInfoEntity member = mRepo.findAll().get(0);
+          System.out.println(member.getMiSeq());
           
-          List<OrderInfoEntity> orders = oiRepository.findByMember(member);
+          List<OrderInfoEntity> orders = oiRepository.findMember(member.getMiSeq());
           
           if(orders.size()==0){
                map.put("status", false);
@@ -293,8 +297,13 @@ public class OrderService {
           for(OrderInfoEntity o : orders){
                OrderVO order = new OrderVO(o);
                List<OrderDetailEntity> orderDetails = odRepo.findByOdOiseq(o);
+               List<OrderDetailVO> orderDetailVo = new ArrayList<>();
                if(orderDetails!=null){
                     for(OrderDetailEntity od : orderDetails){
+                         OrderDetailVO orderDe = new OrderDetailVO(od);
+                         orderDe.addPrice(od);
+                         orderDetailVo.add(orderDe);
+                         
                          order.setOrderPrice(od);
                          List<OrderIngredientsDetailEntity> ingredients = oidRepo.findByOrderdetail(od);
                          if(ingredients!=null){
@@ -304,6 +313,7 @@ public class OrderService {
                          }
                     }   
                }
+               order.addOrderDetail(orderDetailVo);
                resultOrder.add(order);
           }
           

@@ -12,6 +12,7 @@ import com.green.firstproject.entity.order.cart.CartDetail;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,13 +32,13 @@ import lombok.NoArgsConstructor;
 public class OrderDetailEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="od_seq")              private Long odSeq ;
-    @ManyToOne @JoinColumn(name="od_oi_seq")           private OrderInfoEntity odOiseq;
-    @ManyToOne @JoinColumn(name="od_bi_seq")           private MenuInfoEntity odBiseq;
-    @ManyToOne @JoinColumn(name="od_ei_seq")           private EventInfoEntity odEiSeq;
     @Column(name="od_count")                           private Integer odCount;
-    @ManyToOne @JoinColumn(name="od_lsot_seq")         private SideOptionEntity odLsotSeq;
-    @ManyToOne @JoinColumn(name="od_ldot_seq")         private DrinkOptionEntity odLdotSeq;
-    @ManyToOne @JoinColumn(name="od_ldot2_seq")        private DrinkOptionEntity odLdot2Seq;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="od_oi_seq")           private OrderInfoEntity odOiseq;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="od_bi_seq")           private MenuInfoEntity odBiseq;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="od_ei_seq")           private EventInfoEntity odEiSeq;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="od_lsot_seq")         private SideOptionEntity odLsotSeq;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="od_ldot_seq")         private DrinkOptionEntity odLdotSeq;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="od_ldot2_seq")        private DrinkOptionEntity odLdot2Seq;
 
     public OrderDetailEntity(CartDetail cart){
         this.odCount=cart.getOdCount();

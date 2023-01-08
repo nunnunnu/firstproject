@@ -22,25 +22,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderDetailVO {
      private Long Seq ;
-     @JsonIgnore
-     private OrderInfoEntity order;
-     private MenuInfoEntity menu;
-     private EventInfoEntity event;
+     // private OrderVO order;
+     private String menu;
+     private String event;
      private Integer count;
-     private SideOptionEntity sideOpt;
-     private DrinkOptionEntity drinkOpt;
-     private DrinkOptionEntity drinkopt2;
+     private String sideOpt;
+     private String drinkOpt;
+     private String drinkopt2;
      private List<OrderIngredientsVO> ingredients = new ArrayList<>();
      private int price;
 
      public OrderDetailVO(OrderDetailEntity orderDetail){
           this.Seq = orderDetail.getOdSeq();
-          this.order = orderDetail.getOdOiseq();
-          this.menu = orderDetail.getOdBiseq();
+          // this.order = new OrderVO(orderDetail.getOdOiseq());
           this.count=orderDetail.getOdCount();
-          this.sideOpt=orderDetail.getOdLsotSeq();
-          this.drinkOpt=orderDetail.getOdLdotSeq();
-          this.drinkopt2=orderDetail.getOdLdot2Seq();
+          if(orderDetail.getOdBiseq()!=null){
+               this.menu = orderDetail.getOdBiseq().getMenuName();
+          }
+          if(orderDetail.getOdLsotSeq()!=null){
+               this.sideOpt=orderDetail.getOdLsotSeq().getSoName();
+          }
+          if(orderDetail.getOdLdotSeq()!=null){
+               this.drinkOpt=orderDetail.getOdLdotSeq().getDoName();
+          }
+          if(orderDetail.getOdLdot2Seq()!=null){
+               this.drinkopt2=orderDetail.getOdLdot2Seq().getDoName();
+          }
      }
 
      public void addOrderIngredients(List<OrderIngredientsVO> ingredientsVOs){
@@ -51,6 +58,36 @@ public class OrderDetailVO {
 
      public void setDetailPrice(CartDetail cart){
           this.price = cart.getPrice();
+     }
+
+     public void addPrice(OrderDetailEntity orderDetail){
+          Integer rSizeSidePrice=2700;
+          Integer lSizeSidePrice=3200;
+          Integer rSizeDrinkPrice = 2600;
+          Integer lSizeDrinkPrice = 2800;
+          if(orderDetail.getOdBiseq()!=null){
+               this.price += orderDetail.getOdBiseq().getMenuPrice();
+          }else if(orderDetail.getOdEiSeq()!=null){
+               this.price += orderDetail.getOdEiSeq().getEiPrice();
+          }
+          if(orderDetail.getOdBiseq().getBurger()!=null && orderDetail.getOdBiseq().getSide()!=null && orderDetail.getOdBiseq().getDrink()!=null){
+               if(orderDetail.getOdLsotSeq()!=null){
+                    price += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               }
+               if(orderDetail.getOdLdotSeq()!=null){
+                    price += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+          }else if(orderDetail.getOdEiSeq() !=null){
+               if(orderDetail.getOdLsotSeq()!=null){
+                    price += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               }
+               if(orderDetail.getOdLdotSeq()!=null){
+                    price += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+               if(orderDetail.getOdLdot2Seq()!=null){
+                    price += orderDetail.getOdLdot2Seq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+          }
      }
 
 }

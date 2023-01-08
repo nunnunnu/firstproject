@@ -22,23 +22,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderVO {
      private Long seq;
-     private MemberInfoEntity member;
+     private String member;
      private LocalDateTime orderDate;
-     private StoreInfoEntity store;
+     private String store;
      private String status;
      private PaymentInfoEntity pay;
-     private CouponInfoEntity coupon;
+     private String coupon;
+     private Double discountPrice;
      private Integer totalPrice;
      private List<OrderDetailVO> orderDetail;
 
      public OrderVO(OrderInfoEntity order) {
           this.seq = order.getOiSeq();
-          this.member=order.getMember();
+          this.member=order.getMember().getMiName();
           this.orderDate = order.getOiOrderTime();
-          this.store=order.getStore();
+          this.store=order.getStore().getSiName();
           setStatus(order);
           this.pay=order.getPay();
-          this.coupon=order.getCoupon();
+          if(order.getCoupon()!=null){
+               this.coupon=order.getCoupon().getCiName();
+               this.discountPrice=order.getCoupon().getCiDiscount();
+          }
           this.totalPrice = 0;
      }
 
@@ -60,14 +64,12 @@ public class OrderVO {
                totalPrice += cart.getPrice();
           }
           if(coupon!=null){
-               totalPrice = (int) (totalPrice-coupon.getCiDiscount());
+               totalPrice = (int) (totalPrice*(1-discountPrice));
           }
      }
 
      public void addOrderDetail(List<OrderDetailVO> orderDetailVOs){
-          for(OrderDetailVO vo : orderDetailVOs){
-               this.orderDetail.add(vo);
-          }
+          orderDetail=orderDetailVOs;
      }
 
      public void setOrderPrice(OrderDetailEntity orderDetail){
