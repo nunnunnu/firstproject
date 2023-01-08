@@ -16,6 +16,6 @@ public interface OrderInfoRepository extends JpaRepository<OrderInfoEntity, Long
      OrderInfoEntity findByOiSeqAndMember(Long seq, MemberInfoEntity member);
      List<OrderInfoEntity> findByMember(MemberInfoEntity member);
 
-     @Query("select o from OrderInfoEntity o join fetch o.member m join fetch o.store s join fetch o.pay p left join fetch o.coupon c where m.miSeq=:seq")
+     @Query("select o from OrderInfoEntity o join fetch o.member m join fetch o.store s join fetch o.pay p left join fetch o.coupon c where m.miSeq=:seq order by o.oiOrderTime desc")
      List<OrderInfoEntity> findMember(@Param("seq") Long seq);
 }

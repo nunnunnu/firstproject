@@ -46,7 +46,7 @@ import com.green.firstproject.vo.menu.IngredientVo;
 @Service
 public class CartService {
 
-     private Long seq=1L;
+     private static Long seq=1L; //임의로 기본키 지정
 
      @Autowired MenuInfoRepository menuRepo;
      @Autowired EventInfoRepository eventRepo;
@@ -73,17 +73,17 @@ public class CartService {
      ){
           Map<String, Object> map = new LinkedHashMap<>();
           CartDetail cart;
-          if((eventSeq!=null&&menuSeq!=null) || (eventSeq==null&&menuSeq==null)){
+          if((eventSeq!=null&&menuSeq!=null) || (eventSeq==null&&menuSeq==null)){ //메뉴와 이벤트메뉴 모두 선택되지않았거나 둘다 선택되었을경우 에러처리
                map.put("status",  false);
                map.put("message",  "주문 메뉴가 잘못되었습니다.");
                map.put("code",  HttpStatus.BAD_REQUEST);
                return map;
-          }else if(eventSeq!=null){
+          }else if(eventSeq!=null){ 
                EventInfoEntity event = eventRepo.findByEiSeq(eventSeq);
-               cart= new CartDetail(seq, 1, event); //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
+               cart= new CartDetail(seq, 1, event);                        //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
                if(sideOptSeq!=null){
-                    SideOptionEntity sideOpt = soRepo.findBySoSeq(sideOptSeq);
-                    cart.setSide(sideOpt);
+                    SideOptionEntity sideOpt = soRepo.findBySoSeq(sideOptSeq); 
+                    cart.setSide(sideOpt); 
                }
                if(drinkOptSeq!=null){
                     DrinkOptionEntity drinkOpt = doRepo.findByDoSeq(drinkOptSeq);
@@ -100,7 +100,7 @@ public class CartService {
                MenuInfoEntity menu = menuRepo.findMenuSeq(menuSeq);
                System.out.println(menu);
                cart = new CartDetail(seq, 1, menu); //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
-               if(menu.getBurger()!=null && menu.getSide()!=null&&menu.getDrink()!=null){
+               if(menu.getBurger()!=null && menu.getSide()!=null&&menu.getDrink()!=null){ //세트메뉴일경우
                     if(sideOptSeq!=null){
                          SideOptionEntity sideOpt = soRepo.findBySoSeq(sideOptSeq);
                          cart.setSide(sideOpt);
@@ -110,7 +110,7 @@ public class CartService {
                          cart.setDrink(drinkOpt);
                     }
                }
-               if(menu.getMenuSelect() && ingredientsSeq!=null){
+               if(menu.getMenuSelect() && ingredientsSeq!=null){ //재료선택이 가능한 세트메뉴 + 추가한 재료가 있을 경우
                     for(Long seq : ingredientsSeq){
                          cart.addIngredient(iiRepo.findByIiSeq(seq));
                     }
@@ -121,7 +121,7 @@ public class CartService {
           }
           map.put("status",  true);
           map.put("code",  HttpStatus.ACCEPTED);
-          seq++;
+          seq++; //임의로 지정한 기본키 늘려줌
           return map;
      }
 
@@ -139,43 +139,58 @@ public class CartService {
                BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
                if(bs.getBsStock()<c.getOdCount()){
                     check = false;
-                    soldout+=burger.getBiName()+", ";
+                    soldout+=burger.getBiName();
                }
           }
           if(dog!=null){
                DogStockEntity dogstock = dogsRepo.findByStoreAndDog(store, dog);
                if(dogstock.getDogsStock()<c.getOdCount()){
+                    if(!check){
+                         soldout+=", ";
+                    }
                     check = false;
-                    soldout+=dog.getDogName()+", ";
+                    soldout+=dog.getDogName();
                }
           }
           if(drink!=null){
                DrinkStockEntity ds = dsRepo.findByStoreAndDrink(store, drink);
                if(ds.getDsStock()<c.getOdCount()){
+                    if(!check){
+                         soldout+=", ";
+                    }
                     check = false;
-                    soldout+=drink.getDiName()+", ";
+                    soldout+=drink.getDiName();
                }
           }
           if(side!=null){
                SideStockEntity ss = ssRepo.findByStoreAndSide(store, side);
                if(ss.getSsStock()<c.getOdCount()){
+                    if(!check){
+                         soldout+=", ";
+                    }
                     check = false;
-                    soldout+=side.getSideName()+", ";
+                    soldout+=side.getSideName();
                }
           }
           if(event!=null){
                EventStockEntity es = esRepo.findByStoreAndEvent(store, event);
                if(es.getEsStock()<c.getOdCount()){
+                    if(!check){
+                         soldout+=", ";
+                    }
                     check = false;
-                    soldout+=event.getEiName()+", ";
+                    soldout+=event.getEiName();
                }
           }
           for(IngredientVo i : c.getIngredient()){
                IngredientsInfoEntity ingredientsInfoEntity = iiRepo.findByIiSeq(i.getIngredirentSeq());
                IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredientsInfoEntity);
                if(ing.getIsStock()<c.getOdCount()){
+                    if(!check){
+                         soldout+=", ";
+                    }
                     check = false;
-                    soldout+=i.getIngredientName()+", ";
+                    soldout+=i.getIngredientName();
                }
           }
           if(check){
@@ -225,7 +240,8 @@ public class CartService {
           return map;
      }
      //장바구니 옵션 변경
-     public Map<String, Object> cartOptionChange(CartDetail cart ,Long side, Long drink, Long drink2, Long...ingredient){
+     public Map<String, Object> cartOptionChange(CartDetail cart ,Long side, Long drink, Long drink2, Long...ingredient){ //가변인자로 재료를 받음
+          
           Map<String, Object> map = new LinkedHashMap<>();
           Boolean setMenu = cart.getMenu().getBurger()!=null && cart.getMenu().getSide()!=null && cart.getMenu().getDrink()!=null;
           if(setMenu){
@@ -261,7 +277,7 @@ public class CartService {
                     }
                }
                cart.setIngredient(ing);
-          }else{
+          }else if(!cart.getMenu().getMenuSelect() && ingredient.length!=0){ //재료 추가 불가능한 메뉴인데 재료추가를 시도했다면 에러처리
                map.put("status", false);
                map.put("message", "옵션을 변경할 수 없는 메뉴입니다.");
                map.put("code", HttpStatus.BAD_REQUEST);

@@ -31,6 +31,7 @@ public class OrderVO {
      private Double discountPrice;
      private Integer totalPrice;
      private List<OrderDetailVO> orderDetail;
+     private Boolean cancellable;
 
      public OrderVO(OrderInfoEntity order) {
           this.seq = order.getOiSeq();
@@ -49,14 +50,19 @@ public class OrderVO {
      public void setStatus(OrderInfoEntity order){
           if(order.getOiStatus()==1){
                this.status="접수";
+               this.cancellable=true;
           }else if(order.getOiStatus()==2){
                this.status = "준비중";
+               this.cancellable=true;
           }else if(order.getOiStatus()==3){
                this.status = "배송중";
+               this.cancellable=false;
           }else if(order.getOiStatus()==4){
                this.status = "배송완료";
+               this.cancellable=false;
           }else if(order.getOiStatus()==5){
                this.status = "주문취소";
+               this.cancellable=false;
           }
      }
      public void setTotalPrice(List<CartDetail> carts){
@@ -119,6 +125,10 @@ public class OrderVO {
 
      public void addIngredientPrice(OrderIngredientsDetailEntity ing){
           this.totalPrice += ing.getIngredient().getIiPrice();
+     }
+
+     public void addCheckIngredientPrice(){
+          this.totalPrice+=400;
      }
      
 }

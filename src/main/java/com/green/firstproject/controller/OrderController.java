@@ -35,51 +35,6 @@ public class OrderController {
      @Autowired StoreInfoRepository sRepository;
      @Autowired OrderService orderService;
 
-     @PutMapping("/cart")
-     public ResponseEntity<Object> putCart(
-          @RequestParam @Nullable Long menu,
-          @RequestParam @Nullable Long event,
-          @RequestParam @Nullable Long sideOpt,
-          @RequestParam @Nullable Long drinkOpt,
-          @RequestParam @Nullable Long drinkOpt2,
-          HttpSession session,
-          @RequestParam @Nullable Long... ingredients
-     ){
-          /* 나중에 밑에꺼 바꿔야함 */
-          StoreInfoEntity store = sRepository.findAll().get(0); //일단 선택 매장 고정
-
-          Map<String, Object> map = new LinkedHashMap<>();
-          if(session.getAttribute("loginUser")==null){
-               map.put("status", false);
-               map.put("message", "로그인을 먼저 해주세요.");
-               map.put("code", HttpStatus.ACCEPTED);
-          }
-          if(LocalTime.now().isBefore(store.getSiOpenTiem()) || LocalTime.now().isAfter(store.getSiCloseTime())){
-               map.put("status", false);
-               map.put("message", "현재 선택된 매장은 영업시간이 아닙니다. "+store.getSiOpenTiem()+"~"+store.getSiCloseTime()+"사이에 주문해주세요.");
-               map.put("code", HttpStatus.ACCEPTED);
-               return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          }
-
-          map  = cartService.addCart(menu, event, sideOpt, drinkOpt, drinkOpt2, ingredients);
-          if(map.get("cart")==null){
-               return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          }
-          Map<String, Object> stockMap = cartService.stockCheck((CartDetail)map.get("cart"), store);
-          if(!(Boolean)stockMap.get("status")){ //재고가 없다면
-               return new ResponseEntity<>(stockMap, (HttpStatus)stockMap.get("code"));
-          }
-
-          List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
-          if(carts == null){
-               carts = new ArrayList<>();
-          }
-          carts.add((CartDetail) map.get("cart"));
-          session.setAttribute("cart", carts);
-          
-          return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          
-     }
      @PutMapping("/order")
      public ResponseEntity<Object> order(HttpSession session, @RequestParam Long paySeq,
           @RequestParam @Nullable Long...cartSeq
@@ -107,57 +62,9 @@ public class OrderController {
 
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
-     @GetMapping("/cart/list")
-     public ResponseEntity<Object> showCart(HttpSession session){
-          List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
-          
-          Map<String, Object> map = cartService.showCart(carts);
-          
-          return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-     }
-     @GetMapping("/cart/list/{type}")
-     public ResponseEntity<Object> updateCart(HttpSession session,
-     @PathVariable String type,
-     @RequestParam @Nullable Long seq,
-     @RequestParam @Nullable Integer cnt,
-     @RequestParam @Nullable Long sideOptSeq,
-     @RequestParam @Nullable Long drinkOptSeq,
-     @RequestParam @Nullable Long drink2OoptSeq,
-     @RequestParam @Nullable Long...ingredient
-     ){
-          Map<String, Object> map = new LinkedHashMap<>();
-          List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
-          if(carts==null){
-               map.put("status", false);
-               map.put("message", "카트에 담긴 메뉴가 없습니다.");
-               map.put("code", HttpStatus.ACCEPTED);
-               return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          }
-          CartDetail cart = cartService.findCart(carts, seq);
-          if(cart == null){
-               map.put("status", false);
-               map.put("message", "수정할 카트번호를 잘못 입력하셨습니다.");
-               map.put("code", HttpStatus.BAD_REQUEST);
-               return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          }
-          
-          if(type.equals("count") && cnt!=null){
-               map = cartService.cartCountChange(cart, seq, cnt);
-          }else if(type.equals("option")){
-               map = cartService.cartOptionChange(cart, sideOptSeq, drinkOptSeq, drink2OoptSeq, ingredient);
-          }else if(type.equals("delete")){
-               map = cartService.cartMenuDelete(carts, seq);
-          }else{
-               map.put("status", false);
-               map.put("message", "주소를 잘못 입력하셨습니다. {예시: count, option, delete");
-               map.put("code", HttpStatus.ACCEPTED);
-          }
-          
-          return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-     }
      
-     @GetMapping("/order/cancle")
-     public ResponseEntity<Object> orderCancle(@RequestParam Long seq, HttpSession session){
+     @GetMapping("/order/cancel")
+     public ResponseEntity<Object> orderCancel(@RequestParam Long seq, HttpSession session){
           Map<String, Object> map = new LinkedHashMap<>();
           
           // LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
@@ -169,7 +76,7 @@ public class OrderController {
           //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           // } //귀찮아서 주석처리함
           LoginUserVO loginUser = new LoginUserVO(mReposiroty.findAll().get(0));
-          map = orderService.orderCancle(seq, loginUser);
+          map = orderService.orderCancel(seq, loginUser);
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
