@@ -1,6 +1,5 @@
 package com.green.firstproject.controller;
 
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -8,20 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.green.firstproject.entity.member.MemberInfoEntity;
-import com.green.firstproject.service.member.MemberService;
-import com.green.firstproject.vo.member.LoginUserVO;
 
-import jakarta.servlet.http.HttpSession;
+import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 // import com.green.firstproject.service.MemberService;
+import com.green.firstproject.service.member.MemberService;
+import com.green.firstproject.vo.member.LoginUserVO;
+import com.green.firstproject.vo.member.UserUpdateVO;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @RestController
@@ -69,20 +69,10 @@ public class MemberAPIController {
     return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
   }
   
-  @PatchMapping("/update")
-  public ResponseEntity<Object> patchUserUpdate(LoginUserVO data, HttpSession session,
-      @RequestParam String pwd, // 나중에 변경해야함
-      @RequestParam String changePwd) {
-    Map<String, Object> map = new LinkedHashMap<>();
-    LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      map.put("status", false);
-      map.put("message", "로그인 먼저 해주세요.");
-      map.put("code", HttpStatus.ACCEPTED);
-      return new ResponseEntity<>(map, (HttpStatus) map.get("code"));
-    }
-    map = mService.updateMember(loginUser, pwd, changePwd);
-
+  @PostMapping("/update")//patch-> post
+  public ResponseEntity<Object> userupdate(@RequestBody UserUpdateVO userUpdate, HttpSession session) {
+    LoginUserVO loginUser = (LoginUserVO)session.getAttribute("loginUser");
+    Map<String, Object> map = mService.updateMember(loginUser,userUpdate.getPwd(),userUpdate.getChangePwd(),userUpdate.getPhone(),userUpdate.getGen());
     return new ResponseEntity<>(map, (HttpStatus) map.get("code"));
   }
 }
