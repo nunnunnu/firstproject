@@ -58,7 +58,7 @@ public class MemberAPIController {
       Map<String, Object> resultMap = new LinkedHashMap<>();
     if(session.getAttribute("loginUser") == null){
       resultMap.put("status", false);
-      resultMap.put("message", "로그인을 먼저 해주세요.");
+      resultMap.put("message", "로그인 먼저 해주세요.");
       resultMap.put("code", HttpStatus.BAD_REQUEST);
       return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }

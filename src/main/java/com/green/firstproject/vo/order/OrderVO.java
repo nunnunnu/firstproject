@@ -8,7 +8,11 @@ import com.green.firstproject.entity.master.CouponInfoEntity;
 import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
+import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
+import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
+import com.green.firstproject.entity.order.cart.CartDetail;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,90 +21,114 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderVO {
-     // @JsonIgnore
-     private final Integer R_SIZE_SIDE_PRICE=2700;
-     // @JsonIgnore
-     private final Integer L_SIZE_SIDE_PRICE=3200;
-     // @JsonIgnore
-     private final Integer R_SIZE_DRINK_PRICE = 2600;
-     // @JsonIgnore
-     private final Integer L_SIZE_DRINK_PRICE = 2800;
-     
      private Long seq;
-     private MemberInfoEntity member;
+     private String member;
      private LocalDateTime orderDate;
-     private StoreInfoEntity store;
+     private String store;
      private String status;
      private PaymentInfoEntity pay;
-     private CouponInfoEntity coupon;
+     private String coupon;
+     private Double discountPrice;
      private Integer totalPrice;
      private List<OrderDetailVO> orderDetail;
+     private Boolean cancellable;
 
      public OrderVO(OrderInfoEntity order) {
           this.seq = order.getOiSeq();
-          this.member=order.getMember();
+          this.member=order.getMember().getMiName();
           this.orderDate = order.getOiOrderTime();
-          this.store=order.getStore();
+          this.store=order.getStore().getSiName();
           setStatus(order);
           this.pay=order.getPay();
-          this.coupon=order.getCoupon();
+          if(order.getCoupon()!=null){
+               this.coupon=order.getCoupon().getCiName();
+               this.discountPrice=order.getCoupon().getCiDiscount();
+          }
           this.totalPrice = 0;
      }
 
      public void setStatus(OrderInfoEntity order){
           if(order.getOiStatus()==1){
                this.status="접수";
+               this.cancellable=true;
           }else if(order.getOiStatus()==2){
                this.status = "준비중";
+               this.cancellable=true;
           }else if(order.getOiStatus()==3){
                this.status = "배송중";
+               this.cancellable=false;
           }else if(order.getOiStatus()==4){
                this.status = "배송완료";
+               this.cancellable=false;
           }else if(order.getOiStatus()==5){
                this.status = "주문취소";
+               this.cancellable=false;
           }
      }
-     public void setTotalPrice(OrderDetailVO orderVo){
-          if(orderVo.getMenu()!=null){
-               this.totalPrice+=(orderVo.getMenu().getMenuPrice()* orderVo.getCount());
-               if(orderVo.getMenu().getBurger()!=null && orderVo.getMenu().getDrink()!=null && orderVo.getMenu().getSide()!=null){
-                    if(orderVo.getSideOpt()!=null){
-                         totalPrice+=orderVo.getSideOpt().getSoPrice() - (orderVo.getMenu().getMenuSize()==1?R_SIZE_SIDE_PRICE:L_SIZE_SIDE_PRICE);
-                    }else if(orderVo.getDrinkOpt()!=null){
-                    totalPrice+=orderVo.getDrinkOpt().getDoPrice() - (orderVo.getMenu().getMenuSize()==1?R_SIZE_DRINK_PRICE:L_SIZE_DRINK_PRICE);
-                    }
-               }
-          }else if(orderVo.getEvent()!=null){
-               this.totalPrice+=(orderVo.getEvent().getEiPrice()* orderVo.getCount());
-               if(orderVo.getMenu().getBurger()!=null && orderVo.getMenu().getDrink()!=null && orderVo.getMenu().getSide()!=null){
-                    if(orderVo.getSideOpt()!=null){
-                         totalPrice+=orderVo.getSideOpt().getSoPrice() - (orderVo.getMenu().getMenuSize()==1?R_SIZE_SIDE_PRICE:L_SIZE_SIDE_PRICE);
-                    }
-                    if(orderVo.getDrinkOpt()!=null){
-                         totalPrice+=orderVo.getDrinkOpt().getDoPrice() - (orderVo.getMenu().getMenuSize()==1?R_SIZE_DRINK_PRICE:L_SIZE_DRINK_PRICE);
-                    }
-                    if(orderVo.getDrinkopt2()!=null){
-                    totalPrice+=orderVo.getDrinkopt2().getDoPrice() - (orderVo.getMenu().getMenuSize()==1?R_SIZE_DRINK_PRICE:L_SIZE_DRINK_PRICE);
-                    }
-               }
+     public void setTotalPrice(List<CartDetail> carts){
+          for(CartDetail cart : carts){
+               totalPrice += cart.getPrice();
           }
-          int count=0;
-          for(OrderIngredientsVO i : orderVo.getIngredients()){
-               if(i.getIngredient().getIiPrice()==0){
-                    count++;
-                    this.totalPrice+=i.getIngredient().getIiPrice();
-               }
+          if(coupon!=null){
+               totalPrice = (int) (totalPrice*(1-discountPrice));
           }
-          if(count>1){
-               this.totalPrice+=(count-1)*400;
-          }
-          
      }
 
      public void addOrderDetail(List<OrderDetailVO> orderDetailVOs){
-          for(OrderDetailVO vo : orderDetailVOs){
-               this.orderDetail.add(vo);
+          orderDetail=orderDetailVOs;
+     }
+
+     public void setOrderPrice(OrderDetailEntity orderDetail){
+          Integer rSizeSidePrice=2700;
+          Integer lSizeSidePrice=3200;
+          Integer rSizeDrinkPrice = 2600;
+          Integer lSizeDrinkPrice = 2800;
+          if(orderDetail.getOdBiseq()!=null){
+               this.totalPrice += orderDetail.getOdBiseq().getMenuPrice();
+          }else if(orderDetail.getOdEiSeq()!=null){
+               this.totalPrice += orderDetail.getOdEiSeq().getEiPrice();
           }
+          if(orderDetail.getOdBiseq().getBurger()!=null && orderDetail.getOdBiseq().getSide()!=null && orderDetail.getOdBiseq().getDrink()!=null){
+               if(orderDetail.getOdLsotSeq()!=null){
+                    totalPrice += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               }
+               if(orderDetail.getOdLdotSeq()!=null){
+                    totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+          }else if(orderDetail.getOdEiSeq() !=null){
+               if(orderDetail.getOdLsotSeq()!=null){
+                    totalPrice += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               }
+               if(orderDetail.getOdLdotSeq()!=null){
+                    totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+               if(orderDetail.getOdLdot2Seq()!=null){
+                    totalPrice += orderDetail.getOdLdot2Seq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }
+          }
+          
+          // int count = 0;
+          // if(orderDetail.getOdBiseq().getMenuSelect()){
+          //      for(IngredientsInfoEntity i : orderDetail.get){
+          //           if(i.getIiPrice()==0){
+          //                if(count>1){
+          //                     totalPrice+=400;
+          //                }
+          //                count++;
+          //           }else{
+          //                totalPrice+= i.getIiPrice();
+          //           }
+          //      }
+          // }
+
+     }
+
+     public void addIngredientPrice(OrderIngredientsDetailEntity ing){
+          this.totalPrice += ing.getIngredient().getIiPrice();
+     }
+
+     public void addCheckIngredientPrice(){
+          this.totalPrice+=400;
      }
      
 }

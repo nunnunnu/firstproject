@@ -33,4 +33,16 @@ public class MenuInfoCotroller {
             Map<String, Object> map = menuService.getDogInfo(seq);
             return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
         }
+    @GetMapping("/drink")
+    public ResponseEntity<Object> getDrinkInfo(
+        @RequestParam Long seq){
+            Map<String, Object> map = menuService.getDrinkInfo(seq);
+            return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+        }
+    @GetMapping("/side")
+    public ResponseEntity<Object> getSideInfo(
+        @RequestParam Long seq){
+            Map<String, Object> map = menuService.getSideInfo(seq);
+            return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+        }
 }

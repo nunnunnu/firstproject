@@ -1,7 +1,11 @@
 package com.green.firstproject.entity.menu.sellermenu;
 import java.time.LocalDate;
 
+<<<<<<< HEAD
 import com.green.firstproject.entity.menu.CategoryEntity;
+=======
+import com.fasterxml.jackson.annotation.JsonIgnore;
+>>>>>>> 0d63a797f85ac281b62feab90f4efa0206f8722e
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.vo.menu.HiaEventAddVO;
 
@@ -30,6 +34,7 @@ public class EventInfoEntity {
      @Column(name="ei_end_dt") private LocalDate eiEndDt;
      @Column(name="ei_price") private Integer eiPrice;
      @Column(name="ei_detail") private String eiDetail;
+<<<<<<< HEAD
      @ManyToOne 
      @JoinColumn(name="ei_di_seq") private DrinkInfoEntity diSeq;
      @ManyToOne 
@@ -37,6 +42,11 @@ public class EventInfoEntity {
      //  @Column(name="ei_cate") private Long eiCate;
      @ManyToOne 
      @JoinColumn(name="ei_cate") private CategoryEntity cate;
+=======
+     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="ei_di_seq") private DrinkInfoEntity eiDiSeq;
+     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="ei_di2_seq") private DrinkInfoEntity eiDi2Seq;
+     @Column(name="ei_cate") private Long eiCate;
+>>>>>>> 0d63a797f85ac281b62feab90f4efa0206f8722e
      @Column(name="ei_file") private String eiFile;
      @Column(name="ei_uri") private String eiUri;
 
