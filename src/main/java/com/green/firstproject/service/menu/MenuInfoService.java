@@ -57,10 +57,6 @@ public class MenuInfoService {
         resultMap.put("code", HttpStatus.ACCEPTED);
         return resultMap;
     }
-<<<<<<< HEAD
-
-    
-=======
     public Map<String, Object> getDrinkInfo(Long seq){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         DrinkInfoEntity drink = drinkRepo.findByDiSeq(seq);
@@ -109,5 +105,4 @@ public class MenuInfoService {
         resultMap.put("code", HttpStatus.ACCEPTED);
         return resultMap;
     }
->>>>>>> 0d63a797f85ac281b62feab90f4efa0206f8722e
 }
