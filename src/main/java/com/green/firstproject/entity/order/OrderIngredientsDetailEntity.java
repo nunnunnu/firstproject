@@ -2,11 +2,13 @@ package com.green.firstproject.entity.order;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,7 +29,7 @@ public class OrderIngredientsDetailEntity {
     @Column(name="odi_seq") private Long odiSeq;
     // @Column(name="odi_odc_seq") private Long odiOdcSeq;
     // @Column(name="odi_ii_seq") private Long odiIiSeq;
-    @ManyToOne @JoinColumn(name="odi_odc_seq") private OrderDetailEntity orderdetail;
-    @ManyToOne @JoinColumn(name="odi_ii_seq")  private IngredientsInfoEntity ingredient;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="odi_odc_seq") private OrderDetailEntity orderdetail;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="odi_ii_seq")  private IngredientsInfoEntity ingredient;
     
 }
