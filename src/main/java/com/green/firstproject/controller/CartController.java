@@ -49,9 +49,9 @@ public class CartController {
             map.put("message", "로그인을 먼저 해주세요.");
             map.put("code", HttpStatus.ACCEPTED);
         }
-        if (LocalTime.now().isBefore(store.getSiOpenTiem()) || LocalTime.now().isAfter(store.getSiCloseTime())) {
+        if (LocalTime.now().isBefore(store.getSiOpenTime()) || LocalTime.now().isAfter(store.getSiCloseTime())) {
             map.put("status", false);
-            map.put("message", "현재 선택된 매장은 영업시간이 아닙니다. " + store.getSiOpenTiem() + "~" + store.getSiCloseTime() + "사이에 주문해주세요.");
+            map.put("message", "현재 선택된 매장은 영업시간이 아닙니다. " + store.getSiOpenTime() + "~" + store.getSiCloseTime() + "사이에 주문해주세요.");
             map.put("code", HttpStatus.ACCEPTED);
             return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
         }
