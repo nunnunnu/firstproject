@@ -11,7 +11,7 @@ import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 public interface EventInfoRepository extends JpaRepository<EventInfoEntity, Long>{
      EventInfoEntity findByEiSeq(Long seq);
 
-     @Query("select e from EventInfoEntity e join fetch e.eiDiSeq join fetch e.eiDi2Seq where e.eiSeq=:seq")
+     @Query("select e from EventInfoEntity e join fetch e.diSeq join fetch e.di2Seq where e.eiSeq=:seq")
      EventInfoEntity findByEventMenu(@Param("seq") Long seq);
 
      public Integer countByEiName(String eiName);
