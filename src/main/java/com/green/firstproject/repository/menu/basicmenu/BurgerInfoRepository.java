@@ -12,7 +12,7 @@ import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 public interface BurgerInfoRepository extends JpaRepository<BurgerInfoEntity, Long> {
      // List<BurgerInfoEntity> searchBurgerSeq(Long seq);
 
-    int countByBiName(String biName);
+    Integer countByBiName(String biName);
 
 
      BurgerInfoEntity findByBiSeq(Long seq);
