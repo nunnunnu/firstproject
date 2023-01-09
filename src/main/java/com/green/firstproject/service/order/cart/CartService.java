@@ -69,7 +69,7 @@ public class CartService {
           @Nullable Long sideOptSeq,
           @Nullable Long drinkOptSeq,
           @Nullable Long drinkOpt2Seq,
-          @Nullable Long[] ingredientsSeq
+          @Nullable Set<Long> ingredientsSeq
      ){
           Map<String, Object> map = new LinkedHashMap<>();
           CartDetail cart;
@@ -98,7 +98,6 @@ public class CartService {
                
           }else if(menuSeq!=null){
                MenuInfoEntity menu = menuRepo.findMenuSeq(menuSeq);
-               System.out.println(menu);
                cart = new CartDetail(seq, 1, menu); //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
                if(menu.getBurger()!=null && menu.getSide()!=null&&menu.getDrink()!=null){ //세트메뉴일경우
                     if(sideOptSeq!=null){
@@ -240,7 +239,7 @@ public class CartService {
           return map;
      }
      //장바구니 옵션 변경
-     public Map<String, Object> cartOptionChange(CartDetail cart ,Long side, Long drink, Long drink2, Long...ingredient){ //가변인자로 재료를 받음
+     public Map<String, Object> cartOptionChange(CartDetail cart ,Long side, Long drink, Long drink2, Set<Long> ingredient){ 
           
           Map<String, Object> map = new LinkedHashMap<>();
           Boolean setMenu = cart.getMenu().getBurger()!=null && cart.getMenu().getSide()!=null && cart.getMenu().getDrink()!=null;
@@ -269,7 +268,7 @@ public class CartService {
           }
           if(cart.getMenu().getMenuSelect()){
                Set<IngredientVo> ing = new HashSet<>();
-               if(ingredient.length!=0){
+               if(ingredient.size()!=0){
                     for(Long ingSeq : ingredient){
                          IngredientsInfoEntity i = iiRepo.findByIiSeq(ingSeq);
                          ing.add(new IngredientVo(i));
@@ -277,7 +276,7 @@ public class CartService {
                     }
                }
                cart.setIngredient(ing);
-          }else if(!cart.getMenu().getMenuSelect() && ingredient.length!=0){ //재료 추가 불가능한 메뉴인데 재료추가를 시도했다면 에러처리
+          }else if(!cart.getMenu().getMenuSelect() && ingredient.size()!=0){ //재료 추가 불가능한 메뉴인데 재료추가를 시도했다면 에러처리
                map.put("status", false);
                map.put("message", "옵션을 변경할 수 없는 메뉴입니다.");
                map.put("code", HttpStatus.BAD_REQUEST);

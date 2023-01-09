@@ -32,6 +32,7 @@ public class OrderVO {
      private Integer totalPrice;
      private List<OrderDetailVO> orderDetail;
      private Boolean cancellable;
+     private String request;
 
      public OrderVO(OrderInfoEntity order) {
           this.seq = order.getOiSeq();
@@ -44,6 +45,7 @@ public class OrderVO {
                this.coupon=order.getCoupon().getCiName();
                this.discountPrice=order.getCoupon().getCiDiscount();
           }
+          this.request = order.getOiRequest();
           this.totalPrice = 0;
      }
 

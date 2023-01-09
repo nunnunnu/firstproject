@@ -76,7 +76,7 @@ public class OrderTest {
                
           }
 
-          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, null, piRepo.findAll().get(0), null);
+          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, null, piRepo.findAll().get(0), null, null);
           Long orderSeq = oiRepository.save(order).getOiSeq();
           // order = oiRepository.findByOiSeq(orderSeq);
 

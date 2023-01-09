@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,7 +80,8 @@ public class OrderService {
 
      public Map<String, Object> order(MemberInfoEntity member, StoreInfoEntity store,
           Long paySeq ,List<CartDetail> c, 
-          @Nullable Long... seq //주문할 카트번호를 가변인자로 받음
+          @Nullable String message,
+          @Nullable Set<Long> seq
      ){   
           Map<String, Object> resultMap = new LinkedHashMap<>();
           if(c==null || c.size()==0){ 
@@ -90,7 +92,7 @@ public class OrderService {
           }
           List<CartDetail> carts = new ArrayList<>();
           List<CartDetail> notOrders = new ArrayList<>();
-          if(seq==null || seq.length==0 ){ //주문할 메뉴를 선택하지 않았다면 모두 주문으로 처리
+          if(seq==null || seq.size()==0 ){ //주문할 메뉴를 선택하지 않았다면 모두 주문으로 처리
                carts = c;
           }else{
                for(CartDetail cart : c){
@@ -121,7 +123,7 @@ public class OrderService {
                return resultMap;
           }
           PaymentInfoEntity pay = piRepo.findByPaySeq(paySeq);
-          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null); //쿠폰 기능 아직 구현 못함
+          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, message); //쿠폰 기능 아직 구현 못함
           
           oiRepository.save(order);
           OrderVO orderVo = new OrderVO(order);
@@ -259,7 +261,10 @@ public class OrderService {
                map.put("code", HttpStatus.BAD_REQUEST);
                return map;
           }
-          if(order.getOiStatus()!=1 || order.getOiStatus()!=2){
+          System.out.println(order.getOiStatus());
+          System.out.println(order.getOiStatus()!=1);
+          System.out.println(order.getOiStatus()!=2);
+          if(order.getOiStatus()!=1 && order.getOiStatus()!=2){
                map.put("status", false);
                map.put("message", "이미 배송중이거나 배송이 완료된 주문은 취소할 수 없습니다.");
                map.put("code", HttpStatus.BAD_REQUEST);

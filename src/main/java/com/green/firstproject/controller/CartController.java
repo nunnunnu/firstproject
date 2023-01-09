@@ -13,6 +13,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,8 @@ import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.service.order.OrderService;
 import com.green.firstproject.service.order.cart.CartService;
+import com.green.firstproject.vo.order.cart.AddCart;
+import com.green.firstproject.vo.order.cart.UpdateCartVO;
 
 import jakarta.servlet.http.HttpSession;
 @RestController
@@ -35,12 +38,7 @@ public class CartController {
     @PutMapping("/cart")
     public ResponseEntity < Object > putCart(
         HttpSession session,
-        @RequestParam @Nullable Long menu,
-        @RequestParam @Nullable Long event,
-        @RequestParam @Nullable Long sideOpt,
-        @RequestParam @Nullable Long drinkOpt,
-        @RequestParam @Nullable Long drinkOpt2,
-        @RequestParam @Nullable Long...ingredients
+        @RequestBody AddCart cartInfo
     ) {
         /* 나중에 밑에꺼 바꿔야함 */
         StoreInfoEntity store = sRepository.findAll().get(0); //일단 선택 매장 고정
@@ -58,7 +56,7 @@ public class CartController {
             return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
         }
 
-        map = cartService.addCart(menu, event, sideOpt, drinkOpt, drinkOpt2, ingredients);
+        map = cartService.addCart(cartInfo.getMenu(), cartInfo.getEvent(), cartInfo.getSide(), cartInfo.getDrink(), cartInfo.getDrink2(), cartInfo.getIngredients());
         if (map.get("cart") == null) {
             return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
         }
@@ -86,15 +84,11 @@ public class CartController {
 
         return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
     }
-    @GetMapping("/cart/list/{type}")
+    @GetMapping("/cart/list/{type}/{seq}")
     public ResponseEntity < Object > updateCart(HttpSession session,
         @PathVariable String type,
-        @RequestParam @Nullable Long seq,
-        @RequestParam @Nullable Integer cnt,
-        @RequestParam @Nullable Long sideOptSeq,
-        @RequestParam @Nullable Long drinkOptSeq,
-        @RequestParam @Nullable Long drink2OoptSeq,
-        @RequestParam @Nullable Long...ingredient
+        @PathVariable Long seq,
+        @RequestBody @Nullable UpdateCartVO updateCart
     ) {
         Map < String, Object > map = new LinkedHashMap < > ();
         List < CartDetail > carts = (List < CartDetail > ) session.getAttribute("cart");
@@ -112,10 +106,10 @@ public class CartController {
             return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
         }
 
-        if (type.equals("count") && cnt != null) {
-            map = cartService.cartCountChange(cart, seq, cnt);
+        if (type.equals("count") && updateCart.getCnt() != null) {
+            map = cartService.cartCountChange(cart, seq, updateCart.getCnt());
         } else if (type.equals("option")) {
-            map = cartService.cartOptionChange(cart, sideOptSeq, drinkOptSeq, drink2OoptSeq, ingredient);
+            map = cartService.cartOptionChange(cart, updateCart.getSide(), updateCart.getDrink(), updateCart.getDrink2(), updateCart.getIngredients());
         } else if (type.equals("delete")) {
             map = cartService.cartMenuDelete(carts, seq);
         } else {
