@@ -13,4 +13,6 @@ public interface EventInfoRepository extends JpaRepository<EventInfoEntity, Long
 
      @Query("select e from EventInfoEntity e join fetch e.eiDiSeq join fetch e.eiDi2Seq where e.eiSeq=:seq")
      EventInfoEntity findByEventMenu(@Param("seq") Long seq);
+
+     public Integer countByEiName(String eiName);
 }

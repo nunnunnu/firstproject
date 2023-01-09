@@ -16,6 +16,7 @@ import com.green.firstproject.service.menu.HiaBurgerService;
 import com.green.firstproject.vo.menu.HiaBurgerAddVO;
 import com.green.firstproject.vo.menu.HiaDogAddVO;
 import com.green.firstproject.vo.menu.HiaDrinkAddVO;
+import com.green.firstproject.vo.menu.HiaEventAddVO;
 import com.green.firstproject.vo.menu.HiaIngredAddVO;
 import com.green.firstproject.vo.menu.HiaSideAddVO;
 
@@ -55,5 +56,11 @@ public class HiaAddMenuController {
     public ResponseEntity<Object> ingredAdd(@RequestBody HiaIngredAddVO data){
         Map<String, Object> resultMap = bService.addIngredients(data);
         return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
+    }
+
+    @PostMapping("/event")
+    public ResponseEntity<Object> eventAdd(@RequestBody HiaEventAddVO data){
+        Map<String, Object> resultMap = bService.addEvent(data);
+        return new ResponseEntity<Object>(resultMap,(HttpStatus)resultMap.get("code"));
     }
 }

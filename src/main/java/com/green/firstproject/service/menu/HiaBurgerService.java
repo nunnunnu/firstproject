@@ -13,15 +13,18 @@ import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
+import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.IngredientsInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
+import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
 import com.green.firstproject.vo.menu.HiaBurgerAddVO;
 import com.green.firstproject.vo.menu.HiaDogAddVO;
 import com.green.firstproject.vo.menu.HiaDrinkAddVO;
+import com.green.firstproject.vo.menu.HiaEventAddVO;
 import com.green.firstproject.vo.menu.HiaIngredAddVO;
 import com.green.firstproject.vo.menu.HiaSideAddVO;
 
@@ -33,6 +36,7 @@ public class HiaBurgerService {
     @Autowired DrinkInfoRepository dRepo;
     @Autowired DogInfoRepository dogRepo;
     @Autowired IngredientsInfoRepository iRepo;
+    @Autowired EventInfoRepository eRepo;
 
     public Map<String,Object> addBurger(HiaBurgerAddVO data){ 
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
@@ -122,6 +126,23 @@ public class HiaBurgerService {
             iRepo.save(entity);
             resultMap.put("status", true);
             resultMap.put("message", "재료 정보가 등록되었습니다.");
+            resultMap.put("code", HttpStatus.ACCEPTED);
+        }
+        return resultMap;
+     }
+
+     public Map<String, Object> addEvent(HiaEventAddVO data){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        EventInfoEntity entity = new EventInfoEntity(data);
+        if(eRepo.countByEiName(entity.getEiName()) != 0){
+            resultMap.put("status", false);
+            resultMap.put("message", data.getName()+" 은/는 이미 등록된 메뉴입니다.");
+            resultMap.put("code", HttpStatus.BAD_REQUEST);
+        }
+        else{
+            eRepo.save(entity);
+            resultMap.put("status", true);
+            resultMap.put("message", "이벤트 메뉴 정보가 등록되었습니다.");
             resultMap.put("code", HttpStatus.ACCEPTED);
         }
         return resultMap;
