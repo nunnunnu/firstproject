@@ -33,13 +33,13 @@ import lombok.NoArgsConstructor;
 public class OrderInfoEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "oi_seq")                    private Long oiSeq;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "oi_mi_seq") @JsonIgnore private MemberInfoEntity member;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "oi_mi_seq")  private MemberInfoEntity member;
     @Column(name = "oi_order_time")      @ColumnDefault("CURRENT_TIMESTAMP")   
     private LocalDateTime oiOrderTime;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "oi_si_seq") @JsonIgnore private StoreInfoEntity store;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "oi_si_seq")  private StoreInfoEntity store;
     @Column(name = "oi_status")          @ColumnDefault("1")   
     private Integer oiStatus;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "oi_pay_seq")@JsonIgnore private PaymentInfoEntity pay;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "oi_ci_seq") @JsonIgnore private CouponInfoEntity coupon;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "oi_pay_seq") private PaymentInfoEntity pay;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "oi_ci_seq")  private CouponInfoEntity coupon;
     
 }

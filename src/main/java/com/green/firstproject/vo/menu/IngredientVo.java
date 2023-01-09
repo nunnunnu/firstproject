@@ -2,9 +2,9 @@ package com.green.firstproject.vo.menu;
 
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class IngredientVo {
     private Long ingredirentSeq;
     private String ingredientName;

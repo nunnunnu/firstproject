@@ -79,7 +79,7 @@ public class CartService {
                map.put("code",  HttpStatus.BAD_REQUEST);
                return map;
           }else if(eventSeq!=null){ 
-               EventInfoEntity event = eventRepo.findByEiSeq(eventSeq);
+               EventInfoEntity event = eventRepo.findByEventMenu(eventSeq);
                cart= new CartDetail(seq, 1, event);                        //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
                if(sideOptSeq!=null){
                     SideOptionEntity sideOpt = soRepo.findBySoSeq(sideOptSeq); 
@@ -194,6 +194,7 @@ public class CartService {
                }
           }
           if(check){
+
                map.put("status", check);
                map.put("message", "해당 메뉴를 카트에 담았습니다.");
                map.put("code", HttpStatus.ACCEPTED);
@@ -214,7 +215,6 @@ public class CartService {
                map.put("code", HttpStatus.ACCEPTED);
           }else{
                List<CartVo> carts = new ArrayList<>();
-
                for(CartDetail c : cart){
                     carts.add(new CartVo(c));
                }
