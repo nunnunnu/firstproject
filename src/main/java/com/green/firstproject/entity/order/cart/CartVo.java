@@ -1,26 +1,30 @@
 package com.green.firstproject.entity.order.cart;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.green.firstproject.vo.menu.IngredientVo;
+import com.green.firstproject.vo.menu.cart.CartDrinkInfoVO;
+import com.green.firstproject.vo.menu.cart.CartIngredientVO;
+import com.green.firstproject.vo.menu.cart.CartSideInfoVO;
 
-import lombok.Getter;
-import lombok.Setter;
-@Getter @Setter
+import lombok.Data;
+@Data
 public class CartVo {
     private Long seq;
     private Integer odCount;
     private String menu;
     private String event;
-    private String side;
-    private String drink;
-    private String drink2;
-    private Set<String> ingredient; //중복 제거를 위해 set으로 변경함
+    private CartSideInfoVO side;
+    private CartDrinkInfoVO drink;
+    private CartDrinkInfoVO drink2;
+    private Set<CartIngredientVO> ingredient; //중복 제거를 위해 set으로 변경함
     private int price;
 
     public CartVo(CartDetail cart){
         this.seq=cart.getSeq();
         this.odCount=cart.getOdCount();
+        this.ingredient = new LinkedHashSet<>();
         if(cart.getMenu()!=null){
             this.menu=cart.getMenu().getMenuName();
         }
@@ -28,17 +32,20 @@ public class CartVo {
             this.event=cart.getEvent().getEiName();
         }
         if(cart.getSide()!=null){
-            this.side=cart.getSide().getSoName();
+            this.side = new CartSideInfoVO(cart.getSide(), cart.getMenu().getMenuSize());
         }
         if(cart.getDrink()!=null){
-            this.drink=cart.getDrink().getDoName();
+            this.drink= new CartDrinkInfoVO(cart.getDrink(), cart.getMenu().getMenuSize());
         }
         if(cart.getDrink2()!=null){
-            this.drink2=cart.getDrink2().getDoName();
+            this.drink2= new CartDrinkInfoVO(cart.getDrink2(), cart.getMenu().getMenuSize());
         }
         if(cart.getIngredient().size()!=0 || cart.getIngredient()!=null){
             for(IngredientVo i : cart.getIngredient()){
-                this.ingredient.add(i.getIngredientName());
+                System.out.println(i);
+                CartIngredientVO iVo = new CartIngredientVO(i);
+                System.out.println(ingredient);
+                this.ingredient.add(iVo);
             }
         }
         this.price = cart.getPrice();
