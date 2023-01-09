@@ -13,5 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CartIngredientsDetail {
      private CartDetail cartDetail;
-     private List<IngredientsInfoEntity> ingredient = new ArrayList<>();;
+     private List<IngredientsInfoEntity> ingredient = new ArrayList<>();
+
+     
 }

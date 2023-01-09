@@ -3,6 +3,7 @@ package com.green.firstproject.service.order;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -144,7 +145,7 @@ public class OrderService {
                odRepo.save(orderDetail);
                OrderDetailVO oDetailVO = new OrderDetailVO(orderDetail);
                oDetailVO.setDetailPrice(ca);
-               List<OrderIngredientsVO> ingList = new ArrayList<>();
+               Set<OrderIngredientsVO> ingList = new LinkedHashSet<>();
                for(IngredientVo ing : ca.getIngredient()){
                     IngredientsInfoEntity i = iiRepo.findByIiSeq(ing.getIngredirentSeq());
                     orderIngredient.setIngredient(i);

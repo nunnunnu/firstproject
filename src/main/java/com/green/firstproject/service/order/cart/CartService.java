@@ -114,7 +114,6 @@ public class CartService {
                          cart.addIngredient(iiRepo.findByIiSeq(seq));
                     }
                }
-               cart.setTotalPrice();
                map.put("message",  menu.getMenuName()+"을/를 카트에 담았습니다.");
                map.put("cart",  cart);
           }
@@ -216,6 +215,7 @@ public class CartService {
                List<CartVo> carts = new ArrayList<>();
                for(CartDetail c : cart){
                     carts.add(new CartVo(c));
+                    c.ingredientFreeMenu();
                }
 
                map.put("status", true);

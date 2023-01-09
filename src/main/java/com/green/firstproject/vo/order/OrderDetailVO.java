@@ -1,6 +1,7 @@
 package com.green.firstproject.vo.order;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
+import com.green.firstproject.vo.menu.IngredientVo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,10 +31,11 @@ public class OrderDetailVO {
      private String sideOpt;
      private String drinkOpt;
      private String drinkopt2;
-     private List<OrderIngredientsVO> ingredients = new ArrayList<>();
+     private Set<OrderIngredientsVO> ingredients;
      private int price;
 
      public OrderDetailVO(OrderDetailEntity orderDetail){
+          ingredients = new LinkedHashSet<>();
           this.Seq = orderDetail.getOdSeq();
           // this.order = new OrderVO(orderDetail.getOdOiseq());
           this.count=orderDetail.getOdCount();
@@ -50,9 +53,11 @@ public class OrderDetailVO {
           }
      }
 
-     public void addOrderIngredients(List<OrderIngredientsVO> ingredientsVOs){
+     public void addOrderIngredients(Set<OrderIngredientsVO> ingredientsVOs){
           for(OrderIngredientsVO vo : ingredientsVOs){
                this.ingredients.add(vo);
+               if(vo.getIngredient().getIngredientPrice()==0){
+               }
           }
      }
 

@@ -88,14 +88,26 @@ public class CartDetail {
           if(menu.getMenuSelect()){
                for(IngredientVo i : ingredient){
                     if(i.getIngredientPrice()==0){
-                         if(count>1){
-                              price+=400;
-                         }
                          count++;
                     }else{
                          price+= i.getIngredientPrice();
                     }
                }
+          }
+          if(count>1){
+               price+=400;
+          }
+     }
+     public void ingredientFreeMenu(){
+          int count = 0;
+          for(IngredientVo i : ingredient){
+               if(i.getIngredientPrice()==0){
+                    count++;
+               }
+          }
+          if(count>1){
+               System.out.println(count);
+               ingredient.add(new IngredientVo("재료 추가", 400));
           }
      }
 }

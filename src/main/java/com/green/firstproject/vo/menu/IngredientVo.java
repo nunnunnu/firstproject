@@ -17,5 +17,10 @@ public class IngredientVo {
         this.ingredientName=ingredient.getIiName();
         this.ingredientFile=ingredient.getIiFile();
     }
+
+    public IngredientVo(String name, Integer price) {
+        this.ingredientName = name;
+        this.ingredientPrice=price;
+    }
     
 }
