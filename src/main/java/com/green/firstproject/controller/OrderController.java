@@ -13,6 +13,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,7 @@ import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.service.order.OrderService;
 import com.green.firstproject.service.order.cart.CartService;
 import com.green.firstproject.vo.member.LoginUserVO;
+import com.green.firstproject.vo.order.OrderFormVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -36,8 +38,7 @@ public class OrderController {
      @Autowired OrderService orderService;
 
      @PutMapping("/order")
-     public ResponseEntity<Object> order(HttpSession session, @RequestParam Long paySeq,
-          @RequestParam @Nullable Long...cartSeq
+     public ResponseEntity<Object> order(HttpSession session, @RequestBody OrderFormVO oVo
      ){
           Map<String, Object> map = new LinkedHashMap<>();
           // if(session.getAttribute("loginUser")==null){
@@ -57,14 +58,14 @@ public class OrderController {
           }
           List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
           
-          map = orderService.order(member, store, paySeq, carts, cartSeq);  
+          map = orderService.order(member, store, oVo.getPay(), carts, oVo.getMessage(), oVo.getCartSeq());  
           session.setAttribute("cart", map.get("notOrders"));
 
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
      
-     @GetMapping("/order/cancel")
-     public ResponseEntity<Object> orderCancel(@RequestParam Long seq, HttpSession session){
+     @GetMapping("/order/cancel/{seq}")
+     public ResponseEntity<Object> orderCancel(@PathVariable Long seq, HttpSession session){
           Map<String, Object> map = new LinkedHashMap<>();
           
           // LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");

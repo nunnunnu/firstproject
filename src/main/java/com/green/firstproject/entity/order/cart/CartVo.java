@@ -42,12 +42,10 @@ public class CartVo {
         }
         if(cart.getIngredient().size()!=0 || cart.getIngredient()!=null){
             for(IngredientVo i : cart.getIngredient()){
-                System.out.println(i);
                 CartIngredientVO iVo = new CartIngredientVO(i);
-                System.out.println(ingredient);
                 this.ingredient.add(iVo);
             }
         }
-        this.price = cart.getPrice();
+        this.price = cart.getPrice() * this.odCount;
     }
 }
