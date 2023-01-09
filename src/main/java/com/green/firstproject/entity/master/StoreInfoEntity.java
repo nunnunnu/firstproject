@@ -27,7 +27,7 @@ public class StoreInfoEntity {
     @Column(name = "si_name")                   private String siName;
     @Column(name = "si_address")                private String siAddress;
     @Column(name = "si_phone")                  private String siPhone;
-    @Column(name = "si_open_time")              private LocalTime siOpenTiem;
+    @Column(name = "si_open_time")              private LocalTime siOpenTime;
     @Column(name = "si_close_time")             private LocalTime siCloseTime;
     @Column(name = "si_min_order_amount")       private Integer siMinOrderAmount;
     @Column(name = "si_status")      @ColumnDefault("1")        
