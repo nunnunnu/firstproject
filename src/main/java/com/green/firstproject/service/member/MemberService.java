@@ -11,6 +11,10 @@ import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.utils.AESAlgorithm;
 import com.green.firstproject.vo.member.LoginUserVO;
+import com.green.firstproject.vo.member.UserUpdateVO;
+
+
+import jakarta.servlet.http.HttpSession;
 @Service
 public class MemberService {
     @Autowired MemberInfoReposiroty mRepo;
@@ -107,24 +111,32 @@ public class MemberService {
         return resultMap;
         }
         
-        public Map<String, Object> updateMember(LoginUserVO loginUser, String pwd, String changePwd) {
+        public Map<String, Object> updateMember(LoginUserVO data, String pwd, String changePwd, String phone, Integer gen) {
             Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             MemberInfoEntity member = new MemberInfoEntity();
             try {
-                member = mRepo.findByMiEmailAndMiPwd(loginUser.getEmail(), AESAlgorithm.Encrypt(pwd));
+                member = mRepo.findByMiEmailAndMiPwd(data.getEmail(), AESAlgorithm.Encrypt(pwd));
                 if (member == null) {
                     resultMap.put("status", false);
                     resultMap.put("message", "비밀번호 오류입니다.");
                     resultMap.put("code", HttpStatus.BAD_REQUEST);
                     return resultMap;
                 }
-                member.setMiPwd(AESAlgorithm.Encrypt(changePwd));
+                if(changePwd!=null){
+                    member.setMiPwd(AESAlgorithm.Encrypt(changePwd));
+                }
+                if(phone!=null){
+                    member.setMiPhone(phone);
+                }
+                if(gen != null){
+                    member.setMiGen(gen);
+                }
                 mRepo.save(member);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             resultMap.put("status", true);
-            resultMap.put("message", "비밀번호가 변경되었습니다.");
+            resultMap.put("message", "정보가 변경되었습니다.");
             resultMap.put("code", HttpStatus.ACCEPTED);
             return resultMap;
         }
