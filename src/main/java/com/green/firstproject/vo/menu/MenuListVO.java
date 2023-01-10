@@ -8,7 +8,7 @@ import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import lombok.Data;
 
 @Data
-public class HiaMenuListVO {
+public class MenuListVO {
   private String name;
   private Long cate;
   private String detail;
@@ -18,7 +18,7 @@ public class HiaMenuListVO {
   private Integer salesRate;
   private Boolean status;
 
-  public HiaMenuListVO(BurgerInfoEntity data){
+  public MenuListVO(BurgerInfoEntity data){
     this.name = data.getBiName();
     this.detail = data.getBiDetail();
     this.file = data.getBiFile();

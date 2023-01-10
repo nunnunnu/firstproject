@@ -2,7 +2,7 @@ package com.green.firstproject.entity.menu.basicmenu;
 
 import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
-import com.green.firstproject.vo.menu.HiaIngredAddVO;
+import com.green.firstproject.vo.menu.IngredAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +31,7 @@ public class IngredientsInfoEntity {
     // @Column(name = "ii_mi_seq")  private Long iiMiSeq;
     @ManyToOne @JoinColumn(name = "ii_menu_seq") MenuInfoEntity menu;
 
-    public IngredientsInfoEntity(HiaIngredAddVO data){
+    public IngredientsInfoEntity(IngredAddVO data){
         this.iiName= data.getName();
         this.iiPrice=data.getPrice();
         this.iiFile=data.getFile();

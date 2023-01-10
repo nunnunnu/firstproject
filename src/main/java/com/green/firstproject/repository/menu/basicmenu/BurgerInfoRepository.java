@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
-import com.green.firstproject.vo.menu.HiaMenuListVO;
+import com.green.firstproject.vo.menu.MenuListVO;
 
 @Repository
 public interface BurgerInfoRepository extends JpaRepository<BurgerInfoEntity, Long> {

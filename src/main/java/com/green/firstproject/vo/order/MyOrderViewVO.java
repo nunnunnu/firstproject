@@ -87,12 +87,11 @@ public class MyOrderViewVO {
                }
           }
      }
-     public void addIngredientPrice(OrderIngredientsDetailEntity ing){
-          this.totalPrice += ing.getIngredient().getIiPrice();
-     }
 
-     public void addCheckIngredientPrice(){
-          this.totalPrice+=400;
+     public void totalPrice(){
+          for(OrderDetailVO o : orderDetail){
+               this.totalPrice+=o.getPrice();
+          }
      }
 
      public void addOrderDetail(OrderDetailVO orderDetail){

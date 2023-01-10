@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HiaDrinkAddVO {
+public class DrinkAddVO {
     @Autowired DrinkInfoRepository dRepo;
     @Autowired CategoryRepository cateRepo;
     private String name;

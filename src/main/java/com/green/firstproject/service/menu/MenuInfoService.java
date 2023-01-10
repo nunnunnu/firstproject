@@ -28,7 +28,7 @@ import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
-import com.green.firstproject.vo.menu.HiaMenuListVO;
+import com.green.firstproject.vo.menu.MenuListVO;
 
 @Service
 public class MenuInfoService {
@@ -123,26 +123,26 @@ public class MenuInfoService {
     public Map<String, Object> getNewMenu(Long seq){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         CategoryEntity cate = cateRepo.findByCateSeq(seq);
+        if (cate==null) {
+            resultMap.put("status", false);
+            resultMap.put("message", "결과가 존재하지않습니다");
+            resultMap.put("code", HttpStatus.NOT_FOUND);
+            return resultMap;
+        }
         // SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         LocalDate now = LocalDate.now();
+        List<MenuListVO> result = new ArrayList<>();
         for(BurgerInfoEntity entity : burgerRepo.findAll()){
-            HiaMenuListVO data = new HiaMenuListVO(entity);
-            if (cate==null) {
-                resultMap.put("status", false);
-                resultMap.put("message", "결과가 존재하지않습니다");
-                resultMap.put("code", HttpStatus.NOT_FOUND);
-                return resultMap;
-            }
-            else if(Period.between(now, data.getRegDt()).getDays() <= 30){
+            MenuListVO data = new MenuListVO(entity);
+            result.add(data);
+            if(Period.between(now, data.getRegDt()).getDays() <= 30){
                 data.setStatus(true);
             }
-                if(data.getStatus() == true){
-                    resultMap.put("list", data.getName());
-                    resultMap.put("status", true);
-                    resultMap.put("message", "신제품 목록 입니다.");
-                    resultMap.put("code", HttpStatus.ACCEPTED);
-                }
-            }
-                return resultMap;
+        }
+        resultMap.put("list", result);
+        resultMap.put("status", true);
+        resultMap.put("message", "신제품 목록 입니다.");
+        resultMap.put("code", HttpStatus.ACCEPTED);
+        return resultMap;
     }
 }

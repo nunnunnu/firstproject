@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HiaEventAddVO {
+public class EventAddVO {
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")

@@ -359,6 +359,7 @@ public class OrderService {
                oDetailVO.checkIngredientFreeMenu();
                myOrderVo.addOrderDetail(oDetailVO);
           }
+          myOrderVo.totalPrice();
           map.put("status", true);
           map.put("message", "해당주문을 상세조회했습니다.");
           map.put("code", HttpStatus.ACCEPTED);

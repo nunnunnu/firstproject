@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,6 +31,7 @@ import com.green.firstproject.vo.order.OrderFormVO;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
+@RequestMapping("/order")
 public class OrderController {
 
      @Autowired CartService cartService;
@@ -37,7 +39,7 @@ public class OrderController {
      @Autowired StoreInfoRepository sRepository;
      @Autowired OrderService orderService;
 
-     @PutMapping("/order")
+     @PutMapping("")
      public ResponseEntity<Object> order(HttpSession session, @RequestBody OrderFormVO oVo
      ){
           Map<String, Object> map = new LinkedHashMap<>();
@@ -64,7 +66,7 @@ public class OrderController {
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
      
-     @GetMapping("/order/cancel/{seq}")
+     @GetMapping("/cancel/{seq}")
      public ResponseEntity<Object> orderCancel(@PathVariable Long seq, HttpSession session){
           Map<String, Object> map = new LinkedHashMap<>();
           
@@ -82,7 +84,7 @@ public class OrderController {
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
      
-     @GetMapping("/order/list")
+     @GetMapping("/list")
      public ResponseEntity<Object> showMyOrderList(HttpSession session){
           Map<String, Object> map = new LinkedHashMap<>();
           LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
@@ -96,7 +98,7 @@ public class OrderController {
           map=orderService.showMyOrder(login);
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
-     @GetMapping("/order/detail/{seq}")
+     @GetMapping("/detail/{seq}")
      public ResponseEntity<Object> showDetailMyOrder(@PathVariable("seq") Long seq, HttpSession session){
           Map<String, Object> map = new LinkedHashMap<>();
           LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");

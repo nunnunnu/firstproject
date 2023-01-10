@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,7 @@ import com.green.firstproject.vo.order.cart.UpdateCartVO;
 
 import jakarta.servlet.http.HttpSession;
 @RestController
+@RequestMapping("/cart")
 public class CartController {
 
     @Autowired CartService cartService;
@@ -35,7 +37,7 @@ public class CartController {
     @Autowired StoreInfoRepository sRepository;
     @Autowired OrderService orderService;
 
-    @PutMapping("/cart")
+    @PutMapping("")
     public ResponseEntity < Object > putCart(
         HttpSession session,
         @RequestBody AddCart cartInfo
@@ -76,7 +78,7 @@ public class CartController {
 
     }
 
-    @GetMapping("/cart/list")
+    @GetMapping("/list")
     public ResponseEntity < Object > showCart(HttpSession session) {
         List < CartDetail > carts = (List < CartDetail > ) session.getAttribute("cart");
 
@@ -84,7 +86,7 @@ public class CartController {
 
         return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
     }
-    @GetMapping("/cart/list/{type}/{seq}")
+    @GetMapping("/list/{type}/{seq}")
     public ResponseEntity < Object > updateCart(HttpSession session,
         @PathVariable String type,
         @PathVariable Long seq,

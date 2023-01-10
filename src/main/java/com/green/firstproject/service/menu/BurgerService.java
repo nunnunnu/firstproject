@@ -21,15 +21,15 @@ import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.IngredientsInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
-import com.green.firstproject.vo.menu.HiaBurgerAddVO;
-import com.green.firstproject.vo.menu.HiaDogAddVO;
-import com.green.firstproject.vo.menu.HiaDrinkAddVO;
-import com.green.firstproject.vo.menu.HiaEventAddVO;
-import com.green.firstproject.vo.menu.HiaIngredAddVO;
-import com.green.firstproject.vo.menu.HiaSideAddVO;
+import com.green.firstproject.vo.menu.BurgerAddVO;
+import com.green.firstproject.vo.menu.DogAddVO;
+import com.green.firstproject.vo.menu.DrinkAddVO;
+import com.green.firstproject.vo.menu.EventAddVO;
+import com.green.firstproject.vo.menu.IngredAddVO;
+import com.green.firstproject.vo.menu.SideAddVO;
 
 @Service
-public class HiaBurgerService {
+public class BurgerService {
     @Autowired BurgerInfoRepository bRepo;
     @Autowired CategoryRepository cateRepo;
     @Autowired SideInfoRepository sideRepo;
@@ -38,7 +38,7 @@ public class HiaBurgerService {
     @Autowired IngredientsInfoRepository iRepo;
     @Autowired EventInfoRepository eRepo;
 
-    public Map<String,Object> addBurger(HiaBurgerAddVO data){ 
+    public Map<String,Object> addBurger(BurgerAddVO data){ 
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             BurgerInfoEntity entity = new BurgerInfoEntity(data);
             CategoryEntity cate = cateRepo.findByCateSeq(data.getCate());
@@ -57,7 +57,7 @@ public class HiaBurgerService {
         return resultMap;
         }
 
-     public Map<String, Object> addSide(HiaSideAddVO data){
+     public Map<String, Object> addSide(SideAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         SideInfoEntity entity = new SideInfoEntity(data);
         CategoryEntity cate = cateRepo.findByCateSeq(data.getCate());
@@ -76,7 +76,7 @@ public class HiaBurgerService {
         return resultMap;
      }   
 
-     public Map<String, Object> addDrink(HiaDrinkAddVO data){
+     public Map<String, Object> addDrink(DrinkAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         DrinkInfoEntity entity = new DrinkInfoEntity(data);
         CategoryEntity cate = cateRepo.findByCateSeq(data.getCate());
@@ -95,7 +95,7 @@ public class HiaBurgerService {
         return resultMap;
      }
 
-     public Map<String, Object> addDog(HiaDogAddVO data){
+     public Map<String, Object> addDog(DogAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         DogInfoEntity entity = new DogInfoEntity(data);
         CategoryEntity cate = cateRepo.findByCateSeq(data.getCate());
@@ -114,7 +114,7 @@ public class HiaBurgerService {
         return resultMap;
      }
 
-     public Map<String, Object> addIngredients(HiaIngredAddVO data){
+     public Map<String, Object> addIngredients(IngredAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         IngredientsInfoEntity entity = new IngredientsInfoEntity(data);
         if(iRepo.countByIiName(entity.getIiName()) != 0){
@@ -131,7 +131,7 @@ public class HiaBurgerService {
         return resultMap;
      }
 
-     public Map<String, Object> addEvent(HiaEventAddVO data){
+     public Map<String, Object> addEvent(EventAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         EventInfoEntity entity = new EventInfoEntity(data);
         if(eRepo.countByEiName(entity.getEiName()) != 0){

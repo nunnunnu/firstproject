@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.green.firstproject.vo.menu.HiaDogAddVO;
+import com.green.firstproject.vo.menu.DogAddVO;
 
 @Data
 @AllArgsConstructor
@@ -29,7 +29,7 @@ public class DogInfoEntity {
      @Column(name="dog_file") private String dogFile;
      @Column(name="dog_uri") private String dogUri;
 
-     public DogInfoEntity(HiaDogAddVO data){
+     public DogInfoEntity(DogAddVO data){
           this.dogName=data.getName();
           this.dogDetail=data.getDetail();
           this.dogFile=data.getFile();

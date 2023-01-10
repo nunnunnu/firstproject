@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.green.firstproject.repository.menu.CategoryRepository;
-import com.green.firstproject.repository.menu.basicmenu.IngredientsInfoRepository;
+import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,11 +16,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HiaIngredAddVO {
-    @Autowired IngredientsInfoRepository iRepo;
+public class SideAddVO {
+    @Autowired SideInfoRepository sideRepo;
     @Autowired CategoryRepository cateRepo;
     private String name;
-    private Integer price;
+    private Long cate;
+    private String detail;
     private String file;
     private String uri; 
 }
