@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderIngredientsVO {
-     private Long seq;
+     // private Long seq;
      private IngredientVo ingredient;
 
      public OrderIngredientsVO(OrderIngredientsDetailEntity orderIngredients){
-          this.seq = orderIngredients.getOdiSeq();
+          // this.seq = orderIngredients.getOdiSeq();
           IngredientVo ing = new IngredientVo(orderIngredients.getIngredient());
           this.ingredient = ing;
      }

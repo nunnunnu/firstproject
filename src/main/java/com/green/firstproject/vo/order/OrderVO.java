@@ -1,6 +1,7 @@
 package com.green.firstproject.vo.order;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class OrderVO {
      private Long seq;
      private String member;
-     private LocalDateTime orderDate;
+     private String orderDate;
      private String store;
      private String status;
      private String pay;
@@ -38,7 +39,7 @@ public class OrderVO {
      public OrderVO(OrderInfoEntity order) {
           this.seq = order.getOiSeq();
           this.member=order.getMember().getMiName();
-          this.orderDate = order.getOiOrderTime();
+          this.orderDate = order.getOiOrderTime().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
           this.store=order.getStore().getSiName();
           setStatus(order);
           this.pay=order.getPay().getPayMethod();

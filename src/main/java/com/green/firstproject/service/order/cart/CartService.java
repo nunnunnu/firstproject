@@ -69,7 +69,8 @@ public class CartService {
           @Nullable Long sideOptSeq,
           @Nullable Long drinkOptSeq,
           @Nullable Long drinkOpt2Seq,
-          @Nullable Set<Long> ingredientsSeq
+          @Nullable Set<Long> ingredientsSeq,
+          Integer count
      ){
           Map<String, Object> map = new LinkedHashMap<>();
           CartDetail cart;
@@ -80,7 +81,7 @@ public class CartService {
                return map;
           }else if(eventSeq!=null){ 
                EventInfoEntity event = eventRepo.findByEventMenu(eventSeq);
-               cart= new CartDetail(seq, 1, event);                        //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
+               cart= new CartDetail(seq, count, event);
                if(sideOptSeq!=null){
                     SideOptionEntity sideOpt = soRepo.findBySoSeq(sideOptSeq); 
                     cart.setSide(sideOpt); 
@@ -98,7 +99,7 @@ public class CartService {
                
           }else if(menuSeq!=null){
                MenuInfoEntity menu = menuRepo.findMenuSeq(menuSeq);
-               cart = new CartDetail(seq, 1, menu); //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
+               cart = new CartDetail(seq, count, menu); //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
                if(menu.getBurger()!=null && menu.getSide()!=null&&menu.getDrink()!=null){ //세트메뉴일경우
                     if(sideOptSeq!=null){
                          SideOptionEntity sideOpt = soRepo.findBySoSeq(sideOptSeq);
@@ -210,10 +211,11 @@ public class CartService {
           if(cart==null || cart.size()==0){
                map.put("status", false);
                map.put("message", "카트에 담긴 메뉴가 없습니다.");
-               map.put("code", HttpStatus.ACCEPTED);
+               map.put("code", HttpStatus.BAD_REQUEST);
           }else{
                List<CartVo> carts = new ArrayList<>();
                for(CartDetail c : cart){
+                    c.setTotalPrice();
                     c.ingredientFreeMenu();
                     carts.add(new CartVo(c));
                }
@@ -234,7 +236,7 @@ public class CartService {
           map.put("status", true);
           map.put("message", "메뉴를 수정하였습니다.");
           map.put("code", HttpStatus.ACCEPTED);
-          map.put("change", cart);
+          // map.put("change", cart);
           
           return map;
      }
@@ -294,13 +296,11 @@ public class CartService {
           carts.remove(cart);
           map.put("status", true);
           map.put("message", "카트에서 메뉴를 삭제했습니다.");
-          map.put("code", HttpStatus.BAD_REQUEST);
+          map.put("code", HttpStatus.ACCEPTED);
           return map;
      }
      //선택 장바구니 찾기
      public CartDetail findCart(List<CartDetail> carts ,Long seq){
-          Map<String, Object> map = new LinkedHashMap<>();
-          CartDetail cart = new CartDetail();
           for(CartDetail c : carts){
                if(c.getSeq() == seq){
                     return c;

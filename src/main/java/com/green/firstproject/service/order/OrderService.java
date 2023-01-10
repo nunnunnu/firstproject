@@ -51,6 +51,7 @@ import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.menu.IngredientVo;
+import com.green.firstproject.vo.order.MyOrderDetailVO;
 import com.green.firstproject.vo.order.MyOrderViewVO;
 import com.green.firstproject.vo.order.OrderDetailVO;
 import com.green.firstproject.vo.order.OrderIngredientsVO;
@@ -133,6 +134,7 @@ public class OrderService {
           for(CartDetail ca : carts){
                OrderDetailEntity orderDetail = new OrderDetailEntity(ca);
                orderDetail.setOdOiseq(order);
+               orderVo.setOrderPrice(orderDetail);
                if(ca.getMenu().getBurger()!=null){
                     BurgerInfoEntity burger = biRepo.findByBiSeq(ca.getMenu().getBurger().getBiSeq());
                     burger.upSales(); //판매량 증가
@@ -155,8 +157,6 @@ public class OrderService {
                     oidRepo.save(orderIngredient);
                     ingList.add(new OrderIngredientsVO(orderIngredient));
                }
-               System.out.println(ingList);
-               orderVo.setTotalPrice(carts);
                oDetailVO.addOrderIngredients(ingList);
                list.add(oDetailVO);
           }
@@ -340,14 +340,14 @@ public class OrderService {
           OrderInfoEntity order = oiRepository.findByOiSeqAndMember(seq, member);
           if(order==null){
                map.put("status", false);
-               map.put("message", "주문내역이 존재하지 않습니다.");
+               map.put("message", "잘못된 주문번호입니다.");
                map.put("code", HttpStatus.BAD_REQUEST);
                return map;
           }    
           MyOrderViewVO myOrderVo = new MyOrderViewVO(order);
           List<OrderDetailEntity> orderDetail = odRepo.findByOdOiseq(order);
           for(OrderDetailEntity od : orderDetail){
-               OrderDetailVO oDetailVO = new OrderDetailVO(od);
+               MyOrderDetailVO oDetailVO = new MyOrderDetailVO(od);
                List<OrderIngredientsDetailEntity> ing = oidRepo.findByOrderdetail(od);
                Set<OrderIngredientsVO> ingVo = new LinkedHashSet<>();
                for(OrderIngredientsDetailEntity i : ing){
@@ -356,7 +356,6 @@ public class OrderService {
                     oDetailVO.addPrice(od);
                }
                oDetailVO.addOrderIngredients(ingVo);
-               oDetailVO.checkIngredientFreeMenu();
                myOrderVo.addOrderDetail(oDetailVO);
           }
           myOrderVo.totalPrice();

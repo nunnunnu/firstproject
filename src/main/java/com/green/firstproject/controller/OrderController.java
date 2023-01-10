@@ -1,7 +1,6 @@
 package com.green.firstproject.controller;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +8,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
@@ -62,11 +60,12 @@ public class OrderController {
           
           map = orderService.order(member, store, oVo.getPay(), carts, oVo.getMessage(), oVo.getCartSeq());  
           session.setAttribute("cart", map.get("notOrders"));
+          map.remove("notOrders");
 
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
      
-     @GetMapping("/cancel/{seq}")
+     @PatchMapping("/cancel/{seq}")
      public ResponseEntity<Object> orderCancel(@PathVariable Long seq, HttpSession session){
           Map<String, Object> map = new LinkedHashMap<>();
           
