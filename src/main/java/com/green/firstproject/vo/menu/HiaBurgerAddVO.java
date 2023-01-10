@@ -1,6 +1,6 @@
 package com.green.firstproject.vo.menu;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,7 +26,7 @@ public class HiaBurgerAddVO {
     private String uri;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime regDt;  
+    private LocalDate regDt;  
     private Integer salesRate;
     
     

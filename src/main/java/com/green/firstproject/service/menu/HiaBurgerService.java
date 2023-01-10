@@ -140,6 +140,12 @@ public class HiaBurgerService {
             resultMap.put("code", HttpStatus.BAD_REQUEST);
         }
         else{
+            CategoryEntity c = cateRepo.findByCateSeq(data.getCate());
+            DrinkInfoEntity d1 = dRepo.findByDiSeq(data.getDiSeq());
+            DrinkInfoEntity d2 = dRepo.findByDiSeq(data.getDiSeq());
+            entity.setCate(c);
+            entity.setEiDiSeq(d1);
+            entity.setEiDi2Seq(d2);
             eRepo.save(entity);
             resultMap.put("status", true);
             resultMap.put("message", "이벤트 메뉴 정보가 등록되었습니다.");
