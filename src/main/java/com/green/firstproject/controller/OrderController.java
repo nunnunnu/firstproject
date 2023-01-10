@@ -85,7 +85,7 @@ public class OrderController {
      @GetMapping("/order/list")
      public ResponseEntity<Object> showMyOrderList(HttpSession session){
           Map<String, Object> map = new LinkedHashMap<>();
-          // LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
+          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
           // if(loginUser==null){
           //      map.put("status", false);
           //      map.put("message", "로그인 후 사용가능한 기능입니다.");
@@ -93,8 +93,22 @@ public class OrderController {
                
           //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           // } //귀찮아서 주석처리함
-          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
           map=orderService.showMyOrder(login);
+          return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+     }
+     @GetMapping("/order/detail/{seq}")
+     public ResponseEntity<Object> showDetailMyOrder(@PathVariable("seq") Long seq, HttpSession session){
+          Map<String, Object> map = new LinkedHashMap<>();
+          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
+          // if(loginUser==null){
+               //      map.put("status", false);
+               //      map.put("message", "로그인 후 사용가능한 기능입니다.");
+               //      map.put("code", HttpStatus.BAD_GATEWAY);
+               
+               //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+          // } //귀찮아서 주석처리함
+          map = orderService.showDetailOrderList(login, seq);
+          
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
 }

@@ -94,5 +94,16 @@ public class OrderDetailVO {
                }
           }
      }
+     public void checkIngredientFreeMenu(){
+          int count=0;
+          for(OrderIngredientsVO i : ingredients){
+               if(i.getIngredient().getIngredientPrice()==0){
+                    count++;
+               }
+          }
+          if(count>1){
+               ingredients.add(new OrderIngredientsVO(null, new IngredientVo("재료 추가", 400)));
+          }
+     }
 
 }

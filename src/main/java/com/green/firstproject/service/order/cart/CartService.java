@@ -214,8 +214,8 @@ public class CartService {
           }else{
                List<CartVo> carts = new ArrayList<>();
                for(CartDetail c : cart){
-                    carts.add(new CartVo(c));
                     c.ingredientFreeMenu();
+                    carts.add(new CartVo(c));
                }
 
                map.put("status", true);

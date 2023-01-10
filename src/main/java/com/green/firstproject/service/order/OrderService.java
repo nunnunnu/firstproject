@@ -51,6 +51,7 @@ import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.menu.IngredientVo;
+import com.green.firstproject.vo.order.MyOrderViewVO;
 import com.green.firstproject.vo.order.OrderDetailVO;
 import com.green.firstproject.vo.order.OrderIngredientsVO;
 import com.green.firstproject.vo.order.OrderVO;
@@ -130,7 +131,6 @@ public class OrderService {
           OrderVO orderVo = new OrderVO(order);
           List<Object> list = new ArrayList<>();
           for(CartDetail ca : carts){
-               OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
                OrderDetailEntity orderDetail = new OrderDetailEntity(ca);
                orderDetail.setOdOiseq(order);
                if(ca.getMenu().getBurger()!=null){
@@ -147,6 +147,7 @@ public class OrderService {
                oDetailVO.setDetailPrice(ca);
                Set<OrderIngredientsVO> ingList = new LinkedHashSet<>();
                for(IngredientVo ing : ca.getIngredient()){
+                    OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
                     IngredientsInfoEntity i = iiRepo.findByIiSeq(ing.getIngredirentSeq());
                     orderIngredient.setIngredient(i);
                     orderIngredient.setOrderdetail(orderDetail);
@@ -154,6 +155,7 @@ public class OrderService {
                     oidRepo.save(orderIngredient);
                     ingList.add(new OrderIngredientsVO(orderIngredient));
                }
+               System.out.println(ingList);
                orderVo.setTotalPrice(carts);
                oDetailVO.addOrderIngredients(ingList);
                list.add(oDetailVO);
@@ -262,9 +264,6 @@ public class OrderService {
                map.put("code", HttpStatus.BAD_REQUEST);
                return map;
           }
-          System.out.println(order.getOiStatus());
-          System.out.println(order.getOiStatus()!=1);
-          System.out.println(order.getOiStatus()!=2);
           if(order.getOiStatus()!=1 && order.getOiStatus()!=2){
                map.put("status", false);
                map.put("message", "이미 배송중이거나 배송이 완료된 주문은 취소할 수 없습니다.");
@@ -323,7 +322,7 @@ public class OrderService {
                          }
                     }   
                }
-               order.addOrderDetail(orderDetailVo);
+               // order.addOrderDetail(orderDetailVo);
                resultOrder.add(order);
           }
           
@@ -331,6 +330,39 @@ public class OrderService {
           map.put("message", "주문 내역을 조회했습니다.");
           map.put("code", HttpStatus.ACCEPTED);
           map.put("list", resultOrder);
+          return map;
+     }
+
+     public Map<String, Object> showDetailOrderList(LoginUserVO login, Long seq) {
+          Map<String, Object> map = new LinkedHashMap<>();
+           // MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
+          MemberInfoEntity member = mRepo.findAll().get(0);
+          OrderInfoEntity order = oiRepository.findByOiSeqAndMember(seq, member);
+          if(order==null){
+               map.put("status", false);
+               map.put("message", "주문내역이 존재하지 않습니다.");
+               map.put("code", HttpStatus.BAD_REQUEST);
+               return map;
+          }    
+          MyOrderViewVO myOrderVo = new MyOrderViewVO(order);
+          List<OrderDetailEntity> orderDetail = odRepo.findByOdOiseq(order);
+          for(OrderDetailEntity od : orderDetail){
+               OrderDetailVO oDetailVO = new OrderDetailVO(od);
+               List<OrderIngredientsDetailEntity> ing = oidRepo.findByOrderdetail(od);
+               Set<OrderIngredientsVO> ingVo = new LinkedHashSet<>();
+               for(OrderIngredientsDetailEntity i : ing){
+                    OrderIngredientsVO iVo = new OrderIngredientsVO(i);
+                    ingVo.add(iVo);
+                    oDetailVO.addPrice(od);
+               }
+               oDetailVO.addOrderIngredients(ingVo);
+               oDetailVO.checkIngredientFreeMenu();
+               myOrderVo.addOrderDetail(oDetailVO);
+          }
+          map.put("status", true);
+          map.put("message", "해당주문을 상세조회했습니다.");
+          map.put("code", HttpStatus.ACCEPTED);
+          map.put("order", myOrderVo);
           return map;
      }
 }
