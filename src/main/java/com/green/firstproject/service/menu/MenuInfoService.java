@@ -1,6 +1,13 @@
 package com.green.firstproject.service.menu;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
+import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
+import com.green.firstproject.vo.menu.HiaMenuListVO;
 
 @Service
 public class MenuInfoService {
@@ -27,6 +37,8 @@ public class MenuInfoService {
     @Autowired DogInfoRepository dogRepo;
     @Autowired DrinkInfoRepository drinkRepo;
     @Autowired SideInfoRepository sideRepo;
+    @Autowired CategoryRepository cateRepo;
+
     public Map<String, Object> getBuregerInfo(Long seq){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         BurgerInfoEntity b = burgerRepo.findByBiSeq(seq);
@@ -57,6 +69,8 @@ public class MenuInfoService {
         resultMap.put("code", HttpStatus.ACCEPTED);
         return resultMap;
     }
+
+    
     public Map<String, Object> getDrinkInfo(Long seq){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         DrinkInfoEntity drink = drinkRepo.findByDiSeq(seq);
@@ -104,5 +118,31 @@ public class MenuInfoService {
         resultMap.put("message", "조회하였습니다.");
         resultMap.put("code", HttpStatus.ACCEPTED);
         return resultMap;
+    }
+
+    public Map<String, Object> getNewMenu(Long seq){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        CategoryEntity cate = cateRepo.findByCateSeq(seq);
+        // SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        LocalDate now = LocalDate.now();
+        for(BurgerInfoEntity entity : burgerRepo.findAll()){
+            HiaMenuListVO data = new HiaMenuListVO(entity);
+            if (cate==null) {
+                resultMap.put("status", false);
+                resultMap.put("message", "결과가 존재하지않습니다");
+                resultMap.put("code", HttpStatus.NOT_FOUND);
+                return resultMap;
+            }
+            else if(Period.between(now, data.getRegDt()).getDays() <= 30){
+                data.setStatus(true);
+            }
+                if(data.getStatus() == true){
+                    resultMap.put("list", data.getName());
+                    resultMap.put("status", true);
+                    resultMap.put("message", "신제품 목록 입니다.");
+                    resultMap.put("code", HttpStatus.ACCEPTED);
+                }
+            }
+                return resultMap;
     }
 }

@@ -38,7 +38,7 @@ public class BurgerInfoEntity {
       @Column(name="bi_detail") private String biDetail;
       @Column(name="bi_file") private String biFile;
       @Column(name="bi_uri") private String biUri;
-      @Column(name="bi_reg_dt") @ColumnDefault("CURRENT_TIMESTAMP") private LocalDateTime biRegDt;
+      @Column(name="bi_reg_dt") @ColumnDefault("CURRENT_TIMESTAMP") private LocalDate biRegDt;
       @Column(name="bi_sales_rate") @ColumnDefault("0") private Integer biSalesRate;
 
       public BurgerInfoEntity(HiaBurgerAddVO data){
