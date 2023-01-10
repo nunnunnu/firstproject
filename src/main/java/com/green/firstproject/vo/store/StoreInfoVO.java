@@ -15,15 +15,15 @@ public class StoreInfoVO {
     private long seq;
     private String phone;
     private LocalTime openTime;
-    private LocalTime closTime;
-    private Integer minorderprice;
+    private LocalTime closeTime;
+    private Integer minOrderAmount;
     private Integer status;
     public StoreInfoVO(StoreInfoEntity storeinfo){
         this.seq = storeinfo.getSiSeq();
         this.phone =storeinfo.getSiPhone();
         this.openTime=storeinfo.getSiOpenTime();
-        this.closTime=storeinfo.getSiCloseTime();
-        this.minorderprice=storeinfo.getSiMinOrderAmount();
+        this.closeTime=storeinfo.getSiCloseTime();
+        this.minOrderAmount=storeinfo.getSiMinOrderAmount();
         this.status = getStatus();
 }
 }

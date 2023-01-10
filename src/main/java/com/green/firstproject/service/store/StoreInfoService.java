@@ -2,6 +2,7 @@ package com.green.firstproject.service.store;
 
 import java.time.LocalTime;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,23 +30,26 @@ public class StoreInfoService {
     }
     public Map<String, Object> getStoreDetailInfo(Pageable pageable, @Nullable String keyword){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-            // StoreInfoEntity list = siRepo.findBySiName();
-            // resultMap.put("status", true);
+            List<StoreInfoEntity> list = siRepo.searchStoreName(keyword);
+            if(list.size()==0){
+                resultMap.put("message", "조회된 매장이 없습니다.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }
             resultMap.put("message", "조회하였습니다.");
             resultMap.put("code", HttpStatus.ACCEPTED);
             resultMap.put("list", siRepo.searchStoreName(keyword));
             return resultMap;
         }
-    public Map<String, Object> updateStoreInfo(StoreInfoVO storeinfo, Long seq){
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        StoreInfoEntity store = siRepo.findBySiSeq(seq);
+        public Map<String, Object> updateStoreInfo(StoreInfoVO storeinfo, Long seq){
+            Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+            StoreInfoEntity store = siRepo.findBySiSeq(seq);
         if(store == null){
             resultMap.put("status", false);
             resultMap.put("message", "잘못된 가게 번호입니다.");
             resultMap.put("code", HttpStatus.FORBIDDEN);
         }
         else{
-            System.out.println();
             if(storeinfo.getStatus() != null){
                 store.setSiStatus(storeinfo.getStatus());
             }
@@ -55,11 +59,11 @@ public class StoreInfoService {
             if(storeinfo.getOpenTime() != null){
                 store.setSiOpenTime(storeinfo.getOpenTime());
             }
-            if(storeinfo.getClosTime() != null){
-                store.setSiCloseTime(storeinfo.getClosTime());
+            if(storeinfo.getCloseTime() != null){
+                store.setSiCloseTime(storeinfo.getCloseTime());
             }
-            if(storeinfo.getMinorderprice() != null){
-                store.setSiMinOrderAmount(storeinfo.getMinorderprice());
+            if(storeinfo.getMinOrderAmount() != null){
+                store.setSiMinOrderAmount(storeinfo.getMinOrderAmount());
             }
             siRepo.save(store);
             resultMap.put("status", true);
