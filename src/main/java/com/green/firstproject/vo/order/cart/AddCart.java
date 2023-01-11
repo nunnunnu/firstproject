@@ -12,4 +12,5 @@ public class AddCart {
      private Long drink;
      private Long drink2;
      private Set<Long> ingredients;
+     private Integer count;
 }

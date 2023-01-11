@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
-import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
 import com.green.firstproject.vo.master.PaymentInfoVO;
 
 import lombok.Data;
@@ -18,9 +17,9 @@ public class MyOrderViewVO {
      private String status;
      private PaymentInfoVO pay;
      private String coupon;
-     private Double discountPrice;
+     private Integer discountPrice;
      private Integer totalPrice;
-     private List<OrderDetailVO> orderDetail;
+     private List<MyOrderDetailVO> orderDetail;
      private Boolean cancellable;
      private String request;
 
@@ -89,12 +88,13 @@ public class MyOrderViewVO {
      }
 
      public void totalPrice(){
-          for(OrderDetailVO o : orderDetail){
+          for(MyOrderDetailVO o : orderDetail){
                this.totalPrice+=o.getPrice();
           }
      }
 
-     public void addOrderDetail(OrderDetailVO orderDetail){
+     public void addOrderDetail(MyOrderDetailVO orderDetail){
           this.orderDetail.add(orderDetail);
      }
+     
 }

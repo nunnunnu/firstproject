@@ -1,6 +1,5 @@
 package com.green.firstproject.entity.menu.basicmenu;
 
-import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.vo.menu.IngredAddVO;
 

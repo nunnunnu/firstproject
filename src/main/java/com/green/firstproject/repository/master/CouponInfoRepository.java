@@ -7,5 +7,5 @@ import com.green.firstproject.entity.master.CouponInfoEntity;
 
 @Repository
 public interface CouponInfoRepository extends JpaRepository<CouponInfoEntity, Long>{
-    
+     CouponInfoEntity findByCiSeq(Long seq);
 }

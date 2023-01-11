@@ -1,7 +1,5 @@
 package com.green.firstproject.entity.order;
 
-import java.util.List;
-
 import org.hibernate.annotations.DynamicInsert;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

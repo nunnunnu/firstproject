@@ -1,10 +1,7 @@
 package com.green.firstproject.entity.order;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
-import com.green.firstproject.entity.order.cart.CartDetail;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

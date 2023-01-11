@@ -1,13 +1,10 @@
 package com.green.firstproject.entity.menu.basicmenu;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.vo.menu.BurgerAddVO;
 

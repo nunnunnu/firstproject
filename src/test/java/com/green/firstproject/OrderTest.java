@@ -3,14 +3,11 @@ package com.green.firstproject;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
@@ -21,7 +18,6 @@ import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
-import com.green.firstproject.entity.order.cart.CartIngredientsDetail;
 import com.green.firstproject.repository.master.PaymentInfoRepository;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;

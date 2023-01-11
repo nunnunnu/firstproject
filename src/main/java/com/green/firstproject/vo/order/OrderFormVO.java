@@ -8,4 +8,5 @@ public class OrderFormVO {
      private Long pay;
      private Set<Long> cartSeq;
      private String message;
+     private Long couponSeq;
 }

@@ -27,7 +27,7 @@ public class CouponInfoEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ci_seq") private Long ciSeq; 
     @Column(name="ci_name") private String ciName;
-    @Column(name="ci_discount") private Double ciDiscount;
+    @Column(name="ci_discount") private Integer ciDiscount;
     // @Column(name="ci_gi_seq") @ColumnDefault("1")
     // private Long ciGiSeq;
     @OneToOne @JoinColumn(name="ci_gi_seq") 

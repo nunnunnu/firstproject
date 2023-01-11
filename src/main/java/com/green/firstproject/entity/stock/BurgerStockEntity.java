@@ -5,7 +5,6 @@ import org.hibernate.annotations.DynamicInsert;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
-import com.green.firstproject.entity.order.OrderInfoEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

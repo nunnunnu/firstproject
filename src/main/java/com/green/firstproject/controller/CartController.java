@@ -11,11 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
@@ -49,16 +49,16 @@ public class CartController {
         if (session.getAttribute("loginUser") == null) {
             map.put("status", false);
             map.put("message", "로그인을 먼저 해주세요.");
-            map.put("code", HttpStatus.ACCEPTED);
+            map.put("code", HttpStatus.BAD_REQUEST);
         }
         if (LocalTime.now().isBefore(store.getSiOpenTime()) || LocalTime.now().isAfter(store.getSiCloseTime())) {
             map.put("status", false);
             map.put("message", "현재 선택된 매장은 영업시간이 아닙니다. " + store.getSiOpenTime() + "~" + store.getSiCloseTime() + "사이에 주문해주세요.");
-            map.put("code", HttpStatus.ACCEPTED);
+            map.put("code", HttpStatus.BAD_REQUEST);
             return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
         }
 
-        map = cartService.addCart(cartInfo.getMenu(), cartInfo.getEvent(), cartInfo.getSide(), cartInfo.getDrink(), cartInfo.getDrink2(), cartInfo.getIngredients());
+        map = cartService.addCart(cartInfo.getMenu(), cartInfo.getEvent(), cartInfo.getSide(), cartInfo.getDrink(), cartInfo.getDrink2(), cartInfo.getIngredients(), cartInfo.getCount());
         if (map.get("cart") == null) {
             return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
         }
@@ -73,6 +73,7 @@ public class CartController {
         }
         carts.add((CartDetail) map.get("cart"));
         session.setAttribute("cart", carts);
+        map.remove("cart");
 
         return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
 
@@ -86,7 +87,7 @@ public class CartController {
 
         return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
     }
-    @GetMapping("/list/{type}/{seq}")
+    @PatchMapping("/list/{type}/{seq}")
     public ResponseEntity < Object > updateCart(HttpSession session,
         @PathVariable String type,
         @PathVariable Long seq,
@@ -97,7 +98,7 @@ public class CartController {
         if (carts == null) {
             map.put("status", false);
             map.put("message", "카트에 담긴 메뉴가 없습니다.");
-            map.put("code", HttpStatus.ACCEPTED);
+            map.put("code", HttpStatus.BAD_REQUEST);
             return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
         }
         CartDetail cart = cartService.findCart(carts, seq);
@@ -116,7 +117,7 @@ public class CartController {
             map = cartService.cartMenuDelete(carts, seq);
         } else {
             map.put("status", false);
-            map.put("message", "주소를 잘못 입력하셨습니다. {예시: count, option, delete");
+            map.put("message", "주소를 잘못 입력하셨습니다. {예시: count, option, delete}");
             map.put("code", HttpStatus.ACCEPTED);
         }
 

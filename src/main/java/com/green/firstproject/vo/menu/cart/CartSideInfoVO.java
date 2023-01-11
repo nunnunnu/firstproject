@@ -1,6 +1,5 @@
 package com.green.firstproject.vo.menu.cart;
 
-import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
 
 import lombok.Data;
