@@ -129,12 +129,13 @@ public class OrderService {
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, message); //쿠폰 기능 아직 구현 못함
           
           oiRepository.save(order);
-          OrderVO orderVo = new OrderVO(order);
-          List<Object> list = new ArrayList<>();
+          // OrderVO orderVo = new OrderVO(order);
+          // List<Object> list = new ArrayList<>();
           for(CartDetail ca : carts){
                OrderDetailEntity orderDetail = new OrderDetailEntity(ca);
                orderDetail.setOdOiseq(order);
-               orderVo.setOrderPrice(orderDetail);
+               // orderVo.setOrderPrice(orderDetail);
+               
                if(ca.getMenu().getBurger()!=null){
                     BurgerInfoEntity burger = biRepo.findByBiSeq(ca.getMenu().getBurger().getBiSeq());
                     burger.upSales(); //판매량 증가
@@ -145,9 +146,9 @@ public class OrderService {
                discountStock(store, orderDetail);
                
                odRepo.save(orderDetail);
-               OrderDetailVO oDetailVO = new OrderDetailVO(orderDetail);
-               oDetailVO.setDetailPrice(ca);
-               Set<OrderIngredientsVO> ingList = new LinkedHashSet<>();
+               // OrderDetailVO oDetailVO = new OrderDetailVO(orderDetail);
+               // oDetailVO.addPrice(orderDetail);
+               // Set<OrderIngredientsVO> ingList = new LinkedHashSet<>();
                for(IngredientVo ing : ca.getIngredient()){
                     OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
                     IngredientsInfoEntity i = iiRepo.findByIiSeq(ing.getIngredirentSeq());
@@ -155,17 +156,17 @@ public class OrderService {
                     orderIngredient.setOrderdetail(orderDetail);
                     discountIngredientStock(store, i);
                     oidRepo.save(orderIngredient);
-                    ingList.add(new OrderIngredientsVO(orderIngredient));
+                    // ingList.add(new OrderIngredientsVO(orderIngredient));
                }
-               oDetailVO.addOrderIngredients(ingList);
-               list.add(oDetailVO);
+               // oDetailVO.addOrderIngredients(ingList);
+               // list.add(oDetailVO);
           }
           
-          resultMap.put("order", orderVo);
+          // resultMap.put("order", orderVo);
           resultMap.put("status", true);
           resultMap.put("message", "주문이 완료되었습니다.");
           resultMap.put("code", HttpStatus.ACCEPTED);
-          resultMap.put("detail", list);
+          // resultMap.put("detail", list);
           resultMap.put("notOrders", notOrders);
           return resultMap;
      }
@@ -364,5 +365,16 @@ public class OrderService {
           map.put("code", HttpStatus.ACCEPTED);
           map.put("order", myOrderVo);
           return map;
+     }
+
+     //주문 페이지
+     public Map<String, Object> orderPage(MemberInfoEntity member, StoreInfoEntity store,
+          Long paySeq ,List<CartDetail> c, 
+          @Nullable String message,
+          @Nullable Set<Long> seq){
+               Map<String, Object> map = new LinkedHashMap<>();
+               
+
+               return map;
      }
 }

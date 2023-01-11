@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.green.firstproject.entity.order.cart.CartDetail;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.service.order.OrderService;
+import com.green.firstproject.service.order.PaymentService;
 import com.green.firstproject.service.order.cart.CartService;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.order.OrderFormVO;
@@ -36,6 +38,7 @@ public class OrderController {
      @Autowired MemberInfoReposiroty mReposiroty;
      @Autowired StoreInfoRepository sRepository;
      @Autowired OrderService orderService;
+     @Autowired PaymentService payService;
 
      @PutMapping("")
      public ResponseEntity<Object> order(HttpSession session, @RequestBody OrderFormVO oVo
@@ -109,6 +112,22 @@ public class OrderController {
                //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           // } //귀찮아서 주석처리함
           map = orderService.showDetailOrderList(login, seq);
+          
+          return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+     }
+     
+     @GetMapping("payment/{type}")
+     public ResponseEntity<Object> paymentPage(HttpSession session, @PathVariable Integer type){
+          Map<String, Object> map = new LinkedHashMap<>();
+          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
+          // if(loginUser==null){
+               //      map.put("status", false);
+               //      map.put("message", "로그인 후 사용가능한 기능입니다.");
+               //      map.put("code", HttpStatus.BAD_GATEWAY);
+               
+               //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+          // } //귀찮아서 주석처리함
+          map = payService.paymentSelect(type);
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }

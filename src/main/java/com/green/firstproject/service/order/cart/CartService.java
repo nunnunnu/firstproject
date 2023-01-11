@@ -99,7 +99,7 @@ public class CartService {
                
           }else if(menuSeq!=null){
                MenuInfoEntity menu = menuRepo.findMenuSeq(menuSeq);
-               cart = new CartDetail(seq, count, menu); //일단 기본 주문 수량 1로 고정시킴. 이후에 팀원들과 상의필요
+               cart = new CartDetail(seq, count, menu); 
                if(menu.getBurger()!=null && menu.getSide()!=null&&menu.getDrink()!=null){ //세트메뉴일경우
                     if(sideOptSeq!=null){
                          SideOptionEntity sideOpt = soRepo.findBySoSeq(sideOptSeq);
