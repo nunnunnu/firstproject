@@ -1,5 +1,6 @@
 package com.green.firstproject.service.order;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.green.firstproject.entity.master.CouponInfoEntity;
 import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.master.StoreInfoEntity;
+import com.green.firstproject.entity.member.MemberCouponEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
@@ -25,14 +28,17 @@ import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
+import com.green.firstproject.entity.order.cart.CartVo;
 import com.green.firstproject.entity.stock.BurgerStockEntity;
 import com.green.firstproject.entity.stock.DogStockEntity;
 import com.green.firstproject.entity.stock.DrinkStockEntity;
 import com.green.firstproject.entity.stock.EventStockEntity;
 import com.green.firstproject.entity.stock.IngredientsStockEntity;
 import com.green.firstproject.entity.stock.SideStockEntity;
+import com.green.firstproject.repository.master.CouponInfoRepository;
 import com.green.firstproject.repository.master.PaymentInfoRepository;
 import com.green.firstproject.repository.master.StoreInfoRepository;
+import com.green.firstproject.repository.member.MemberCouponRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.IngredientsInfoRepository;
@@ -49,10 +55,12 @@ import com.green.firstproject.repository.stock.DrinkStockRepository;
 import com.green.firstproject.repository.stock.EventStockRepository;
 import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
+import com.green.firstproject.vo.master.CouponVO;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.menu.IngredientVo;
 import com.green.firstproject.vo.order.MyOrderDetailVO;
 import com.green.firstproject.vo.order.MyOrderViewVO;
+import com.green.firstproject.vo.order.OrderDeliveryVO;
 import com.green.firstproject.vo.order.OrderDetailVO;
 import com.green.firstproject.vo.order.OrderIngredientsVO;
 import com.green.firstproject.vo.order.OrderVO;
@@ -80,11 +88,13 @@ public class OrderService {
      @Autowired IngredientsStockRepository isRepo;
      @Autowired EventStockRepository esRepo;
      @Autowired BurgerInfoRepository biRepo;
+     @Autowired MemberCouponRepository mcRepo;
+     @Autowired CouponInfoRepository cRepo;
 
      public Map<String, Object> order(MemberInfoEntity member, StoreInfoEntity store,
           Long paySeq ,List<CartDetail> c, 
-          @Nullable String message,
-          @Nullable Set<Long> seq
+          @Nullable String message, @Nullable Set<Long> seq,
+          @Nullable Long couponSeq
      ){   
           Map<String, Object> resultMap = new LinkedHashMap<>();
           if(c==null || c.size()==0){ 
@@ -122,11 +132,32 @@ public class OrderService {
                resultMap.put("status", false);
                resultMap.put("message", "품절중인 메뉴가 포함되어있습니다.");
                resultMap.put("code", HttpStatus.BAD_REQUEST);
-               resultMap.put("notOrders", notOrders);
+               resultMap.put("notOrders", c);
                return resultMap;
           }
           PaymentInfoEntity pay = piRepo.findByPaySeq(paySeq);
-          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, message); //쿠폰 기능 아직 구현 못함
+          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, message); 
+          
+          if(couponSeq!=null){
+               CouponInfoEntity coupon = cRepo.findByCiSeq(couponSeq);
+               MemberCouponEntity mc = mcRepo.findByMemberAndSeq(member, coupon);
+               
+               if(mc==null || //보유중인 쿠폰이 아니거나
+                    !mc.getMcUse() || //이미 사용했거나
+                    (mc.getMcDate().getYear()!=LocalDate.now().getYear() //쿠폰 발급일자의 년도가 다르고
+                    &&mc.getMcDate().getMonth()!=LocalDate.now().getMonth()) //쿠폰 발급일자의 월이 다르거나
+               ){
+                    resultMap.put("status", false);
+                    resultMap.put("message", "사용할 수 없는 쿠폰이 선택되었습니다. 다시 시도해주세요.");
+                    resultMap.put("code", HttpStatus.BAD_REQUEST);
+                    resultMap.put("notOrders", c);
+                    return resultMap;
+               }
+
+               order.setCoupon(coupon);
+               mc.setMcUse(false);
+               mcRepo.save(mc);
+          }
           
           oiRepository.save(order);
           // OrderVO orderVo = new OrderVO(order);
@@ -367,13 +398,60 @@ public class OrderService {
           return map;
      }
 
-     //주문 페이지
-     public Map<String, Object> orderPage(MemberInfoEntity member, StoreInfoEntity store,
-          Long paySeq ,List<CartDetail> c, 
-          @Nullable String message,
-          @Nullable Set<Long> seq){
+     //결제 페이지
+     public Map<String, Object> orderPage(LoginUserVO login, StoreInfoEntity store, List<CartDetail> c, @Nullable Set<Long> seq){
                Map<String, Object> map = new LinkedHashMap<>();
+
+               if(c==null || c.size()==0){ 
+                    map.put("status", false);
+                    map.put("message", "아직 카트에 아무것도 추가되지않았습니다. 장바구니에 메뉴를 먼저 담아주세요.");
+                    map.put("code", HttpStatus.BAD_REQUEST);
+                    return map;
+               }
+
+               // MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
+               MemberInfoEntity member = mRepo.findAll().get(0); //지워야함
+
+               OrderDeliveryVO order = new OrderDeliveryVO("임시주소", member, store); //주소 임시로 적음. 매장선택 기능 구현되면 수정해야함
+               List<CartVo> carts = new ArrayList<>();
+               for(CartDetail cart : c){
+                    if(seq==null || seq.size()==0 ){ //주문할 메뉴를 선택하지 않았다면 모두 주문으로 처리
+                         CartVo cVo = new CartVo(cart);
+                         carts.add(cVo);
+                    }else{
+                         for(Long no : seq){
+                              if(no==cart.getSeq()){
+                                   cart.ingredientFreeMenu();
+                                   CartVo cVo = new CartVo(cart);
+                                   carts.add(cVo);
+                              }
+                         }
+                    }
+                    order.addPrice(cart);
+               }
+               if(carts.size()==0){
+                    map.put("status", false);
+                    map.put("message", "카트 번호를 잘못 입력하셨습니다.");
+                    map.put("code", HttpStatus.BAD_REQUEST);
+                    return map;
+               }
                
+               order.orderMenuSetting(carts);
+               
+               List<MemberCouponEntity> memberCoupon = mcRepo.findByMember(member);
+               List<CouponVO> couponList = new ArrayList<>();
+               if(memberCoupon.size()!=0){
+                    for(MemberCouponEntity m : memberCoupon){
+                         CouponVO coVo = new CouponVO(m);
+                         couponList.add(coVo);
+                    }
+                    order.couponSetting(couponList);
+               }
+               
+               map.put("status", true);
+               map.put("message", "결제 페이지를 조회하였습니다.");
+               map.put("code", HttpStatus.ACCEPTED);
+               map.put("info", order);
 
                return map;
      }

@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,7 +60,7 @@ public class OrderController {
           }
           List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
           
-          map = orderService.order(member, store, oVo.getPay(), carts, oVo.getMessage(), oVo.getCartSeq());  
+          map = orderService.order(member, store, oVo.getPay(), carts, oVo.getMessage(), oVo.getCartSeq(), oVo.getCouponSeq());  
           session.setAttribute("cart", map.get("notOrders"));
           map.remove("notOrders");
 
@@ -130,5 +129,25 @@ public class OrderController {
           map = payService.paymentSelect(type);
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+     }
+     @GetMapping("/info")
+     public ResponseEntity<Object> orderPayment(HttpSession session, @RequestBody OrderFormVO oVo){
+          Map<String, Object> map = new LinkedHashMap<>();
+          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
+          // if(loginUser==null){
+               //      map.put("status", false);
+               //      map.put("message", "로그인 후 사용가능한 기능입니다.");
+               //      map.put("code", HttpStatus.BAD_GATEWAY);
+               
+               //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+          // } //귀찮아서 주석처리함
+
+          StoreInfoEntity store = sRepository.findAll().get(0); //매장 고정. 이후 변경 필요
+
+          List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
+          map = orderService.orderPage(login, store, carts, oVo.getCartSeq());
+          
+          return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+
      }
 }

@@ -94,6 +94,7 @@ public class CartService {
                     DrinkOptionEntity drinkOpt2 = doRepo.findByDoSeq(drinkOpt2Seq);
                     cart.setDrink2(drinkOpt2);
                }
+               cart.setTotalPrice();
                map.put("message",  event.getEiName()+"을/를 카트에 담았습니다.");
                return map;
                
@@ -115,6 +116,7 @@ public class CartService {
                          cart.addIngredient(iiRepo.findByIiSeq(seq));
                     }
                }
+               cart.setTotalPrice();
                map.put("message",  menu.getMenuName()+"을/를 카트에 담았습니다.");
                map.put("cart",  cart);
           }

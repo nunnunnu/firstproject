@@ -29,7 +29,7 @@ public class OrderVO {
      private String status;
      private String pay;
      private String coupon;
-     private Double discountPrice;
+     private Integer discountPrice;
      private Integer totalPrice;
      // private List<OrderDetailVO> orderDetail;
      private Boolean cancellable;

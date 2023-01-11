@@ -18,7 +18,7 @@ public class MyOrderViewVO {
      private String status;
      private PaymentInfoVO pay;
      private String coupon;
-     private Double discountPrice;
+     private Integer discountPrice;
      private Integer totalPrice;
      private List<MyOrderDetailVO> orderDetail;
      private Boolean cancellable;
