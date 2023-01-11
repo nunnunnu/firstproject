@@ -12,18 +12,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StoreInfoVO {
-    private long seq;
-    private String phone;
-    private LocalTime openTime;
-    private LocalTime closeTime;
-    private Integer minOrderAmount;
-    private Integer status;
+    private long storeSeq;
+    private String storeName;
+    private String storeAddress;
+    private String storePhone;
+    private LocalTime storeOpenTime;
+    private LocalTime storeCloseTime;
+    private Integer storeMinOrderAmount;
+    private Integer storeStatus;
     public StoreInfoVO(StoreInfoEntity storeinfo){
-        this.seq = storeinfo.getSiSeq();
-        this.phone =storeinfo.getSiPhone();
-        this.openTime=storeinfo.getSiOpenTime();
-        this.closeTime=storeinfo.getSiCloseTime();
-        this.minOrderAmount=storeinfo.getSiMinOrderAmount();
-        this.status = getStatus();
+        this.storeSeq = storeinfo.getSiSeq();
+        this.storeName = storeinfo.getSiName();
+        this.storeAddress = storeinfo.getSiAddress();
+        this.storePhone =storeinfo.getSiPhone();
+        this.storeOpenTime=storeinfo.getSiOpenTime();
+        this.storeCloseTime=storeinfo.getSiCloseTime();
+        this.storeMinOrderAmount=storeinfo.getSiMinOrderAmount();
+        this.storeStatus =storeinfo.getSiStatus();
 }
 }

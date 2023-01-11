@@ -81,6 +81,16 @@ public class MenuAPIController {
             Map<String, Object> map = miService.getSideInfo(seq);
             return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
         }
+    @GetMapping("/sideopt")
+    public ResponseEntity<Object> getSideOptionInfo(@RequestParam Long seq){
+        Map<String, Object> map = miService.getSideOptionInfo(seq);
+        return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+    }
+    @GetMapping("/drinkopt")
+    public ResponseEntity<Object> getDrinkOptionInfo(@RequestParam Long seq){
+        Map<String, Object> map = miService.getDrinkOptionInfo(seq);
+        return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+    }
 
     @PostMapping("/burger")
     public ResponseEntity<Object> burgerAdd(@RequestBody BurgerAddVO data){

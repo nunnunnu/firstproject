@@ -1,10 +1,12 @@
 package com.green.firstproject.service.store;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,22 @@ public class StoreInfoService {
     @Autowired StoreInfoRepository siRepo;
     public Map<String, Object> getStoreInfo(Pageable pageable, @Nullable String keyword){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        Page<StoreInfoEntity> list = siRepo.findAll(pageable);
+        Page<StoreInfoVO> result = list.map(s->new StoreInfoVO(s));
         resultMap.put("message", "모든 매장을 조회했습니다.");
         resultMap.put("code", HttpStatus.ACCEPTED);
-        resultMap.put("list", siRepo.findAll(pageable));
+        resultMap.put("list", result);
         return resultMap;
     }
     public Map<String, Object> getStoreDetailInfo(Pageable pageable, @Nullable String keyword){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             List<StoreInfoEntity> list = siRepo.searchStoreName(keyword);
+            List<StoreInfoVO> result = new ArrayList<>();
+            for(StoreInfoEntity s : list){
+                StoreInfoVO store = new StoreInfoVO(s);
+                result.add(store);
+            }
+
             if(list.size()==0){
                 resultMap.put("message", "조회된 매장이 없습니다.");
                 resultMap.put("code", HttpStatus.BAD_REQUEST);
@@ -37,7 +47,7 @@ public class StoreInfoService {
             }
             resultMap.put("message", "조회하였습니다.");
             resultMap.put("code", HttpStatus.ACCEPTED);
-            resultMap.put("list", siRepo.searchStoreName(keyword));
+            resultMap.put("list", result);
             return resultMap;
         }
         public Map<String, Object> updateStoreInfo(StoreInfoVO storeinfo, Long seq){
@@ -49,20 +59,20 @@ public class StoreInfoService {
             resultMap.put("code", HttpStatus.FORBIDDEN);
         }
         else{
-            if(storeinfo.getStatus() != null){
-                store.setSiStatus(storeinfo.getStatus());
+            if(storeinfo.getStoreStatus() != null){
+                store.setSiStatus(storeinfo.getStoreStatus());
             }
-            if(storeinfo.getPhone() != null){
-                store.setSiPhone(storeinfo.getPhone());
+            if(storeinfo.getStorePhone() != null){
+                store.setSiPhone(storeinfo.getStorePhone());
             }
-            if(storeinfo.getOpenTime() != null){
-                store.setSiOpenTime(storeinfo.getOpenTime());
+            if(storeinfo.getStoreOpenTime() != null){
+                store.setSiOpenTime(storeinfo.getStoreOpenTime());
             }
-            if(storeinfo.getCloseTime() != null){
-                store.setSiCloseTime(storeinfo.getCloseTime());
+            if(storeinfo.getStoreCloseTime() != null){
+                store.setSiCloseTime(storeinfo.getStoreCloseTime());
             }
-            if(storeinfo.getMinOrderAmount() != null){
-                store.setSiMinOrderAmount(storeinfo.getMinOrderAmount());
+            if(storeinfo.getStoreMinOrderAmount() != null){
+                store.setSiMinOrderAmount(storeinfo.getStoreMinOrderAmount());
             }
             siRepo.save(store);
             resultMap.put("status", true);
