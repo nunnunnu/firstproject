@@ -1,16 +1,23 @@
 package com.green.firstproject.service.member;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.utils.AESAlgorithm;
 import com.green.firstproject.vo.member.LoginUserVO;
+import com.green.firstproject.vo.member.MemberMypageVO;
+import com.green.firstproject.vo.member.UserUpdateVO;
+
+
+import jakarta.servlet.http.HttpSession;
 @Service
 public class MemberService {
     @Autowired MemberInfoReposiroty mRepo;
@@ -114,7 +121,7 @@ public class MemberService {
                 member = mRepo.findByMiEmailAndMiPwd(data.getEmail(), AESAlgorithm.Encrypt(pwd));
                 if (member == null) {
                     resultMap.put("status", false);
-                    resultMap.put("message", "비밀번호 오류입니다.");
+                    resultMap.put("message", "이메일 또는 비밀번호 오류입니다.");
                     resultMap.put("code", HttpStatus.BAD_REQUEST);
                     return resultMap;
                 }
@@ -136,4 +143,37 @@ public class MemberService {
             resultMap.put("code", HttpStatus.ACCEPTED);
             return resultMap;
         }
-}
+        public Map<String, Object> deleteMember(LoginUserVO data){
+            Map<String, Object> map = new LinkedHashMap<String, Object>();
+            MemberInfoEntity member = mRepo.findByMiEmailAndMiPwd(data.getEmail(), data.getPwd());
+            if (member!=null) {
+                member.setMiStatus(2);
+                mRepo.save(member);
+                map.put("status", true);
+                map.put("message", "회원 탈퇴 되었습니다.");
+                map.put("code", HttpStatus.ACCEPTED);
+                return map;
+            }
+            map.put("status", false);
+            map.put("message", "로그인 해주세요!");
+            map.put("code", HttpStatus.BAD_REQUEST);
+            return map;
+        
+    }
+    public Map<String, Object> memberMypage (LoginUserVO data){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        MemberInfoEntity member = mRepo.findByMiEmailAndMiPwd(data.getEmail(), data.getPwd());
+            if (member == null) {
+                map.put("status", false);
+                map.put("message", "이메일 또는 비밀번호 오류입니다.");
+                map.put("code", HttpStatus.BAD_REQUEST);
+                return map;
+            }
+            MemberMypageVO memberVo = new MemberMypageVO(member);
+            map.put("list", memberVo);
+            map.put("message", "회원정보 조회완료!");
+            map.put("code", HttpStatus.ACCEPTED);
+            return map;
+            
+    }
+}    
