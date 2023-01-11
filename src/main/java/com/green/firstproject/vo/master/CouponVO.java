@@ -2,7 +2,6 @@ package com.green.firstproject.vo.master;
 
 import java.time.LocalDate;
 
-import com.green.firstproject.entity.master.CouponInfoEntity;
 import com.green.firstproject.entity.member.MemberCouponEntity;
 
 import lombok.Data;

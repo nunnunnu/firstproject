@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
-import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
 import com.green.firstproject.vo.master.PaymentInfoVO;
 
 import lombok.Data;

@@ -1,15 +1,8 @@
 package com.green.firstproject.vo.order;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.green.firstproject.entity.master.CouponInfoEntity;
-import com.green.firstproject.entity.master.PaymentInfoEntity;
-import com.green.firstproject.entity.master.StoreInfoEntity;
-import com.green.firstproject.entity.member.MemberInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;

@@ -1,7 +1,5 @@
 package com.green.firstproject.entity.menu.sellermenu;
 
-import java.time.LocalDateTime;
-
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 

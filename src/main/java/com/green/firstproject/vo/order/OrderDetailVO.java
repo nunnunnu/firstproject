@@ -1,17 +1,9 @@
 package com.green.firstproject.vo.order;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
-import com.green.firstproject.entity.menu.option.SideOptionEntity;
-import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
-import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.entity.order.OrderDetailEntity;
-import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
 import com.green.firstproject.vo.menu.IngredientVo;
 

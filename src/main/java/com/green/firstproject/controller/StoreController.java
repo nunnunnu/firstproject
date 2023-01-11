@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.service.store.StoreInfoService;
 import com.green.firstproject.vo.store.StoreInfoVO;
-import com.mysql.cj.Session;
 
 import io.micrometer.common.lang.Nullable;
 

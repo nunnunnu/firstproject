@@ -11,10 +11,6 @@ import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.utils.AESAlgorithm;
 import com.green.firstproject.vo.member.LoginUserVO;
-import com.green.firstproject.vo.member.UserUpdateVO;
-
-
-import jakarta.servlet.http.HttpSession;
 @Service
 public class MemberService {
     @Autowired MemberInfoReposiroty mRepo;
