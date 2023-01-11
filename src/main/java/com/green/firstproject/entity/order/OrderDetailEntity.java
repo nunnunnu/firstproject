@@ -40,12 +40,12 @@ public class OrderDetailEntity {
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="od_ldot2_seq")        private DrinkOptionEntity odLdot2Seq;
 
     public OrderDetailEntity(CartDetail cart){
-        this.odCount=cart.getOdCount();
+        this.odCount=cart.getMenuCount();
         this.odBiseq=cart.getMenu();
-        this.odEiSeq=cart.getEvent();
-        this.odLsotSeq=cart.getSide();
-        this.odLdotSeq=cart.getDrink();
-        this.odLdot2Seq=cart.getDrink2();
+        this.odEiSeq=cart.getEventMenu();
+        this.odLsotSeq=cart.getSideOpt();
+        this.odLdotSeq=cart.getDrinkOpt();
+        this.odLdot2Seq=cart.getDrink2Opt();
         
     }
 }

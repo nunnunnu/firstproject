@@ -19,27 +19,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CartDetail {
 
-     private Long seq;
-     private Integer odCount;
+     private Long cartSeq;
+     private Integer menuCount;
      // private OrderInfoEntity order;
      private MenuInfoEntity menu;
-     private EventInfoEntity event;
-     private SideOptionEntity side;
-     private DrinkOptionEntity drink;
-     private DrinkOptionEntity drink2;
+     private EventInfoEntity eventMenu;
+     private SideOptionEntity sideOpt;
+     private DrinkOptionEntity drinkOpt;
+     private DrinkOptionEntity drink2Opt;
      private Set<IngredientVo> ingredient; //중복 제거를 위해 set으로 변경함
      private int price;
 
      public CartDetail(Long seq, Integer count, MenuInfoEntity menu){
-          this.seq = seq;
-          this.odCount=count;
+          this.cartSeq = seq;
+          this.menuCount=count;
           this.menu=menu;
           this.ingredient = new HashSet<>();
      }
      public CartDetail(Long seq, Integer count, EventInfoEntity event){
-          this.seq = seq;
-          this.odCount=count;
-          this.event=event;
+          this.cartSeq = seq;
+          this.menuCount=count;
+          this.eventMenu=event;
           this.ingredient = new HashSet<>();
      }
 
@@ -62,25 +62,25 @@ public class CartDetail {
           Integer lSizeDrinkPrice = 2800;
           if(menu!=null){
                this.price = menu.getMenuPrice();
-          }else if(event!=null){
-               this.price = event.getEiPrice();
+          }else if(eventMenu!=null){
+               this.price = eventMenu.getEiPrice();
           }
           if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){
-               if(side!=null){
-                    price += side.getSoPrice()-(menu.getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               if(sideOpt!=null){
+                    price += sideOpt.getSoPrice()-(menu.getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
                }
-               if(drink!=null){
-                    price += drink.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               if(drinkOpt!=null){
+                    price += drinkOpt.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                }
-          }else if(event !=null){
-               if(side!=null){
-                    price += side.getSoPrice()-(menu.getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+          }else if(eventMenu !=null){
+               if(sideOpt!=null){
+                    price += sideOpt.getSoPrice()-(menu.getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
                }
-               if(drink!=null){
-                    price += drink.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               if(drinkOpt!=null){
+                    price += drinkOpt.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                }
-               if(drink2!=null){
-                    price += drink2.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               if(drink2Opt!=null){
+                    price += drink2Opt.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                }
           }
           

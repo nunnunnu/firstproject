@@ -11,12 +11,12 @@ import com.green.firstproject.vo.master.PaymentInfoVO;
 import lombok.Data;
 @Data
 public class MyOrderViewVO {
-     private String member;
+     private String memberName;
      private LocalDateTime orderDate;
-     private String store;
-     private String status;
+     private String storeName;
+     private String orderStatus;
      private PaymentInfoVO pay;
-     private String coupon;
+     private String couponName;
      private Integer discountPrice;
      private Integer totalPrice;
      private List<MyOrderDetailVO> orderDetail;
@@ -25,13 +25,13 @@ public class MyOrderViewVO {
 
      public MyOrderViewVO(OrderInfoEntity order){
           orderDetail = new ArrayList<>();
-          this.member = order.getMember().getMiName();
+          this.memberName = order.getMember().getMiName();
           this.orderDate = order.getOiOrderTime();
-          this.store = order.getStore().getSiName();
+          this.storeName = order.getStore().getSiName();
           this.pay = new PaymentInfoVO(order.getPay());
           setStatus(order);
           if(order.getCoupon()!=null){
-               this.coupon=order.getCoupon().getCiName();
+               this.couponName=order.getCoupon().getCiName();
                this.discountPrice=order.getCoupon().getCiDiscount();
           }
           this.request = order.getOiRequest();
@@ -40,19 +40,19 @@ public class MyOrderViewVO {
 
      public void setStatus(OrderInfoEntity order){
           if(order.getOiStatus()==1){
-               this.status="접수";
+               this.orderStatus="접수";
                this.cancellable=true;
           }else if(order.getOiStatus()==2){
-               this.status = "준비중";
+               this.orderStatus = "준비중";
                this.cancellable=true;
           }else if(order.getOiStatus()==3){
-               this.status = "배송중";
+               this.orderStatus = "배송중";
                this.cancellable=false;
           }else if(order.getOiStatus()==4){
-               this.status = "배송완료";
+               this.orderStatus = "배송완료";
                this.cancellable=false;
           }else if(order.getOiStatus()==5){
-               this.status = "주문취소";
+               this.orderStatus = "주문취소";
                this.cancellable=false;
           }
      }

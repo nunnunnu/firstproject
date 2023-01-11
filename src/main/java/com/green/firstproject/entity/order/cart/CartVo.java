@@ -11,10 +11,10 @@ import com.green.firstproject.vo.menu.cart.CartSideInfoVO;
 import lombok.Data;
 @Data
 public class CartVo {
-    private Long seq;
-    private Integer odCount;
-    private String menu;
-    private String event;
+    private Long cartSeq;
+    private Integer menuCount;
+    private String menuName;
+    private String eventName;
     private CartSideInfoVO side;
     private CartDrinkInfoVO drink;
     private CartDrinkInfoVO drink2;
@@ -22,23 +22,23 @@ public class CartVo {
     private int price;
 
     public CartVo(CartDetail cart){
-        this.seq=cart.getSeq();
-        this.odCount=cart.getOdCount();
+        this.cartSeq=cart.getCartSeq();
+        this.menuCount=cart.getMenuCount();
         this.ingredient = new LinkedHashSet<>();
         if(cart.getMenu()!=null){
-            this.menu=cart.getMenu().getMenuName();
+            this.menuName=cart.getMenu().getMenuName();
         }
-        if(cart.getEvent()!=null){
-            this.event=cart.getEvent().getEiName();
+        if(cart.getEventMenu()!=null){
+            this.eventName=cart.getEventMenu().getEiName();
         }
-        if(cart.getSide()!=null){
-            this.side = new CartSideInfoVO(cart.getSide(), cart.getMenu().getMenuSize());
+        if(cart.getSideOpt()!=null){
+            this.side = new CartSideInfoVO(cart.getSideOpt(), cart.getMenu().getMenuSize());
         }
-        if(cart.getDrink()!=null){
-            this.drink= new CartDrinkInfoVO(cart.getDrink(), cart.getMenu().getMenuSize());
+        if(cart.getDrinkOpt()!=null){
+            this.drink= new CartDrinkInfoVO(cart.getDrinkOpt(), cart.getMenu().getMenuSize());
         }
-        if(cart.getDrink2()!=null){
-            this.drink2= new CartDrinkInfoVO(cart.getDrink2(), cart.getMenu().getMenuSize());
+        if(cart.getDrink2Opt()!=null){
+            this.drink2= new CartDrinkInfoVO(cart.getDrink2Opt(), cart.getMenu().getMenuSize());
         }
         if(cart.getIngredient().size()!=0 || cart.getIngredient()!=null){
             for(IngredientVo i : cart.getIngredient()){
@@ -46,6 +46,6 @@ public class CartVo {
                 this.ingredient.add(iVo);
             }
         }
-        this.price = cart.getPrice() * this.odCount;
+        this.price = cart.getPrice() * this.menuCount;
     }
 }

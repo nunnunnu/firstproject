@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 public class OrderDetailVO {
      // private Long Seq ;
      // private OrderVO order;
-     private String menu;
-     private String event;
-     private Integer count;
+     private String menuName;
+     private String eventName;
+     private Integer menuCount;
      private String sideOpt;
      private String drinkOpt;
      private String drinkOpt2;
@@ -30,9 +30,9 @@ public class OrderDetailVO {
           ingredients = new LinkedHashSet<>();
           // this.Seq = orderDetail.getOdSeq();
           // this.order = new OrderVO(orderDetail.getOdOiseq());
-          this.count=orderDetail.getOdCount();
+          this.menuCount=orderDetail.getOdCount();
           if(orderDetail.getOdBiseq()!=null){
-               this.menu = orderDetail.getOdBiseq().getMenuName();
+               this.menuName = orderDetail.getOdBiseq().getMenuName();
           }
           if(orderDetail.getOdLsotSeq()!=null){
                this.sideOpt=orderDetail.getOdLsotSeq().getSoName();

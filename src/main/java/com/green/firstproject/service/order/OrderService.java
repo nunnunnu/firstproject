@@ -111,7 +111,7 @@ public class OrderService {
                for(CartDetail cart : c){
                     Boolean check = false;
                     for(Long no : seq){
-                         if(no==cart.getSeq()){
+                         if(no==cart.getCartSeq()){
                               carts.add(cart);
                               check=true;
                          }
@@ -243,41 +243,41 @@ public class OrderService {
                DogInfoEntity dog = c.getMenu().getDog();
                DrinkInfoEntity drink = c.getMenu().getDrink();
                SideInfoEntity side = c.getMenu().getSide();
-               EventInfoEntity event = c.getEvent();
+               EventInfoEntity event = c.getEventMenu();
                if(burger!=null){
                     BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
-                    if(bs.getBsStock()<c.getOdCount()){
+                    if(bs.getBsStock()<c.getMenuCount()){
                          return false; //재고없음
                     }
                }
                if(dog!=null){
                     DogStockEntity dogstock = dogsRepo.findByStoreAndDog(store, dog);
-                    if(dogstock.getDogsStock()<c.getOdCount()){
+                    if(dogstock.getDogsStock()<c.getMenuCount()){
                          return false; //재고없음
                     }
                }
                if(drink!=null){
                     DrinkStockEntity ds = dsRepo.findByStoreAndDrink(store, drink);
-                    if(ds.getDsStock()<c.getOdCount()){
+                    if(ds.getDsStock()<c.getMenuCount()){
                          return false; //재고없음
                     }
                }
                if(side!=null){
                     SideStockEntity ss = ssRepo.findByStoreAndSide(store, side);
-                    if(ss.getSsStock()<c.getOdCount()){
+                    if(ss.getSsStock()<c.getMenuCount()){
                          return false; //재고없음
                     }
                }
                if(event!=null){
                     EventStockEntity es = esRepo.findByStoreAndEvent(store, event);
-                    if(es.getEsStock()<c.getOdCount()){
+                    if(es.getEsStock()<c.getMenuCount()){
                          return false; //재고없음
                     }
                }
                for(IngredientVo i : c.getIngredient()){
                     IngredientsInfoEntity ingredientsInfoEntity = iiRepo.findByIiSeq(i.getIngredirentSeq());
                     IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredientsInfoEntity);
-                    if(ing.getIsStock()<c.getOdCount()){
+                    if(ing.getIsStock()<c.getMenuCount()){
                          return false;
                     }
                }
@@ -420,7 +420,7 @@ public class OrderService {
                          carts.add(cVo);
                     }else{
                          for(Long no : seq){
-                              if(no==cart.getSeq()){
+                              if(no==cart.getCartSeq()){
                                    cart.ingredientFreeMenu();
                                    CartVo cVo = new CartVo(cart);
                                    carts.add(cVo);

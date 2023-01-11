@@ -15,29 +15,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderVO {
-     private Long seq;
-     private String member;
+     private Long orderSeq;
+     private String memberName;
      private String orderDate;
-     private String store;
-     private String status;
+     private String storeName;
+     private String orderStatus;
      private String pay;
-     private String coupon;
+     private String couponName;
      private Integer discountPrice;
      private Integer totalPrice;
-     // private List<OrderDetailVO> orderDetail;
-     private Boolean cancellable;
+     private Boolean cancellable; //취소 가능 여부
      private String request;
-     private String menuList;
+     private String menuList; //주문 메뉴 요약
 
      public OrderVO(OrderInfoEntity order) {
-          this.seq = order.getOiSeq();
-          this.member=order.getMember().getMiName();
+          this.orderSeq = order.getOiSeq();
+          this.memberName=order.getMember().getMiName();
           this.orderDate = order.getOiOrderTime().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
-          this.store=order.getStore().getSiName();
+          this.storeName=order.getStore().getSiName();
           setStatus(order);
           this.pay=order.getPay().getPayMethod();
           if(order.getCoupon()!=null){
-               this.coupon=order.getCoupon().getCiName();
+               this.couponName=order.getCoupon().getCiName();
                this.discountPrice=order.getCoupon().getCiDiscount();
           }
           this.request = order.getOiRequest();
@@ -47,19 +46,19 @@ public class OrderVO {
 
      public void setStatus(OrderInfoEntity order){
           if(order.getOiStatus()==1){
-               this.status="접수";
+               this.orderStatus="접수";
                this.cancellable=true;
           }else if(order.getOiStatus()==2){
-               this.status = "준비중";
+               this.orderStatus = "준비중";
                this.cancellable=true;
           }else if(order.getOiStatus()==3){
-               this.status = "배송중";
+               this.orderStatus = "배송중";
                this.cancellable=false;
           }else if(order.getOiStatus()==4){
-               this.status = "배송완료";
+               this.orderStatus = "배송완료";
                this.cancellable=false;
           }else if(order.getOiStatus()==5){
-               this.status = "주문취소";
+               this.orderStatus = "주문취소";
                this.cancellable=false;
           }
      }
@@ -67,7 +66,7 @@ public class OrderVO {
           for(CartDetail cart : carts){
                totalPrice += cart.getPrice();
           }
-          if(coupon!=null){
+          if(couponName!=null){
                totalPrice = (int) (totalPrice*(1-discountPrice));
           }
      }

@@ -84,15 +84,15 @@ public class CartService {
                cart= new CartDetail(seq, count, event);
                if(sideOptSeq!=null){
                     SideOptionEntity sideOpt = soRepo.findBySoSeq(sideOptSeq); 
-                    cart.setSide(sideOpt); 
+                    cart.setSideOpt(sideOpt); 
                }
                if(drinkOptSeq!=null){
                     DrinkOptionEntity drinkOpt = doRepo.findByDoSeq(drinkOptSeq);
-                    cart.setDrink(drinkOpt);
+                    cart.setDrinkOpt(drinkOpt);
                }
                if(drinkOpt2Seq!=null){
                     DrinkOptionEntity drinkOpt2 = doRepo.findByDoSeq(drinkOpt2Seq);
-                    cart.setDrink2(drinkOpt2);
+                    cart.setDrink2Opt(drinkOpt2);
                }
                cart.setTotalPrice();
                map.put("message",  event.getEiName()+"을/를 카트에 담았습니다.");
@@ -104,11 +104,11 @@ public class CartService {
                if(menu.getBurger()!=null && menu.getSide()!=null&&menu.getDrink()!=null){ //세트메뉴일경우
                     if(sideOptSeq!=null){
                          SideOptionEntity sideOpt = soRepo.findBySoSeq(sideOptSeq);
-                         cart.setSide(sideOpt);
+                         cart.setSideOpt(sideOpt);
                     }
                     if(drinkOptSeq!=null){
                          DrinkOptionEntity drinkOpt = doRepo.findByDoSeq(drinkOptSeq);
-                         cart.setDrink(drinkOpt);
+                         cart.setDrinkOpt(drinkOpt);
                     }
                }
                if(menu.getMenuSelect() && ingredientsSeq!=null){ //재료선택이 가능한 세트메뉴 + 추가한 재료가 있을 경우
@@ -133,19 +133,19 @@ public class CartService {
           DogInfoEntity dog = c.getMenu().getDog();
           DrinkInfoEntity drink = c.getMenu().getDrink();
           SideInfoEntity side = c.getMenu().getSide();
-          EventInfoEntity event = c.getEvent();
+          EventInfoEntity event = c.getEventMenu();
           boolean check = true;
           String soldout = "";
           if(burger!=null){
                BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
-               if(bs.getBsStock()<c.getOdCount()){
+               if(bs.getBsStock()<c.getMenuCount()){
                     check = false;
                     soldout+=burger.getBiName();
                }
           }
           if(dog!=null){
                DogStockEntity dogstock = dogsRepo.findByStoreAndDog(store, dog);
-               if(dogstock.getDogsStock()<c.getOdCount()){
+               if(dogstock.getDogsStock()<c.getMenuCount()){
                     if(!check){
                          soldout+=", ";
                     }
@@ -155,7 +155,7 @@ public class CartService {
           }
           if(drink!=null){
                DrinkStockEntity ds = dsRepo.findByStoreAndDrink(store, drink);
-               if(ds.getDsStock()<c.getOdCount()){
+               if(ds.getDsStock()<c.getMenuCount()){
                     if(!check){
                          soldout+=", ";
                     }
@@ -165,7 +165,7 @@ public class CartService {
           }
           if(side!=null){
                SideStockEntity ss = ssRepo.findByStoreAndSide(store, side);
-               if(ss.getSsStock()<c.getOdCount()){
+               if(ss.getSsStock()<c.getMenuCount()){
                     if(!check){
                          soldout+=", ";
                     }
@@ -175,7 +175,7 @@ public class CartService {
           }
           if(event!=null){
                EventStockEntity es = esRepo.findByStoreAndEvent(store, event);
-               if(es.getEsStock()<c.getOdCount()){
+               if(es.getEsStock()<c.getMenuCount()){
                     if(!check){
                          soldout+=", ";
                     }
@@ -186,7 +186,7 @@ public class CartService {
           for(IngredientVo i : c.getIngredient()){
                IngredientsInfoEntity ingredientsInfoEntity = iiRepo.findByIiSeq(i.getIngredirentSeq());
                IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredientsInfoEntity);
-               if(ing.getIsStock()<c.getOdCount()){
+               if(ing.getIsStock()<c.getMenuCount()){
                     if(!check){
                          soldout+=", ";
                     }
@@ -234,7 +234,7 @@ public class CartService {
      //장바구니 수량 변경
      public Map<String, Object> cartCountChange(CartDetail cart, Long seq, int count){
           Map<String, Object> map = new LinkedHashMap<>();
-          cart.setOdCount(count);
+          cart.setMenuCount(count);
           map.put("status", true);
           map.put("message", "메뉴를 수정하였습니다.");
           map.put("code", HttpStatus.ACCEPTED);
@@ -250,24 +250,24 @@ public class CartService {
           if(setMenu){
                if(side!=null){
                     SideOptionEntity sideOpt = soptRepo.findBySoSeq(side);
-                    cart.setSide(sideOpt);
+                    cart.setSideOpt(sideOpt);
                }
                if(drink!=null){
                     DrinkOptionEntity drinkOpt = doptRepo.findByDoSeq(drink);
-                    cart.setDrink(drinkOpt);
+                    cart.setDrinkOpt(drinkOpt);
                }
-          }else if(cart.getEvent()!=null){
+          }else if(cart.getEventMenu()!=null){
                if(side!=null){
                     SideOptionEntity sideOpt = soptRepo.findBySoSeq(side);
-                    cart.setSide(sideOpt);
+                    cart.setSideOpt(sideOpt);
                }
                if(drink!=null){
                     DrinkOptionEntity drinkOpt = doptRepo.findByDoSeq(drink);
-                    cart.setDrink(drinkOpt);
+                    cart.setDrinkOpt(drinkOpt);
                }
                if(drink2!=null){
                     DrinkOptionEntity drinkOpt2 = doptRepo.findByDoSeq(drink2);
-                    cart.setDrink(drinkOpt2);
+                    cart.setDrinkOpt(drinkOpt2);
                }
           }
           if(cart.getMenu().getMenuSelect()){
@@ -304,7 +304,7 @@ public class CartService {
      //선택 장바구니 찾기
      public CartDetail findCart(List<CartDetail> carts ,Long seq){
           for(CartDetail c : carts){
-               if(c.getSeq() == seq){
+               if(c.getCartSeq() == seq){
                     return c;
                }
           }
