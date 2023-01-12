@@ -55,11 +55,11 @@ public class MenuAPIController {
         return resultMap;
     }
 
-    @GetMapping("/new")
-    public Map<String, Object> getMenuNew(@RequestParam @Nullable Long seq){
-        Map<String, Object> resultMap = miService.getNewMenu(seq);
-        return resultMap;
-    }
+    // @GetMapping("/new")
+    // public Map<String, Object> getMenuNew(@RequestParam @Nullable Long seq){
+    //     Map<String, Object> resultMap = miService.getNewMenu(seq);
+    //     return resultMap;
+    // }
     
     @GetMapping("/burger")
     public ResponseEntity<Object> getBuregerInfo(@RequestParam Long seq) {
@@ -128,9 +128,9 @@ public class MenuAPIController {
         return new ResponseEntity<Object>(resultMap,(HttpStatus)resultMap.get("code"));
     }
 
-    @GetMapping("/best")
-    public ResponseEntity<Object> bestMenu(@RequestParam @Nullable Long seq){
-        Map<String, Object> map = miService.getBestMenu(seq);
-        return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-    }
+    // @GetMapping("/best")
+    // public ResponseEntity<Object> bestMenu(@RequestParam @Nullable Long seq){
+    //     Map<String, Object> map = miService.getBestMenu(seq);
+    //     return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+    // }
 }

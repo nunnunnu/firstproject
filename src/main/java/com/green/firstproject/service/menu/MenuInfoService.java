@@ -202,39 +202,39 @@ public class MenuInfoService {
         return resultMap;
     }
 
-    public Map<String, Object> getBestMenu(Long seq){
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        // CategoryEntity cate = cateRepo.findByCateSeq(seq);
-        // List<BurgerInfoEntity> list = new ArrayList<>();
-        List<BestMenuVO> result = new ArrayList<>();
-        for(BurgerInfoEntity b : burgerRepo.searchBurgerName(/*cate.getCateSeq()*/)){
-            BestMenuVO best = new BestMenuVO(b);
-            result.add(best);
-        }
-        resultMap.put("stauts", true);
-        resultMap.put("message", "베스트 메뉴");
-        resultMap.put("code", HttpStatus.ACCEPTED);
-        resultMap.put("list", result);
-        return resultMap;
-    }
-    public Map<String, Object> getNewMenu(Long seq){
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        LocalDate now = LocalDate.now();
-        // SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-        // f.format(now);
-        List<MenuListVO> result = new ArrayList<>();
-        for(BurgerInfoEntity b : burgerRepo.findAll()){
-            MenuListVO data = new MenuListVO(b);
-            // if((Period.between(now, data.getRegDt()).getDays() <= 30)&&(Period.between(now, data.getRegDt()).getYears() == 0)){
-            //     data.setStatus(true);
-            // }
-            result.add(data);
-        }
-        resultMap.put("status", true);
-        resultMap.put("message", "신제품 목록 입니다.");
-        resultMap.put("code", HttpStatus.ACCEPTED);
-        resultMap.put("list", result);
-        return resultMap;
-    }
+    // public Map<String, Object> getBestMenu(Long seq){
+    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+    //     // CategoryEntity cate = cateRepo.findByCateSeq(seq);
+    //     // List<BurgerInfoEntity> list = new ArrayList<>();
+    //     List<BestMenuVO> result = new ArrayList<>();
+    //     for(BurgerInfoEntity b : burgerRepo.searchBurgerName(/*cate.getCateSeq()*/)){
+    //         BestMenuVO best = new BestMenuVO(b);
+    //         result.add(best);
+    //     }
+    //     resultMap.put("stauts", true);
+    //     resultMap.put("message", "베스트 메뉴");
+    //     resultMap.put("code", HttpStatus.ACCEPTED);
+    //     resultMap.put("list", result);
+    //     return resultMap;
+    // }
+    // public Map<String, Object> getNewMenu(Long seq){
+    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+    //     LocalDate now = LocalDate.now();
+    //     // SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+    //     // f.format(now);
+    //     List<MenuListVO> result = new ArrayList<>();
+    //     for(BurgerInfoEntity b : burgerRepo.findAll()){
+    //         MenuListVO data = new MenuListVO(b);
+    //         // if((Period.between(now, data.getRegDt()).getDays() <= 30)&&(Period.between(now, data.getRegDt()).getYears() == 0)){
+    //         //     data.setStatus(true);
+    //         // }
+    //         result.add(data);
+    //     }
+    //     resultMap.put("status", true);
+    //     resultMap.put("message", "신제품 목록 입니다.");
+    //     resultMap.put("code", HttpStatus.ACCEPTED);
+    //     resultMap.put("list", result);
+    //     return resultMap;
+    // }
     
 }

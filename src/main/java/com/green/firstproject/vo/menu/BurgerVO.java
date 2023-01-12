@@ -15,6 +15,8 @@ public class BurgerVO {
     private String burgerUri;
     private LocalDate burgerRegDt;
     private Integer burgerSalesRate;
+    private Boolean burgerBest;
+    private Boolean burgerNew;
 
     public BurgerVO(BurgerInfoEntity burger){
         this.burgerSeq = burger.getBiSeq();
