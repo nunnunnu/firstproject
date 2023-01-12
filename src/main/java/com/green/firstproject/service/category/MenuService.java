@@ -10,11 +10,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.green.firstproject.entity.menu.CategoryEntity;
+import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
+import com.green.firstproject.vo.menu.BurgerVO;
+import com.green.firstproject.vo.menu.DogVO;
+import com.green.firstproject.vo.menu.DrinkVO;
+import com.green.firstproject.vo.menu.SideVO;
 
 @Service
 public class MenuService {
@@ -33,12 +41,42 @@ public class MenuService {
             return resultMap;
         }
         List<Object> list = new ArrayList<>();
-        list.add(bRepo.findByCate(cate));
-        list.add(sRepo.findByCate(cate));
-        list.add(dRepo.findByCate(cate));
-        list.add(dogRepo.findByCate(cate));
-        resultMap.put("list", list);
-        return resultMap;
+        List<BurgerInfoEntity> burgerList = bRepo.findByCate(cate);
+        List<BurgerVO> burgerResult = new ArrayList<>();
+        for(BurgerInfoEntity b : burgerList){
+            BurgerVO burger = new BurgerVO(b);
+            burgerResult.add(burger);
+        }
+        list.add(burgerResult);
 
+        List<DrinkInfoEntity> drinkList = dRepo.findByCate(cate);
+        List<DrinkVO> drinkresult = new ArrayList<>();
+        for(DrinkInfoEntity d : drinkList){
+            DrinkVO drink = new DrinkVO(d);
+            drinkresult.add(drink);
+        }
+        list.add(drinkresult);
+
+        List<DogInfoEntity> dogList = dogRepo.findByCate(cate);
+        List<DogVO> dogresult = new ArrayList<>();
+        for (DogInfoEntity dog : dogList) {
+            DogVO Dog = new DogVO(dog);
+            dogresult.add(Dog);
+        }
+        list.add(dogresult);
+
+        List<SideInfoEntity> sideList = sRepo.findByCate(cate);
+        List<SideVO> sideresult = new ArrayList<>();
+        for (SideInfoEntity s : sideList) {
+            SideVO side = new SideVO(s);
+            sideresult.add(side);
+        }
+        list.add(sideresult);
+
+        resultMap.put("list", list);
+        resultMap.put("status", true);
+        resultMap.put("message", "조회하였습니다.");
+        resultMap.put("code", HttpStatus.ACCEPTED);
+        return resultMap;
     }
 }
