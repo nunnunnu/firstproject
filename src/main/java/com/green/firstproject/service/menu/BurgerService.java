@@ -57,7 +57,7 @@ public class BurgerService {
         return resultMap;
         }
 
-     public Map<String, Object> addSide(SideAddVO data){
+    public Map<String, Object> addSide(SideAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         SideInfoEntity entity = new SideInfoEntity(data);
         CategoryEntity cate = cateRepo.findByCateSeq(data.getCate());
@@ -74,9 +74,9 @@ public class BurgerService {
             resultMap.put("code", HttpStatus.ACCEPTED);
         }
         return resultMap;
-     }   
+    }   
 
-     public Map<String, Object> addDrink(DrinkAddVO data){
+    public Map<String, Object> addDrink(DrinkAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         DrinkInfoEntity entity = new DrinkInfoEntity(data);
         CategoryEntity cate = cateRepo.findByCateSeq(data.getCate());
@@ -93,9 +93,9 @@ public class BurgerService {
             resultMap.put("code", HttpStatus.ACCEPTED);
         }
         return resultMap;
-     }
+    }
 
-     public Map<String, Object> addDog(DogAddVO data){
+    public Map<String, Object> addDog(DogAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         DogInfoEntity entity = new DogInfoEntity(data);
         CategoryEntity cate = cateRepo.findByCateSeq(data.getCate());
@@ -112,9 +112,9 @@ public class BurgerService {
             resultMap.put("code", HttpStatus.ACCEPTED);
         }
         return resultMap;
-     }
+    }
 
-     public Map<String, Object> addIngredients(IngredAddVO data){
+    public Map<String, Object> addIngredients(IngredAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         IngredientsInfoEntity entity = new IngredientsInfoEntity(data);
         if(iRepo.countByIiName(entity.getIiName()) != 0){
@@ -129,9 +129,9 @@ public class BurgerService {
             resultMap.put("code", HttpStatus.ACCEPTED);
         }
         return resultMap;
-     }
+    }
 
-     public Map<String, Object> addEvent(EventAddVO data){
+    public Map<String, Object> addEvent(EventAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         EventInfoEntity entity = new EventInfoEntity(data);
         if(eRepo.countByEiName(entity.getEiName()) != 0){
@@ -152,5 +152,5 @@ public class BurgerService {
             resultMap.put("code", HttpStatus.ACCEPTED);
         }
         return resultMap;
-     }
+    }
 }

@@ -2,8 +2,11 @@ package com.green.firstproject.entity.member;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class LatelyDeliveryEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="ld_seq") private Long ldSeq;
-     @ManyToOne
+     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore
      @JoinColumn(name="ld_mi_seq") private MemberInfoEntity member;
      @Column(name="ld_address") private String ldAddress;
      @Column(name="ld_detail_address") private String ldDetailAddress;

@@ -111,4 +111,18 @@ public class MemberAPIController {
     map.put("code", HttpStatus.BAD_REQUEST);
     return new ResponseEntity<Object>(map, (HttpStatus) map.get("code"));
   }
+  @GetMapping("/address/lately")
+  public ResponseEntity<Object> myLatelyDeliveryAddress(HttpSession session){
+    LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
+    Map<String, Object> map = new LinkedHashMap<>();
+    if (session.getAttribute("loginUser") == null){
+      map.put("status", false);
+      map.put("message", "로그인 먼저 해주세요.");
+      map.put("code", HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(map, (HttpStatus) map.get("code"));
+    }
+    map = mService.showMyLatelyDelivery(loginUser);
+    
+    return new ResponseEntity<Object>(map, (HttpStatus) map.get("code"));
+  }
 }

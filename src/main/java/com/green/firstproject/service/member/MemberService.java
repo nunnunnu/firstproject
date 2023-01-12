@@ -1,36 +1,48 @@
 package com.green.firstproject.service.member;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.green.firstproject.entity.member.LatelyDeliveryEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
+import com.green.firstproject.repository.member.LatelyDeliveryRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.utils.AESAlgorithm;
+import com.green.firstproject.vo.member.LatelyDeliveryVO;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.member.MemberMypageVO;
-import com.green.firstproject.vo.member.UserUpdateVO;
-
-
-import jakarta.servlet.http.HttpSession;
 @Service
 public class MemberService {
     @Autowired MemberInfoReposiroty mRepo;
+    @Autowired LatelyDeliveryRepository ldRepo;
     public Map<String, Object> addMember(MemberInfoEntity data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        String emailPattern = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+        String phonePattern = "^\\d{3}-\\d{3,4}-\\d{4}$";
+        String passwordPattern = "^[a-zA-Z\\d`~!@#$%^&*()-_=+]{6,}$";
         if(mRepo.countByMiEmail(data.getMiEmail()) == 1){
             resultMap.put("status", false);
             resultMap.put("message", data.getMiEmail()+"은/는 이미 가입된 계정입니다.");
             resultMap.put("code", HttpStatus.BAD_REQUEST);
         }
-        else if(data.getMiPwd().length() < 6){
+        else if(!Pattern.matches(passwordPattern, data.getMiPwd())){ //공백없이 특수문자 가능 6자리 이상
             resultMap.put("status", false);
-            resultMap.put("message", "비밀번호는 6자리 이상 입력하여 주십시오.");
+            resultMap.put("message", "비밀번호는 공백없이 6자리 이상 가능합니다.");
+            resultMap.put("code", HttpStatus.BAD_REQUEST);
+        }else if(!Pattern.matches(emailPattern, data.getMiEmail())){
+            resultMap.put("status", false);
+            resultMap.put("message", "올바른 이메일 형식이 아닙니다. 이메일을 다시 확인해주세요.");
+            resultMap.put("code", HttpStatus.BAD_REQUEST);
+        }else if(!Pattern.matches(phonePattern, data.getMiPhone())){
+            resultMap.put("status", false);
+            resultMap.put("message", "올바른 전화번호 형식이 아닙니다. 번호를 다시 확인해주세요.");
             resultMap.put("code", HttpStatus.BAD_REQUEST);
         }
         else{
@@ -119,6 +131,19 @@ public class MemberService {
         
         public Map<String, Object> updateMember(LoginUserVO data, String pwd, String changePwd, String phone, Integer gen) {
             Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+            String phonePattern = "^\\d{3}-\\d{3,4}-\\d{4}$";
+            String passwordPattern = "^[a-zA-Z\\d`~!@#$%^&*()-_=+]{6,}$";
+            if(!Pattern.matches(passwordPattern, changePwd)){ //공백없이 특수문자 가능 6자리 이상
+                resultMap.put("status", false);
+                resultMap.put("message", "비밀번호는 공백없이 6자리 이상 가능합니다.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }else if(!Pattern.matches(phonePattern, phone)){
+                resultMap.put("status", false);
+                resultMap.put("message", "올바른 전화번호 형식이 아닙니다. 번호를 다시 확인해주세요.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }
             MemberInfoEntity member = new MemberInfoEntity();
             try {
                 member = mRepo.findByMiEmailAndMiPwd(data.getEmail(), AESAlgorithm.Encrypt(pwd));
@@ -166,11 +191,11 @@ public class MemberService {
     public Map<String, Object> memberMypage (LoginUserVO data){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         MemberInfoEntity member = mRepo.findByMiEmailAndMiPwd(data.getEmail(), data.getPwd());
-            if (member == null) {
-                map.put("status", false);
-                map.put("message", "이메일 또는 비밀번호 오류입니다.");
-                map.put("code", HttpStatus.BAD_REQUEST);
-                return map;
+        if (member == null) {
+            map.put("status", false);
+            map.put("message", "이메일 또는 비밀번호 오류입니다.");
+            map.put("code", HttpStatus.BAD_REQUEST);
+            return map;
             }
             MemberMypageVO memberVo = new MemberMypageVO(member);
             map.put("list", memberVo);
@@ -178,5 +203,28 @@ public class MemberService {
             map.put("code", HttpStatus.ACCEPTED);
             return map;
             
+        }
+        
+    public Map<String, Object> showMyLatelyDelivery(LoginUserVO data) {
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        MemberInfoEntity member = mRepo.findByMiEmail(data.getEmail());
+        List<LatelyDeliveryEntity> list = ldRepo.findMember(member);
+
+        if(list.size()==0){
+            map.put("status", false);
+            map.put("message", "최근 주문 내역이 없습니다.");
+            map.put("code", HttpStatus.ACCEPTED);    
+            return map;
+        }
+        List<LatelyDeliveryVO> result = new ArrayList<>();
+        for(LatelyDeliveryEntity l : list){
+            LatelyDeliveryVO late = new LatelyDeliveryVO(l);
+            result.add(late);
+        }
+        map.put("status", true);
+        map.put("message", "최근 주문내역을 조회했습니다.");
+        map.put("code", HttpStatus.ACCEPTED);    
+        map.put("list", result);
+        return map;
     }
 }    
