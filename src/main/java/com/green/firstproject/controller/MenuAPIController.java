@@ -127,4 +127,10 @@ public class MenuAPIController {
         Map<String, Object> resultMap = bService.addEvent(data);
         return new ResponseEntity<Object>(resultMap,(HttpStatus)resultMap.get("code"));
     }
+
+    @GetMapping("/best")
+    public ResponseEntity<Object> bestMenu(@RequestParam @Nullable Long seq){
+        Map<String, Object> map = miService.getBestMenu(seq);
+        return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+    }
 }

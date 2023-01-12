@@ -30,6 +30,7 @@ import com.green.firstproject.repository.menu.option.DrinkOptionRepository;
 import com.green.firstproject.repository.menu.option.SideOptionRepository;
 import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
+import com.green.firstproject.vo.menu.BestMenuVO;
 import com.green.firstproject.vo.menu.MenuListVO;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
 import com.green.firstproject.vo.menu.option.SideOptionVO;
@@ -127,27 +128,7 @@ public class MenuInfoService {
         return resultMap;
     }
 
-    public Map<String, Object> getNewMenu(Long seq){
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        EventInfoEntity event = eventRepo.findByEiSeq(seq);
-        LocalDate now = LocalDate.now();
-        // SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-        // f.format(now);
-        List<MenuListVO> result = new ArrayList<>();
-        for(BurgerInfoEntity entity : burgerRepo.findAll()){
-            MenuListVO data = new MenuListVO(entity);
-            if((Period.between(now, data.getRegDt()).getDays() <= 30)&&(Period.between(now, data.getRegDt()).getYears() == 0)){
-                data.setStatus(true);
-                result.add(data);
-            }
-        }
-        resultMap.put("list", result);
-        resultMap.put("status", true);
-        resultMap.put("message", "신제품 목록 입니다.");
-        resultMap.put("code", HttpStatus.ACCEPTED);
-        return resultMap;
-    }
-
+    
     public Map<String, Object> getSideOptionInfo(Long seq) { 
         Map<String, Object> resultMap = new LinkedHashMap<>();
         MenuInfoEntity menu = menuRepo.findByMenuSeq(seq);
@@ -172,20 +153,20 @@ public class MenuInfoService {
             resultMap.put("message", "사이드 옵션을 조회하였습니다.");
             resultMap.put("code", HttpStatus.ACCEPTED);
             resultMap.put("list", result);
-        return resultMap;
-    }
-    // public Map<String, Object> getDrinkOptionInfo(Long seq) { 
+            return resultMap;
+        }
+        // public Map<String, Object> getDrinkOptionInfo(Long seq) { 
     //     Map<String, Object> resultMap = new LinkedHashMap<>();
     //     MenuInfoEntity menu = menuRepo.findByMenuSeq(seq);
     //     if(menu == null){
-    //         resultMap.put("status", false);
-    //         resultMap.put("message", "메뉴 번호가 잘못되었습니다.");
-    //         resultMap.put("code", HttpStatus.BAD_REQUEST);
-    //         return resultMap;
-    //     }
-    //     if(menu.getMenuSize() == 1){
-    //         resultMap.put("message", "음료 옵션을 조회하였습니다.");
-    //         resultMap.put("code", HttpStatus.ACCEPTED);
+        //         resultMap.put("status", false);
+        //         resultMap.put("message", "메뉴 번호가 잘못되었습니다.");
+        //         resultMap.put("code", HttpStatus.BAD_REQUEST);
+        //         return resultMap;
+        //     }
+        //     if(menu.getMenuSize() == 1){
+            //         resultMap.put("message", "음료 옵션을 조회하였습니다.");
+            //         resultMap.put("code", HttpStatus.ACCEPTED);
     //         resultMap.put("list", drnikoptRepo.findAll());
     //     }
     //     else if(menu.getMenuSize() == 2){
@@ -210,15 +191,51 @@ public class MenuInfoService {
         }else if(menu.getMenuSize() == 2){
             list = drnikoptRepo.findByDoSize(menu.getMenuSize());
         }
-            List<DrinkOptionVO> result = new ArrayList<>();
-            for(DrinkOptionEntity d : list){
-                DrinkOptionVO drink = new DrinkOptionVO(d);
-                result.add(drink);
-            }
-            
-            resultMap.put("message", "음료 옵션을 조회하였습니다");
-            resultMap.put("code", HttpStatus.ACCEPTED);
-            resultMap.put("list", result);
+        List<DrinkOptionVO> result = new ArrayList<>();
+        for(DrinkOptionEntity d : list){
+            DrinkOptionVO drink = new DrinkOptionVO(d);
+            result.add(drink);
+        }
+        
+        resultMap.put("message", "음료 옵션을 조회하였습니다");
+        resultMap.put("code", HttpStatus.ACCEPTED);
+        resultMap.put("list", result);
         return resultMap;
     }
+
+    public Map<String, Object> getBestMenu(Long seq){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        // CategoryEntity cate = cateRepo.findByCateSeq(seq);
+        // List<BurgerInfoEntity> list = new ArrayList<>();
+        List<BestMenuVO> result = new ArrayList<>();
+        for(BurgerInfoEntity b : burgerRepo.searchBurgerName(/*cate.getCateSeq()*/)){
+            BestMenuVO best = new BestMenuVO(b);
+            result.add(best);
+        }
+        resultMap.put("stauts", true);
+        resultMap.put("message", "베스트 메뉴");
+        resultMap.put("code", HttpStatus.ACCEPTED);
+        resultMap.put("list", result);
+        return resultMap;
+    }
+    public Map<String, Object> getNewMenu(Long seq){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        LocalDate now = LocalDate.now();
+        // SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        // f.format(now);
+        List<MenuListVO> result = new ArrayList<>();
+        for(BurgerInfoEntity b : burgerRepo.findAll()){
+            MenuListVO data = new MenuListVO(b);
+            // if((Period.between(now, data.getRegDt()).getDays() <= 30)&&(Period.between(now, data.getRegDt()).getYears() == 0)){
+            //     data.setStatus(true);
+            // }
+            result.add(data);
+        }
+        resultMap.put("status", true);
+        resultMap.put("message", "신제품 목록 입니다.");
+        resultMap.put("code", HttpStatus.ACCEPTED);
+        resultMap.put("list", result);
+        return resultMap;
+    }
+    
 }
