@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.green.firstproject.entity.member.LatelyDeliveryEntity;
 @Repository
 public interface LatelyDeliveryRepository extends JpaRepository<LatelyDeliveryEntity, Long>{
-     
+     LatelyDeliveryEntity findByLdAddressAndLdDetailAddress(String address, String detailAddress);
 }

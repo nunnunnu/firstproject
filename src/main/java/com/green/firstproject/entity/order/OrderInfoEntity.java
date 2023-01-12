@@ -42,5 +42,7 @@ public class OrderInfoEntity {
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "oi_pay_seq") private PaymentInfoEntity pay;
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "oi_ci_seq")  private CouponInfoEntity coupon;
     @Column(name = "oi_request") private String oiRequest;
+    @Column(name = "oi_address") private String oiAddress;
+
 
 }

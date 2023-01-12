@@ -27,6 +27,7 @@ public class OrderVO {
      private Boolean cancellable; //취소 가능 여부
      private String request;
      private String menuList; //주문 메뉴 요약
+     private String address;
 
      public OrderVO(OrderInfoEntity order) {
           this.orderSeq = order.getOiSeq();
@@ -42,6 +43,7 @@ public class OrderVO {
           this.request = order.getOiRequest();
           this.totalPrice = 0;
           this.menuList="";
+          this.address=order.getOiAddress();
      }
 
      public void setStatus(OrderInfoEntity order){

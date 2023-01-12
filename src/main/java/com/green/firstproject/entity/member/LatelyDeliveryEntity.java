@@ -1,6 +1,6 @@
 package com.green.firstproject.entity.member;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,5 +26,5 @@ public class LatelyDeliveryEntity {
      @JoinColumn(name="ld_mi_seq") private MemberInfoEntity member;
      @Column(name="ld_address") private String ldAddress;
      @Column(name="ld_detail_address") private String ldDetailAddress;
-     @Column(name="ld_del_date") private LocalDate ldDelDate;
+     @Column(name="ld_del_date") private LocalDateTime ldDelDate;
 }

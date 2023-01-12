@@ -48,7 +48,11 @@ public class OrderController {
                //      map.put("message", "로그인을 먼저 해주세요.");
                //      map.put("code", HttpStatus.ACCEPTED);
                //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-               // } //로그인 기능 아직 안됨
+          // } //로그인 기능 아직 안됨
+          // String address = (String)session.getAttribute("address");
+          // String detailAddress = (String)session.getAttribute("address");
+          String address = "대구광역시 중구 109-2";
+          String detailAddress = "그린컴퓨터학원 5층";
           MemberInfoEntity member = mReposiroty.findAll().get(0); //로그인회원 임시 고정
           StoreInfoEntity store = sRepository.findAll().get(0); //선택 매장 임시 고정
           
@@ -60,7 +64,7 @@ public class OrderController {
           }
           List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
           
-          map = orderService.order(member, store, oVo.getPay(), carts, oVo.getMessage(), oVo.getCartSeq(), oVo.getCouponSeq());  
+          map = orderService.order(member, store, oVo.getPay(), carts, oVo.getMessage(), oVo.getCartSeq(), oVo.getCouponSeq(), address, detailAddress);  
           session.setAttribute("cart", map.get("notOrders"));
           map.remove("notOrders");
 

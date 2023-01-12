@@ -1,6 +1,5 @@
 package com.green.firstproject.repository.order;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;

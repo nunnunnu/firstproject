@@ -22,6 +22,7 @@ public class MyOrderViewVO {
      private List<MyOrderDetailVO> orderDetail;
      private Boolean cancellable;
      private String request;
+     private String address;
 
      public MyOrderViewVO(OrderInfoEntity order){
           orderDetail = new ArrayList<>();
@@ -36,6 +37,7 @@ public class MyOrderViewVO {
           }
           this.request = order.getOiRequest();
           this.totalPrice = 0;
+          this.address=order.getOiAddress();
      }
 
      public void setStatus(OrderInfoEntity order){

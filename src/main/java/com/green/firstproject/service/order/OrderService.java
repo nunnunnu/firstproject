@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.green.firstproject.entity.master.CouponInfoEntity;
 import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.master.StoreInfoEntity;
+import com.green.firstproject.entity.member.LatelyDeliveryEntity;
 import com.green.firstproject.entity.member.MemberCouponEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
@@ -38,6 +39,7 @@ import com.green.firstproject.entity.stock.SideStockEntity;
 import com.green.firstproject.repository.master.CouponInfoRepository;
 import com.green.firstproject.repository.master.PaymentInfoRepository;
 import com.green.firstproject.repository.master.StoreInfoRepository;
+import com.green.firstproject.repository.member.LatelyDeliveryRepository;
 import com.green.firstproject.repository.member.MemberCouponRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -90,11 +92,13 @@ public class OrderService {
      @Autowired BurgerInfoRepository biRepo;
      @Autowired MemberCouponRepository mcRepo;
      @Autowired CouponInfoRepository cRepo;
+     @Autowired LatelyDeliveryRepository ldRepo;
 
      public Map<String, Object> order(MemberInfoEntity member, StoreInfoEntity store,
           Long paySeq ,List<CartDetail> c, 
           @Nullable String message, @Nullable Set<Long> seq,
-          @Nullable Long couponSeq
+          @Nullable Long couponSeq,
+          String address, String detailAddress
      ){   
           Map<String, Object> resultMap = new LinkedHashMap<>();
           if(c==null || c.size()==0){ 
@@ -136,7 +140,7 @@ public class OrderService {
                return resultMap;
           }
           PaymentInfoEntity pay = piRepo.findByPaySeq(paySeq);
-          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, message); 
+          OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, message, address+" "+detailAddress); 
           
           if(couponSeq!=null){
                CouponInfoEntity coupon = cRepo.findByCiSeq(couponSeq);
@@ -191,6 +195,13 @@ public class OrderService {
                }
                // oDetailVO.addOrderIngredients(ingList);
                // list.add(oDetailVO);
+               LatelyDeliveryEntity latelyDelivery = ldRepo.findByLdAddressAndLdDetailAddress(address, detailAddress);
+               if(latelyDelivery==null){
+                    latelyDelivery = new LatelyDeliveryEntity(null, member, address, detailAddress, order.getOiOrderTime());
+               }else{
+                    latelyDelivery.setLdDelDate(order.getOiOrderTime());
+               }
+               ldRepo.save(latelyDelivery);
           }
           
           // resultMap.put("order", orderVo);
@@ -412,7 +423,7 @@ public class OrderService {
                // MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
                MemberInfoEntity member = mRepo.findAll().get(0); //지워야함
 
-               OrderDeliveryVO order = new OrderDeliveryVO("임시주소", member, store); //주소 임시로 적음. 매장선택 기능 구현되면 수정해야함
+               OrderDeliveryVO order = new OrderDeliveryVO("임시주소", member, store); //주소 임시로 적음. 주소선택 기능 구현되면 수정해야함
                List<CartVo> carts = new ArrayList<>();
                for(CartDetail cart : c){
                     if(seq==null || seq.size()==0 ){ //주문할 메뉴를 선택하지 않았다면 모두 주문으로 처리
