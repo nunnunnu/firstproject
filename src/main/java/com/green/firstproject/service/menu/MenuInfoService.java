@@ -1,5 +1,6 @@
 package com.green.firstproject.service.menu;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
+import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -26,6 +28,7 @@ import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.option.DrinkOptionRepository;
 import com.green.firstproject.repository.menu.option.SideOptionRepository;
+import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 import com.green.firstproject.vo.menu.MenuListVO;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
@@ -41,6 +44,7 @@ public class MenuInfoService {
     @Autowired CategoryRepository cateRepo;
     @Autowired SideOptionRepository sideoptRepo;
     @Autowired DrinkOptionRepository drnikoptRepo;
+    @Autowired EventInfoRepository eventRepo;
 
     public Map<String, Object> getBuregerInfo(Long seq){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
@@ -125,21 +129,16 @@ public class MenuInfoService {
 
     public Map<String, Object> getNewMenu(Long seq){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        CategoryEntity cate = cateRepo.findByCateSeq(seq);
-        if (cate==null) {
-            resultMap.put("status", false);
-            resultMap.put("message", "결과가 존재하지않습니다");
-            resultMap.put("code", HttpStatus.NOT_FOUND);
-            return resultMap;
-        }
-        // SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        EventInfoEntity event = eventRepo.findByEiSeq(seq);
         LocalDate now = LocalDate.now();
+        // SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        // f.format(now);
         List<MenuListVO> result = new ArrayList<>();
         for(BurgerInfoEntity entity : burgerRepo.findAll()){
             MenuListVO data = new MenuListVO(entity);
-            result.add(data);
-            if(Period.between(now, data.getRegDt()).getDays() <= 30){
+            if((Period.between(now, data.getRegDt()).getDays() <= 30)&&(Period.between(now, data.getRegDt()).getYears() == 0)){
                 data.setStatus(true);
+                result.add(data);
             }
         }
         resultMap.put("list", result);
