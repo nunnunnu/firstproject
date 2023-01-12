@@ -14,14 +14,17 @@ import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
+import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
+import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
 import com.green.firstproject.vo.menu.BurgerVO;
 import com.green.firstproject.vo.menu.DogVO;
 import com.green.firstproject.vo.menu.DrinkVO;
+import com.green.firstproject.vo.menu.EventVO;
 import com.green.firstproject.vo.menu.SideVO;
 
 @Service
@@ -31,6 +34,7 @@ public class MenuService {
     @Autowired DrinkInfoRepository dRepo;
     @Autowired SideInfoRepository sRepo;
     @Autowired DogInfoRepository dogRepo;
+    @Autowired EventInfoRepository eRepo;
     public Map<String, Object> cateSeq(Long seq) {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         CategoryEntity cate = cateRepo.findByCateSeq(seq);
@@ -72,6 +76,14 @@ public class MenuService {
             sideresult.add(side);
         }
         list.add(sideresult);
+
+        List<EventInfoEntity> eventList = eRepo.findByCate(cate);
+        List<EventVO> eventresult = new ArrayList<>();
+        for (EventInfoEntity e : eventList) {
+            EventVO event = new EventVO(e);
+            eventresult.add(event);
+        }
+        list.add(eventresult);
 
         resultMap.put("list", list);
         resultMap.put("status", true);
