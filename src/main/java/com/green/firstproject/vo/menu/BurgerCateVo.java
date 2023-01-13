@@ -1,31 +1,37 @@
 package com.green.firstproject.vo.menu;
 
-import java.time.LocalDate;
-
-import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
 @Data
 public class BurgerCateVo {
-    private Long burgerSeq;
+    private String burgerSeq;
     private String burgerName;
     private String burgerDetail;
     private String burgerFile;
     private String burgerUri;
-    private LocalDate burgerRegDt;
+    // private LocalDateTime burgerRegDt;
     private Integer burgerSalesRate;
     private Boolean burgerBest;
 
-    public BurgerCateVo(BurgerInfoEntity burger, Integer ranking){
-        this.burgerSeq=burger.getBiSeq();
-        this.burgerName=burger.getBiName();
-        this.burgerDetail=burger.getBiDetail();
-        this.burgerFile=burger.getBiFile();
-        this.burgerUri=burger.getBiUri();
-        this.burgerSalesRate=burger.getBiSalesRate();
-        this.burgerRegDt=burger.getBiRegDt();
-        // this.ranking=ranking;
+    public BurgerCateVo( 
+        String burgerSeq,
+        String burgerName,
+        String burgerDetail,
+        String burgerFile,
+        String burgerUri,
+        // LocalDateTime burgerRegDt,
+        Integer burgerSalesRate,
+        Integer ranking
+    ){
+        this.burgerSeq=burgerSeq;
+        this.burgerName=burgerName;
+        this.burgerDetail=burgerDetail;
+        this.burgerFile=burgerFile;
+        this.burgerUri=burgerUri;
+        this.burgerSalesRate=burgerSalesRate;
+        // this.burgerRegDt=burgerRegDt;
         best(ranking);
 
     }

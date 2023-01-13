@@ -11,8 +11,6 @@ import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.vo.menu.BurgerCateVo;
 
-import io.micrometer.common.lang.Nullable;
-
 @Repository
 public interface BurgerInfoRepository extends JpaRepository<BurgerInfoEntity, Long> {
      // List<BurgerInfoEntity> searchBurgerSeq(Long seq);
@@ -27,8 +25,11 @@ public interface BurgerInfoRepository extends JpaRepository<BurgerInfoEntity, Lo
 
     // List<BurgerInfoEntity> findTop10ByOrderByBiSalesRateDesc(CategoryEntity cate);
     
-    // @Query(value = "select new com.green.firstproject.vo.menu.BurgerCateVo(b.biSeq,b.biName,b.biDetail,b.biFile,b.biUri,b.biRegDt,b.biSalesRate, RANK() OVER (ORDER BY biSalesRate desc)), from BurgerInfoEntity b", nativeQuery = true)
-    // List<BurgerCateVo> searchBurgerName();
+//    @Query("select bi.biSeq , bi.biName , bi.biRegDt , bi.biSalesRate , bi.biDetail, bi.biFile , bi.biUri , RANK() OVER (ORDER BY biSalesRate desc) from BurgerInfoEntity bi where bi.cate=:cate")
+//     List<Object[]> searchBurgerName(@Param("cate") CategoryEntity cate);
+
+    @Query(value = "select c.bi_seq , c.bi_name, c.bi_reg_dt, c.bi_sales_rate , c.bi_detail , c.bi_file , c.bi_uri, b.ranking from burger_info c join(select RANK() OVER (ORDER BY a.bi_sales_rate desc) as ranking, a.bi_seq from burger_info a) b on c.bi_seq=b.bi_seq where bi_cate=:cate", nativeQuery = true)
+    List<Object[]> searchBurgerName(@Param("cate") Long cate);
 
     List<BurgerInfoEntity> findAllByOrderByBiSalesRateDesc();
     
