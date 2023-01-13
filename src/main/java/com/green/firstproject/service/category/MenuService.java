@@ -34,70 +34,6 @@ public class MenuService {
     @Autowired SideInfoRepository sRepo;
     @Autowired DogInfoRepository dogRepo;
     @Autowired EventInfoRepository eRepo;
-    // public Map<String, Object> cateSeq(Long seq) {
-    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-    //     LocalDate now = LocalDate.now();
-    //     CategoryEntity cate = cateRepo.findByCateSeq(seq);
-    //     if (cate==null) {
-    //         resultMap.put("status", false);
-    //         resultMap.put("message", "결과가 존재하지않습니다");
-    //         resultMap.put("code", HttpStatus.NOT_FOUND);
-    //         return resultMap;
-    //     }
-    //     List<Object> list = new ArrayList<>();
-    //     List<BurgerInfoEntity> burgerList = bRepo.findByCate(cate);
-    //     List<BurgerVO> burgerResult = new ArrayList<>();
-    //     for(BurgerInfoEntity b : burgerList){
-    //         BurgerVO burger = new BurgerVO(b);
-    //         if((Period.between(now, burger.getBurgerRegDt()).getMonths() == 0)&&(Period.between(now, burger.getBurgerRegDt()).getYears() == 0)){
-    //             burger.setBurgerNew(true);
-    //         }
-    //         // else if(){
-    //             //     burger.setBurgerBest(true);
-    //             // }
-    //             burgerResult.add(burger);
-    //         }
-    //         list.add(burgerResult);
-            
-    //         List<DrinkInfoEntity> drinkList = dRepo.findByCate(cate);
-    //         List<DrinkVO> drinkresult = new ArrayList<>();
-    //         for(DrinkInfoEntity d : drinkList){
-    //             DrinkVO drink = new DrinkVO(d);
-    //             drinkresult.add(drink);
-    //         }
-    //         list.add(drinkresult);
-            
-    //         List<DogInfoEntity> dogList = dogRepo.findByCate(cate);
-    //         List<DogVO> dogresult = new ArrayList<>();
-    //     for (DogInfoEntity dog : dogList) {
-    //         DogVO Dog = new DogVO(dog);
-    //         dogresult.add(Dog);
-    //     }
-    //     list.add(dogresult);
-        
-    //     List<SideInfoEntity> sideList = sRepo.findByCate(cate);
-    //     List<SideVO> sideresult = new ArrayList<>();
-    //     for (SideInfoEntity s : sideList) {
-    //         SideVO side = new SideVO(s);
-    //         sideresult.add(side);
-    //     }
-    //     list.add(sideresult);
-
-    //     List<EventInfoEntity> eventList = eRepo.findByCate(cate);
-    //     List<EventVO> eventresult = new ArrayList<>();
-    //     for (EventInfoEntity e : eventList) {
-    //         EventVO event = new EventVO(e);
-    //         eventresult.add(event);
-    //     }
-    //     list.add(eventresult);
-
-    //     resultMap.put("list", list);
-    //     resultMap.put("status", true);
-    //     resultMap.put("message", "조회하였습니다.");
-    //     resultMap.put("code", HttpStatus.ACCEPTED);
-    //     return resultMap;
-    // }
-
 
     public Map<String, Object> cateSeq(Long seq) {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
@@ -109,64 +45,62 @@ public class MenuService {
                 resultMap.put("code", HttpStatus.NOT_FOUND);
             return resultMap;
         }
-        // List<Object> list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         List<Object[]> burgerList = bRepo.searchBurgerName(seq);
-        System.out.println("!11");
-        List<BurgerCateVo> result = new ArrayList<>();
-        
-        for(int i=0;i<burgerList.size();i++){
-            String burgerSeq = (String)burgerList.get(i)[0].toString();
-            String name = (String)burgerList.get(i)[1];
-            // LocalDateTime dateTime = (LocalDateTime)burgerList.get(i)[2];
-            Integer sales = (Integer)burgerList.get(i)[3];
-            String detail = (String)burgerList.get(i)[4];
-            String file = (String)burgerList.get(i)[5];
-            String uri = (String)burgerList.get(i)[6];
-            Integer ranking = ((Long)burgerList.get(i)[7]).intValue();
-            BurgerCateVo b = new BurgerCateVo(burgerSeq, name, detail, file, uri, sales, ranking);
-            result.add(b);
+        if(burgerList.size()!=0){
+            List<BurgerCateVo> result = new ArrayList<>();
+            
+            for(int i=0;i<burgerList.size();i++){
+                String burgerSeq = (String)burgerList.get(i)[0].toString();
+                String name = (String)burgerList.get(i)[1];
+                Integer sales = (Integer)burgerList.get(i)[3];
+                String detail = (String)burgerList.get(i)[4];
+                String file = (String)burgerList.get(i)[5];
+                String uri = (String)burgerList.get(i)[6];
+                Integer ranking = ((Long)burgerList.get(i)[7]).intValue();
+                BurgerCateVo b = new BurgerCateVo(burgerSeq, name, detail, file, uri, sales, ranking);
+                result.add(b);
+            }
+            list.add(result);
         }
-
-        // List<BurgerVO> burgerResult = new ArrayList<>();
-        // List<BurgerCateVo> result = bRepo.searchBurgerName();
-        // System.out.println(result);
-        // for(BurgerInfoEntity b : burgerList){
-        //     BurgerVO burger = new BurgerVO(b);
-        //     // if((Period.between(now, burger.getBurgerRegDt()).getMonths() == 0)&&(Period.between(now, burger.getBurgerRegDt()).getYears() == 0)){
-        //     //     burger.setBurgerNew(true);
-        //     // }
-        //     // else if(bRepo.searchBurgerName() <=10){
-        //     //     burger.setBurgerBest(true);
-        //     // }
-        //     burgerResult.add(burger);
-        // }
-        // list.add(burgerResult);
 
         List<DrinkInfoEntity> drinkList = dRepo.findByCate(cate);
-        List<DrinkVO> drinkresult = new ArrayList<>();
-        for(DrinkInfoEntity d : drinkList){
-            DrinkVO drink = new DrinkVO(d);
-            drinkresult.add(drink);
+        if(drinkList.size()!=0){
+            List<DrinkVO> drinkresult = new ArrayList<>();
+            for(DrinkInfoEntity d : drinkList){
+                DrinkVO drink = new DrinkVO(d);
+                drinkresult.add(drink);
+            }
+            list.add(drinkresult);
         }
-        // list.add(drinkresult);
-
+        
         List<DogInfoEntity> dogList = dogRepo.findByCate(cate);
-        List<DogVO> dogresult = new ArrayList<>();
-        for (DogInfoEntity dog : dogList) {
-            DogVO Dog = new DogVO(dog);
-            dogresult.add(Dog);
+        if(dogList.size()!=0){
+            List<DogVO> dogresult = new ArrayList<>();
+            for (DogInfoEntity dog : dogList) {
+                DogVO Dog = new DogVO(dog);
+                dogresult.add(Dog);
+            }
+            list.add(dogresult);
         }
-        // list.add(dogresult);
 
         List<SideInfoEntity> sideList = sRepo.findByCate(cate);
-        List<SideVO> sideresult = new ArrayList<>();
-        for (SideInfoEntity s : sideList) {
-            SideVO side = new SideVO(s);
-            sideresult.add(side);
+        if(sideList.size()!=0){
+            List<SideVO> sideresult = new ArrayList<>();
+            for (SideInfoEntity s : sideList) {
+                SideVO side = new SideVO(s);
+                sideresult.add(side);
+            }
+            list.add(sideresult);
         }
-        // list.add(sideresult);
+        if (list.size()==0) {
+            resultMap.put("status", false);
+            resultMap.put("message", "결과가 존재하지않습니다");
+            resultMap.put("code", HttpStatus.NOT_FOUND);
+            return resultMap;
+        } 
 
-        resultMap.put("list", result);
+        resultMap.put("list", list);
         resultMap.put("status", true);
         resultMap.put("message", "조회하였습니다.");
         resultMap.put("code", HttpStatus.ACCEPTED);

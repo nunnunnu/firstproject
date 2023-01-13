@@ -1,6 +1,6 @@
 package com.green.firstproject.vo.menu;
 
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -12,6 +12,7 @@ public class BurgerCateVo {
     private String burgerFile;
     private String burgerUri;
     // private LocalDateTime burgerRegDt;
+    @JsonIgnore
     private Integer burgerSalesRate;
     private Boolean burgerBest;
 
