@@ -1,47 +1,17 @@
 package com.green.firstproject.vo.menu;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDateTime;
 
-import lombok.Data;
+public interface BurgerCateVo {
 
-@Data
-public class BurgerCateVo {
-    private String burgerSeq;
-    private String burgerName;
-    private String burgerDetail;
-    private String burgerFile;
-    private String burgerUri;
-    // private LocalDateTime burgerRegDt;
-    @JsonIgnore
-    private Integer burgerSalesRate;
-    private Boolean burgerBest;
+    Long getBurgerSeq();
+    String getBurgerName();
+    String getBurgerDetail();
+    String getBurgerFile();
+    String getBurgerUri();
+    LocalDateTime getBurgerRegDt();
+    boolean getBurgerBest();
+    String getRanking();
 
-    public BurgerCateVo( 
-        String burgerSeq,
-        String burgerName,
-        String burgerDetail,
-        String burgerFile,
-        String burgerUri,
-        // LocalDateTime burgerRegDt,
-        Integer burgerSalesRate,
-        Integer ranking
-    ){
-        this.burgerSeq=burgerSeq;
-        this.burgerName=burgerName;
-        this.burgerDetail=burgerDetail;
-        this.burgerFile=burgerFile;
-        this.burgerUri=burgerUri;
-        this.burgerSalesRate=burgerSalesRate;
-        // this.burgerRegDt=burgerRegDt;
-        best(ranking);
-
-    }
-    public void best(Integer rank){
-        if(rank<=10){
-            this.burgerBest=true;
-        }else{
-            this.burgerBest=false;
-        }
-    }
 
 }

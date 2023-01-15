@@ -1,7 +1,6 @@
 package com.green.firstproject.service.category;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -46,22 +45,9 @@ public class MenuService {
             return resultMap;
         }
         List<Object> list = new ArrayList<>();
-        List<Object[]> burgerList = bRepo.searchBurgerName(seq);
+        List<BurgerCateVo> burgerList = bRepo.searchBurgerName(seq);
         if(burgerList.size()!=0){
-            List<BurgerCateVo> result = new ArrayList<>();
-            
-            for(int i=0;i<burgerList.size();i++){
-                String burgerSeq = (String)burgerList.get(i)[0].toString();
-                String name = (String)burgerList.get(i)[1];
-                Integer sales = (Integer)burgerList.get(i)[3];
-                String detail = (String)burgerList.get(i)[4];
-                String file = (String)burgerList.get(i)[5];
-                String uri = (String)burgerList.get(i)[6];
-                Integer ranking = ((Long)burgerList.get(i)[7]).intValue();
-                BurgerCateVo b = new BurgerCateVo(burgerSeq, name, detail, file, uri, sales, ranking);
-                result.add(b);
-            }
-            list.add(result);
+            list.add(burgerList);
         }
 
         List<DrinkInfoEntity> drinkList = dRepo.findByCate(cate);
