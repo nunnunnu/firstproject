@@ -274,11 +274,13 @@ public class OrderService {
                          return false; //재고없음
                     }
                }
-               for(IngredientVo i : c.getIngredient()){
-                    IngredientsInfoEntity ingredientsInfoEntity = iiRepo.findByIiSeq(i.getIngredirentSeq());
-                    IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredientsInfoEntity);
-                    if(ing.getIsStock()<c.getMenuCount()){
-                         return false;
+               if(c.getIngredient().size()!=0){
+                    for(IngredientVo i : c.getIngredient()){
+                         IngredientsInfoEntity ingredientsInfoEntity = iiRepo.findByIiSeq(i.getIngredirentSeq());
+                         IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredientsInfoEntity);
+                         if(ing.getIsStock()<c.getMenuCount()){
+                              return false;
+                         }
                     }
                }
           }
@@ -303,6 +305,46 @@ public class OrderService {
                return map;
           }
           order.setOiStatus(5);
+          List<OrderDetailEntity> orderDetails = odRepo.findByOdOiseq(order);
+
+          //재고 복구, 판매량 복구 안됨
+          for(OrderDetailEntity od : orderDetails){
+               StoreInfoEntity store = order.getStore();
+               BurgerInfoEntity burger = od.getOdBiseq().getBurger();
+               DogInfoEntity dog = od.getOdBiseq().getDog();
+               DrinkInfoEntity drink = od.getOdBiseq().getDrink();
+               SideInfoEntity side = od.getOdBiseq().getSide();
+               EventInfoEntity event = od.getOdEiSeq();
+               if(burger!=null){
+                    BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, burger);
+                    int stock = burgerStock.getBsStock()+od.getOdCount();
+                    int sale = burger.getBiSalesRate()-od.getOdCount();
+                    burger.setBiSalesRate(sale);
+                    burgerStock.setBsStock(stock);
+               }
+               if(dog!=null){
+                    DogStockEntity dogStock = dogsRepo.findByStoreAndDog(store, dog);
+                    int dogSto = dogStock.getDogsStock() + od.getOdCount();
+                    dogStock.setDogsStock(dogSto);
+               }
+               if(drink!=null){
+                    DrinkStockEntity drinkStock = dsRepo.findByStoreAndDrink(store, od.getOdBiseq().getDrink());
+                    int dStock = drinkStock.getDsStock()  + od.getOdCount();
+                    drinkStock.setDsStock(dStock);
+               }
+               if(side!=null){
+                    SideStockEntity sideStock = ssRepo.findByStoreAndSide(store, od.getOdBiseq().getSide());
+                    int sStock = sideStock.getSsStock() + od.getOdCount();
+                    sideStock.setSsStock(sStock);
+               }
+               if(event!=null){
+                    EventStockEntity eventStock = esRepo.findByStoreAndEvent(store, od.getOdEiSeq());
+                    int eStock = eventStock.getEsStock() + od.getOdCount();
+                    eventStock.setEsStock(eStock);
+               }
+
+          }
+
           oiRepository.save(order);
           map.put("status", true);
           map.put("message", "주문이 취소되었습니다.");

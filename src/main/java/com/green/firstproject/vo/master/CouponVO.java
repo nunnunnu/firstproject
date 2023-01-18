@@ -22,6 +22,8 @@ public class CouponVO {
                &&coupon.getMcDate().getMonth()!=LocalDate.now().getMonth()) //쿠폰 발급일자의 월이 다를때
           ){
                this.couponAvailability=true;
+          }else{
+               this.couponAvailability=false;
           }
      }
 }

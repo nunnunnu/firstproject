@@ -26,6 +26,7 @@ public class StoreInfoService {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         Page<StoreInfoEntity> list = siRepo.findAll(pageable);
         Page<StoreInfoVO> result = list.map(s->new StoreInfoVO(s));
+
         resultMap.put("message", "모든 매장을 조회했습니다.");
         resultMap.put("code", HttpStatus.ACCEPTED);
         resultMap.put("list", result);

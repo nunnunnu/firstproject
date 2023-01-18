@@ -11,7 +11,7 @@ public interface BurgerCateVo {
     String getBurgerUri();
     LocalDate getBurgerRegDt();
     boolean getBurgerBest();
-    String getRanking();
+    // String getRanking();
 
 
 }

@@ -22,6 +22,7 @@ import com.green.firstproject.vo.member.MemberMypageVO;
 public class MemberService {
     @Autowired MemberInfoReposiroty mRepo;
     @Autowired LatelyDeliveryRepository ldRepo;
+
     public Map<String, Object> addMember(MemberInfoEntity data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         String emailPattern = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
@@ -82,19 +83,19 @@ public class MemberService {
 
     public Map<String, Object> findPwd(String name, String email){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        for(MemberInfoEntity data : mRepo.findAll()){
+        for(MemberInfoEntity data : mRepo.findAll()){ //쿼리문으로 변경
             if (data.getMiName().equals(name) && data.getMiEmail().equals(email)) {
-            if(mRepo.countByMiNameAndMiEmail(data.getMiName(), data.getMiEmail()) == 1){
-                try{
-                resultMap.put("status", true);
-                resultMap.put("message", "회원님의 비밀번호는"+ AESAlgorithm.Decrypt(data.getMiPwd())+" 입니다.");
-                resultMap.put("code", HttpStatus.ACCEPTED);
-                }
-                catch(Exception e){
-                    e.printStackTrace();
+                if(mRepo.countByMiNameAndMiEmail(data.getMiName(), data.getMiEmail()) == 1){
+                    try{
+                    resultMap.put("status", true);
+                    resultMap.put("message", "회원님의 비밀번호는"+ AESAlgorithm.Decrypt(data.getMiPwd())+" 입니다.");
+                    resultMap.put("code", HttpStatus.ACCEPTED);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }
-        }
             else{
                 resultMap.put("status", false);
                 resultMap.put("message", "이름 또는 이메일을 확인하여 주십시오.");
@@ -108,7 +109,6 @@ public class MemberService {
             Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             MemberInfoEntity user = null;
             try{
-                
                 user = mRepo.findByMiEmailAndMiPwd(data.getEmail(), AESAlgorithm.Encrypt(data.getPwd()));
             } catch(Exception e){e.printStackTrace();}
             if(user == null){

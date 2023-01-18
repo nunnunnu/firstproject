@@ -23,8 +23,8 @@ public interface BurgerInfoRepository extends JpaRepository<BurgerInfoEntity, Lo
 
     List<BurgerInfoEntity> findByCate(CategoryEntity cate);
 
-    @Query(value = "select c.bi_seq as burgerSeq , c.bi_name as burgerName, c.bi_reg_dt as burgerRegDt, c.bi_detail as burgerDetail , c.bi_file as burgerFile, c.bi_uri as burgerUri, b.ranking as ranking, if(ranking<=10,'true','false') as burgerBest from burger_info c join(select RANK() OVER (ORDER BY a.bi_sales_rate desc) as ranking, a.bi_seq from burger_info a) b on c.bi_seq=b.bi_seq where bi_cate=:cate", nativeQuery = true)
-    List<BurgerCateVo> searchBurgerName(@Param("cate") Long cate);
+    @Query(value = "select c.bi_seq as burgerSeq , c.bi_name as burgerName, c.bi_reg_dt as burgerRegDt, c.bi_detail as burgerDetail , c.bi_file as burgerFile, c.bi_uri as burgerUri, if(ranking<=10,'true','false') as burgerBest from burger_info c join(select RANK() OVER (ORDER BY a.bi_sales_rate desc) as ranking, a.bi_seq from burger_info a) b on c.bi_seq=b.bi_seq where bi_cate=:cate", nativeQuery = true)
+    List<BurgerCateVo> searchBurger(@Param("cate") Long cate);
 
     List<BurgerInfoEntity> findAllByOrderByBiSalesRateDesc();
     

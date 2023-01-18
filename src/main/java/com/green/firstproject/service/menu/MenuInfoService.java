@@ -154,27 +154,7 @@ public class MenuInfoService {
             resultMap.put("list", result);
             return resultMap;
         }
-        // public Map<String, Object> getDrinkOptionInfo(Long seq) { 
-    //     Map<String, Object> resultMap = new LinkedHashMap<>();
-    //     MenuInfoEntity menu = menuRepo.findByMenuSeq(seq);
-    //     if(menu == null){
-        //         resultMap.put("status", false);
-        //         resultMap.put("message", "메뉴 번호가 잘못되었습니다.");
-        //         resultMap.put("code", HttpStatus.BAD_REQUEST);
-        //         return resultMap;
-        //     }
-        //     if(menu.getMenuSize() == 1){
-            //         resultMap.put("message", "음료 옵션을 조회하였습니다.");
-            //         resultMap.put("code", HttpStatus.ACCEPTED);
-    //         resultMap.put("list", drnikoptRepo.findAll());
-    //     }
-    //     else if(menu.getMenuSize() == 2){
-    //         resultMap.put("message", "음료 옵션을 조회하였습니다.");
-    //         resultMap.put("code", HttpStatus.ACCEPTED);
-    //         resultMap.put("list", drnikoptRepo.findByDoSize(menu.getMenuSize()));
-    //     }
-    //     return resultMap;
-    // }
+
     public Map<String, Object> getDrinkOptionInfo(Long seq) { 
         Map<String, Object> resultMap = new LinkedHashMap<>();
         MenuInfoEntity menu = menuRepo.findByMenuSeq(seq);
@@ -202,21 +182,6 @@ public class MenuInfoService {
         return resultMap;
     }
 
-    // public Map<String, Object> getBestMenu(Long seq){
-    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-    //     // CategoryEntity cate = cateRepo.findByCateSeq(seq);
-    //     // List<BurgerInfoEntity> list = new ArrayList<>();
-    //     List<BestMenuVO> result = new ArrayList<>();
-    //     for(BurgerInfoEntity b : burgerRepo.searchBurgerName(/*cate.getCateSeq()*/)){
-    //         BestMenuVO best = new BestMenuVO(b);
-    //         result.add(best);
-    //     }
-    //     resultMap.put("stauts", true);
-    //     resultMap.put("message", "베스트 메뉴");
-    //     resultMap.put("code", HttpStatus.ACCEPTED);
-    //     resultMap.put("list", result);
-    //     return resultMap;
-    // }
     // public Map<String, Object> getNewMenu(Long seq){
     //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
     //     LocalDate now = LocalDate.now();

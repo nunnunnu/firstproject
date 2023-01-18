@@ -26,7 +26,7 @@ public class CartDetail {
      private EventInfoEntity eventMenu;
      private SideOptionEntity sideOpt;
      private DrinkOptionEntity drinkOpt;
-     private DrinkOptionEntity drink2Opt;
+     private DrinkOptionEntity drink2Opt; //싹다 VO로 변경
      private Set<IngredientVo> ingredient; //중복 제거를 위해 set으로 변경함
      private int price;
 
@@ -59,7 +59,7 @@ public class CartDetail {
           Integer rSizeSidePrice=2700;
           Integer lSizeSidePrice=3200;
           Integer rSizeDrinkPrice = 2600;
-          Integer lSizeDrinkPrice = 2800;
+          Integer lSizeDrinkPrice = 2800; //나중에 클래스 만들어야함
           if(menu!=null){
                this.price = menu.getMenuPrice();
           }else if(eventMenu!=null){
@@ -106,7 +106,6 @@ public class CartDetail {
                }
           }
           if(count>1){
-               System.out.println(count);
                ingredient.add(new IngredientVo("재료 추가", 400));
           }
      }

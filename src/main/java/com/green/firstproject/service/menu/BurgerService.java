@@ -38,6 +38,8 @@ public class BurgerService {
     @Autowired IngredientsInfoRepository iRepo;
     @Autowired EventInfoRepository eRepo;
 
+    //이미지 파일 저장 코드
+
     public Map<String,Object> addBurger(BurgerAddVO data){ 
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             BurgerInfoEntity entity = new BurgerInfoEntity(data);
@@ -55,7 +57,7 @@ public class BurgerService {
                 resultMap.put("code", HttpStatus.ACCEPTED);
             }
         return resultMap;
-        }
+    }
 
     public Map<String, Object> addSide(SideAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();

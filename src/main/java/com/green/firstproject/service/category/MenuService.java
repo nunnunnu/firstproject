@@ -36,7 +36,7 @@ public class MenuService {
 
     public Map<String, Object> cateSeq(Long seq) {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        LocalDate now = LocalDate.now();
+        // LocalDate now = LocalDate.now();
         CategoryEntity cate = cateRepo.findByCateSeq(seq);
         if (cate==null) {
                 resultMap.put("status", false);
@@ -45,7 +45,7 @@ public class MenuService {
             return resultMap;
         }
         List<Object> list = new ArrayList<>();
-        List<BurgerCateVo> burgerList = bRepo.searchBurgerName(seq);
+        List<BurgerCateVo> burgerList = bRepo.searchBurger(seq);
         if(burgerList.size()!=0){
             list.add(burgerList);
         }
@@ -86,10 +86,17 @@ public class MenuService {
             return resultMap;
         } 
 
+
+        //이벤트메뉴 조회 빠짐(이벤트 날짜 검사 필요)
+
+
         resultMap.put("list", list);
         resultMap.put("status", true);
         resultMap.put("message", "조회하였습니다.");
         resultMap.put("code", HttpStatus.ACCEPTED);
         return resultMap;
     }
+
+    //MenuInfoService랑 합칠것
+    
 }

@@ -195,7 +195,6 @@ public class CartService {
                }
           }
           if(check){
-
                map.put("status", check);
                map.put("message", "해당 메뉴를 카트에 담았습니다.");
                map.put("code", HttpStatus.ACCEPTED);
@@ -213,7 +212,7 @@ public class CartService {
           if(cart==null || cart.size()==0){
                map.put("status", false);
                map.put("message", "카트에 담긴 메뉴가 없습니다.");
-               map.put("code", HttpStatus.BAD_REQUEST);
+               map.put("code", HttpStatus.OK);
           }else{
                List<CartVo> carts = new ArrayList<>();
                for(CartDetail c : cart){
@@ -232,7 +231,7 @@ public class CartService {
      }
      
      //장바구니 수량 변경
-     public Map<String, Object> cartCountChange(CartDetail cart, Long seq, int count){
+     public Map<String, Object> cartCountChange(CartDetail cart, int count){
           Map<String, Object> map = new LinkedHashMap<>();
           cart.setMenuCount(count);
           map.put("status", true);

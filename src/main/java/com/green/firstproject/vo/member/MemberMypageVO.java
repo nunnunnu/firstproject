@@ -14,7 +14,7 @@ public class MemberMypageVO {
     private String memberPhone;
     private Integer memberGen;
     private LocalDate memberBirth;
-    private Integer memberStatus;
+    // private Integer memberStatus;
     private String memberGrade;
 
     public MemberMypageVO(MemberInfoEntity member){
@@ -24,7 +24,7 @@ public class MemberMypageVO {
         this.memberPhone=member.getMiPhone();
         this.memberGen=member.getMiGen();
         this.memberBirth=member.getMiBirth();
-        this.memberStatus=member.getMiStatus();
+        // this.memberStatus=member.getMiStatus();
         this.memberGrade=member.getMiGrade().getGiName();
     }
 }

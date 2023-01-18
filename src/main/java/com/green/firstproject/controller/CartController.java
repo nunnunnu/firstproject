@@ -110,7 +110,7 @@ public class CartController {
         }
 
         if (type.equals("count") && updateCart.getCnt() != null) {
-            map = cartService.cartCountChange(cart, seq, updateCart.getCnt());
+            map = cartService.cartCountChange(cart, updateCart.getCnt());
         } else if (type.equals("option")) {
             map = cartService.cartOptionChange(cart, updateCart.getSide(), updateCart.getDrink(), updateCart.getDrink2(), updateCart.getIngredients());
         } else if (type.equals("delete")) {

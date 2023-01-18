@@ -53,6 +53,7 @@ public class MemberAPIController {
     public ResponseEntity<Object> memberLogin(@RequestBody LoginUserVO data, HttpSession session){
       Map<String, Object> resultMap = mService.loginMember(data);
       session.setAttribute("loginUser", resultMap.get("loginUser"));
+      resultMap.remove("loginUser"); //로그인 정보 날림
       return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
     @GetMapping("/logout")
