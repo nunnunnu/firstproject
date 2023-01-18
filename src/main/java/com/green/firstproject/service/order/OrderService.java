@@ -3,6 +3,7 @@ package com.green.firstproject.service.order;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -100,6 +101,7 @@ public class OrderService {
           @Nullable Long couponSeq,
           String address, String detailAddress
      ){   
+          System.out.println("orderStart");
           Map<String, Object> resultMap = new LinkedHashMap<>();
           if(c==null || c.size()==0){ 
                resultMap.put("status", false);
@@ -178,13 +180,19 @@ public class OrderService {
                discountStock(store, orderDetail);
                
                odRepo.save(orderDetail);
-               for(IngredientVo ing : ca.getIngredient()){
+               if(ca.getIngredient()!=null){
+                    Set<Long> ingSeqs = new HashSet<>();
+                    for(IngredientVo ing : ca.getIngredient()){
+                         ingSeqs.add(ing.getIngredirentSeq());
+                    }
+                    Set<IngredientsInfoEntity> ingEntity = iiRepo.findByingSeq(ingSeqs);
                     OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
-                    IngredientsInfoEntity i = iiRepo.findByIiSeq(ing.getIngredirentSeq());
-                    orderIngredient.setIngredient(i);
-                    orderIngredient.setOrderdetail(orderDetail);
-                    discountIngredientStock(store, i);
-                    oidRepo.save(orderIngredient);
+                    for(IngredientsInfoEntity i : ingEntity){
+                         orderIngredient.setIngredient(i);
+                         orderIngredient.setOrderdetail(orderDetail);
+                         discountIngredientStock(store, i);
+                         oidRepo.save(orderIngredient);
+                    }
                }
                LatelyDeliveryEntity latelyDelivery = ldRepo.findByLdAddressAndLdDetailAddress(address, detailAddress);
                if(latelyDelivery==null){
@@ -275,9 +283,13 @@ public class OrderService {
                     }
                }
                if(c.getIngredient().size()!=0){
+                    Set<Long> ingSeq = new HashSet<>();
                     for(IngredientVo i : c.getIngredient()){
-                         IngredientsInfoEntity ingredientsInfoEntity = iiRepo.findByIiSeq(i.getIngredirentSeq());
-                         IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredientsInfoEntity);
+                         ingSeq.add(i.getIngredirentSeq());
+                    }
+                    // Set<IngredientsInfoEntity> ingredientsInfoEntity = iiRepo.findByingSeq(ingSeq);
+                    List<IngredientsStockEntity> ings = isRepo.findStoreAndIngredient(store, ingSeq);
+                    for(IngredientsStockEntity ing : ings){
                          if(ing.getIsStock()<c.getMenuCount()){
                               return false;
                          }
@@ -396,7 +408,6 @@ public class OrderService {
                          }
                     }   
                }
-               // order.addOrderDetail(orderDetailVo);
                resultOrder.add(order);
           }
           

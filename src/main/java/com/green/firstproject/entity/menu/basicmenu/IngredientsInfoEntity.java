@@ -5,6 +5,7 @@ import com.green.firstproject.vo.menu.IngredAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,7 +29,7 @@ public class IngredientsInfoEntity {
     @Column(name = "ii_file")    private String iiFile;
     @Column(name = "ii_uri")     private String iiUri;
     // @Column(name = "ii_mi_seq")  private Long iiMiSeq;
-    @ManyToOne @JoinColumn(name = "ii_menu_seq") MenuInfoEntity menu;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "ii_menu_seq") MenuInfoEntity menu;
 
     public IngredientsInfoEntity(IngredAddVO data){
         this.iiName= data.getName();

@@ -1,8 +1,10 @@
 package com.green.firstproject.entity.menu.basicmenu;
 import com.green.firstproject.entity.menu.CategoryEntity;
+import com.green.firstproject.vo.menu.DogAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,7 +14,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.green.firstproject.vo.menu.DogAddVO;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +24,7 @@ public class DogInfoEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="dog_seq") private Long dogSeq;
      @Column(name="dog_name") private String dogName;
-     @ManyToOne
+     @ManyToOne(fetch = FetchType.LAZY)
      @JoinColumn(name="dog_cate") private CategoryEntity cate;
      @Column(name="dog_detail") private String dogDetail;
      @Column(name="dog_file") private String dogFile;

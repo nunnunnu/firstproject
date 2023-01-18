@@ -8,6 +8,7 @@ import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,9 +30,9 @@ public class IngredientsStockEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "is_seq")           private Long isSeq;
     // @Column(name = "is_si_seq")        private Long isSiSeq;
-    @ManyToOne @JoinColumn(name = "is_si_seq") StoreInfoEntity store;  
+    @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name = "is_si_seq") StoreInfoEntity store;  
     // @Column(name = "is_ii_seq")        private Long isIiSeq;
-    @OneToOne @JoinColumn(name = "is_ii_seq") IngredientsInfoEntity ingredient;
+    @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name = "is_ii_seq") IngredientsInfoEntity ingredient;
     @Column(name = "is_stock")   @ColumnDefault("0")           
     private Integer isStock;
 }

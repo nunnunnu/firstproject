@@ -10,6 +10,7 @@ import com.green.firstproject.vo.menu.BurgerAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +31,7 @@ public class BurgerInfoEntity {
       @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
       @Column(name="bi_seq") private Long biSeq;
       @Column(name="bi_name") private String biName;
-      @ManyToOne
+      @ManyToOne(fetch = FetchType.LAZY)
       @JoinColumn(name="bi_cate") private CategoryEntity cate;
       @Column(name="bi_detail") private String biDetail;
       @Column(name="bi_file") private String biFile;

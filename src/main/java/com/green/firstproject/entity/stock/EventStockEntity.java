@@ -8,6 +8,7 @@ import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,8 +28,8 @@ import lombok.NoArgsConstructor;
 public class EventStockEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "es_seq") private Long esSeq;
-    @ManyToOne @JoinColumn(name = "es_si_seq") private StoreInfoEntity store;
-    @ManyToOne @JoinColumn(name = "es_ei_seq") private EventInfoEntity event;
+    @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name = "es_si_seq") private StoreInfoEntity store;
+    @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name = "es_ei_seq") private EventInfoEntity event;
     @Column(name = "es_stock") @ColumnDefault("0")
     private Integer esStock;
     

@@ -4,6 +4,7 @@ import com.green.firstproject.vo.menu.DrinkAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +24,7 @@ public class DrinkInfoEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="di_seq") private Long diSeq;
      @Column(name="di_name") private String diName;
-     @ManyToOne
+     @ManyToOne(fetch = FetchType.LAZY)
      @JoinColumn(name="di_cate") private CategoryEntity cate;
      @Column(name="di_detail") private String diDetail;
      @Column(name="di_file") private String diFile;

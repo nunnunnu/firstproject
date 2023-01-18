@@ -112,8 +112,11 @@ public class CartService {
                     }
                }
                if(menu.getMenuSelect() && ingredientsSeq!=null){ //재료선택이 가능한 세트메뉴 + 추가한 재료가 있을 경우
-                    for(Long seq : ingredientsSeq){
-                         cart.addIngredient(iiRepo.findByIiSeq(seq));
+                    System.out.println("iiii");
+                    Set<IngredientsInfoEntity> list = iiRepo.findByingSeq(ingredientsSeq); //menu안에 lazy쿼리도 같이나감??
+                    System.out.println("yyyy");
+                    for(IngredientsInfoEntity i : list){
+                         cart.addIngredient(i);
                     }
                }
                cart.setTotalPrice();
@@ -129,10 +132,11 @@ public class CartService {
      // 매장 재고 검사
      public Map<String, Object> stockCheck(CartDetail c, StoreInfoEntity store){
           Map<String, Object> map = new LinkedHashMap<>();
-          BurgerInfoEntity burger = c.getMenu().getBurger();
-          DogInfoEntity dog = c.getMenu().getDog();
-          DrinkInfoEntity drink = c.getMenu().getDrink();
-          SideInfoEntity side = c.getMenu().getSide();
+          MenuInfoEntity menu = c.getMenu();
+          BurgerInfoEntity burger = menu.getBurger();
+          DogInfoEntity dog = menu.getDog();
+          DrinkInfoEntity drink = menu.getDrink();
+          SideInfoEntity side = menu.getSide();
           EventInfoEntity event = c.getEventMenu();
           boolean check = true;
           String soldout = "";
@@ -183,15 +187,20 @@ public class CartService {
                     soldout+=event.getEiName();
                }
           }
-          for(IngredientVo i : c.getIngredient()){
-               IngredientsInfoEntity ingredientsInfoEntity = iiRepo.findByIiSeq(i.getIngredirentSeq());
-               IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredientsInfoEntity);
-               if(ing.getIsStock()<c.getMenuCount()){
-                    if(!check){
-                         soldout+=", ";
+          if(c.getIngredient().size()!=0){
+               Set<Long> ingSeqs = new HashSet<>();
+               for(IngredientVo i : c.getIngredient()){
+                    ingSeqs.add(i.getIngredirentSeq());
+               }
+               List<IngredientsStockEntity> ing = isRepo.findStoreAndIngredient(store, ingSeqs);
+               for(IngredientsStockEntity i : ing){
+                    if(i.getIsStock()<c.getMenuCount()){
+                         if(!check){
+                              soldout+=", ";
+                         }
+                         check = false;
+                         soldout+=i.getIngredient().getIiName();
                     }
-                    check = false;
-                    soldout+=i.getIngredientName();
                }
           }
           if(check){
@@ -243,7 +252,7 @@ public class CartService {
      }
      //장바구니 옵션 변경
      public Map<String, Object> cartOptionChange(CartDetail cart ,Long side, Long drink, Long drink2, Set<Long> ingredient){ 
-          
+          System.out.println("start");
           Map<String, Object> map = new LinkedHashMap<>();
           Boolean setMenu = cart.getMenu().getBurger()!=null && cart.getMenu().getSide()!=null && cart.getMenu().getDrink()!=null;
           if(setMenu){
@@ -272,8 +281,8 @@ public class CartService {
           if(cart.getMenu().getMenuSelect()){
                Set<IngredientVo> ing = new HashSet<>();
                if(ingredient.size()!=0){
-                    for(Long ingSeq : ingredient){
-                         IngredientsInfoEntity i = iiRepo.findByIiSeq(ingSeq);
+                    Set<IngredientsInfoEntity> list = iiRepo.findByingSeq(ingredient); //lazy 설정해놓은 연관관계매핑도 쿼리문 날아감           
+                    for(IngredientsInfoEntity i : list){
                          ing.add(new IngredientVo(i));
                          
                     }

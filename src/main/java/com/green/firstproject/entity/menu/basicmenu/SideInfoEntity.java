@@ -5,6 +5,7 @@ import com.green.firstproject.vo.menu.SideAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,7 +25,7 @@ public class SideInfoEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="side_seq") private Long sideSeq;
      @Column(name="side_name") private String sideName;
-     @ManyToOne
+     @ManyToOne(fetch = FetchType.LAZY)
      @JoinColumn(name="side_cate") private CategoryEntity cate;
      @Column(name="side_detail") private String sideDetail;
      @Column(name="side_file") private String sideFile;

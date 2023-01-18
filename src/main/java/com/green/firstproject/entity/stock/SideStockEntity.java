@@ -8,6 +8,7 @@ import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,8 +28,8 @@ import lombok.NoArgsConstructor;
 public class SideStockEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ss_seq") private Long ssSeq;
-    @ManyToOne @JoinColumn(name = "ss_si_seq") private StoreInfoEntity store;
-    @ManyToOne @JoinColumn(name = "ss_side_seq") private SideInfoEntity side;
+    @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name = "ss_si_seq") private StoreInfoEntity store;
+    @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name = "ss_side_seq") private SideInfoEntity side;
     @Column(name = "ss_stock") @ColumnDefault("0") 
     private int ssStock;
     
