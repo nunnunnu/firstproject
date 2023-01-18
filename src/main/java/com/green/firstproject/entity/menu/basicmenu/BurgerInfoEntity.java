@@ -35,7 +35,7 @@ public class BurgerInfoEntity {
       @Column(name="bi_detail") private String biDetail;
       @Column(name="bi_file") private String biFile;
       @Column(name="bi_uri") private String biUri;
-      @Column(name="bi_reg_dt") @ColumnDefault("CURRENT_TIMESTAMP") private LocalDate biRegDt;
+      @Column(name="bi_reg_dt") /* @ColumnDefault("CURRENT_TIMESTAMP") */ private LocalDate biRegDt;
       @Column(name="bi_sales_rate") @ColumnDefault("0") private Integer biSalesRate;
 
       public BurgerInfoEntity(BurgerAddVO data){
@@ -50,8 +50,8 @@ public class BurgerInfoEntity {
          this.cate = cate;
       }
 
-      public void upSales(){
-         int sales = biSalesRate+1;
+      public void upSales(Integer count){
+         int sales = biSalesRate+count;
          this.biSalesRate = sales;
       }
 }

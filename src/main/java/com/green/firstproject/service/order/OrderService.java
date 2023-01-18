@@ -164,16 +164,13 @@ public class OrderService {
           }
           
           oiRepository.save(order);
-          // OrderVO orderVo = new OrderVO(order);
-          // List<Object> list = new ArrayList<>();
           for(CartDetail ca : carts){
                OrderDetailEntity orderDetail = new OrderDetailEntity(ca);
                orderDetail.setOdOiseq(order);
-               // orderVo.setOrderPrice(orderDetail);
                
                if(ca.getMenu().getBurger()!=null){
                     BurgerInfoEntity burger = biRepo.findByBiSeq(ca.getMenu().getBurger().getBiSeq());
-                    burger.upSales(); //판매량 증가
+                    burger.upSales(ca.getMenuCount()); //판매량 증가
                     biRepo.save(burger);
                }
                
@@ -181,9 +178,6 @@ public class OrderService {
                discountStock(store, orderDetail);
                
                odRepo.save(orderDetail);
-               // OrderDetailVO oDetailVO = new OrderDetailVO(orderDetail);
-               // oDetailVO.addPrice(orderDetail);
-               // Set<OrderIngredientsVO> ingList = new LinkedHashSet<>();
                for(IngredientVo ing : ca.getIngredient()){
                     OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity();
                     IngredientsInfoEntity i = iiRepo.findByIiSeq(ing.getIngredirentSeq());
@@ -191,10 +185,7 @@ public class OrderService {
                     orderIngredient.setOrderdetail(orderDetail);
                     discountIngredientStock(store, i);
                     oidRepo.save(orderIngredient);
-                    // ingList.add(new OrderIngredientsVO(orderIngredient));
                }
-               // oDetailVO.addOrderIngredients(ingList);
-               // list.add(oDetailVO);
                LatelyDeliveryEntity latelyDelivery = ldRepo.findByLdAddressAndLdDetailAddress(address, detailAddress);
                if(latelyDelivery==null){
                     latelyDelivery = new LatelyDeliveryEntity(null, member, address, detailAddress, order.getOiOrderTime());
@@ -204,11 +195,9 @@ public class OrderService {
                ldRepo.save(latelyDelivery);
           }
           
-          // resultMap.put("order", orderVo);
           resultMap.put("status", true);
           resultMap.put("message", "주문이 완료되었습니다.");
           resultMap.put("code", HttpStatus.ACCEPTED);
-          // resultMap.put("detail", list);
           resultMap.put("notOrders", notOrders);
           return resultMap;
      }

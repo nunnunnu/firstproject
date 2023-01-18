@@ -1,6 +1,6 @@
 package com.green.firstproject.vo.menu;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public interface BurgerCateVo {
 
@@ -9,7 +9,7 @@ public interface BurgerCateVo {
     String getBurgerDetail();
     String getBurgerFile();
     String getBurgerUri();
-    LocalDateTime getBurgerRegDt();
+    LocalDate getBurgerRegDt();
     boolean getBurgerBest();
     String getRanking();
 
