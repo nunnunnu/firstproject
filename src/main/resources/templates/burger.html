@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {text-align: center;}
+        #input_form_table {margin: 0 auto; border-collapse: collapse; border: 0;}
+        #input_form_table input {width: 70%;}
+        #input_form_table td {padding: 10px;}
+    </style>
+</head>
+<body>
+    <h1>버거 추가</h1>
+    <form action="/menu/add/burger" method="post">
+        <table border="1" id="input_form_table">
+            <tbody>
+                <tr>
+                    <td>카테고리</td>
+                    <td>
+                        <select name="cate">
+                            <option value="0">선택안함</option>
+                            <option th:each="cate, i : ${categoryList}"th:text="${cate.cateName}" th:value="${cate.cateSeq}"></option>
+                        </select>
+                    </td>
+                    <td>이름</td>
+                    <td colspan="6"><input type="text" name="name"></td>
+                </tr>
+                <tr>
+                    <td>메뉴 설명</td>
+                    <td colspan="6"><input type="text" name="detail"></td>
+                    <td>출시일</td>
+                    <td colspan="2"><input type="text" name="regDt"></td>
+                </tr>
+                <tr>
+                    <td>파일명</td>
+                    <td colspan="2"><input type="text" name="file"></td>
+                    <td>이미지 파일</td>
+                        <td colspan="6">
+                            <input type="text" name="uri">
+                        </td>
+                </tr>
+                <tr>
+                    <td colspan="9">
+                        <button>저장</button>
+                        <a href="/">돌아가기</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
