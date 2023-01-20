@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="drink_info")
+@Builder
 public class DrinkInfoEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="di_seq") private Long diSeq;
@@ -34,8 +36,8 @@ public class DrinkInfoEntity {
      public DrinkInfoEntity(DrinkAddVO data){
         this.diName= data.getName();
         this.diDetail=data.getDetail();
-        this.diFile=data.getFile();
-        this.diUri=data.getUri();
+        this.diFile=data.getDiFile();
+        this.diUri=data.getDiFile();
      }
      public void setCategory(CategoryEntity cate){
         this.cate = cate;
