@@ -146,7 +146,7 @@ public class OrderService {
                
                if(menu.getBurger()!=null){
                     BurgerInfoEntity burger = biRepo.findByBiSeq(menu.getBurger().getBiSeq());
-                    burger.upSales(c.getMenuCount()); //판매량 증가
+                    burger.upSales(c.getCount()); //판매량 증가
                     biRepo.save(burger);
                }
                
@@ -231,31 +231,31 @@ public class OrderService {
                EventInfoEntity event = eRepo.findByEiSeq(c.getEventMenu());
                if(burger!=null){
                     BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
-                    if(bs.getBsStock()<c.getMenuCount()){
+                    if(bs.getBsStock()<c.getCount()){
                          return false; //재고없음
                     }
                }
                if(dog!=null){
                     DogStockEntity dogstock = dogsRepo.findByStoreAndDog(store, dog);
-                    if(dogstock.getDogsStock()<c.getMenuCount()){
+                    if(dogstock.getDogsStock()<c.getCount()){
                          return false; //재고없음
                     }
                }
                if(drink!=null){
                     DrinkStockEntity ds = dsRepo.findByStoreAndDrink(store, drink);
-                    if(ds.getDsStock()<c.getMenuCount()){
+                    if(ds.getDsStock()<c.getCount()){
                          return false; //재고없음
                     }
                }
                if(side!=null){
                     SideStockEntity ss = ssRepo.findByStoreAndSide(store, side);
-                    if(ss.getSsStock()<c.getMenuCount()){
+                    if(ss.getSsStock()<c.getCount()){
                          return false; //재고없음
                     }
                }
                if(event!=null){
                     EventStockEntity es = esRepo.findByStoreAndEvent(store, event);
-                    if(es.getEsStock()<c.getMenuCount()){
+                    if(es.getEsStock()<c.getCount()){
                          return false; //재고없음
                     }
                }
@@ -267,7 +267,7 @@ public class OrderService {
                     // Set<IngredientsInfoEntity> ingredientsInfoEntity = iiRepo.findByingSeq(ingSeq);
                     List<IngredientsStockEntity> ings = isRepo.findStoreAndIngredient(store, c.getIngredient());
                     for(IngredientsStockEntity ing : ings){
-                         if(ing.getIsStock()<c.getMenuCount()){
+                         if(ing.getIsStock()<c.getCount()){
                               return false;
                          }
                     }
