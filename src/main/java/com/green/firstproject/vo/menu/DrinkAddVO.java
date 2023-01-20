@@ -16,8 +16,8 @@ public class DrinkAddVO {
     @Autowired DrinkInfoRepository dRepo;
     @Autowired CategoryRepository cateRepo;
     private String name;
-    private Long cate;
+    private Long category;
     private String detail;
-    private String file;
-    private String uri;
+    private String diFile;
+    private String diUri;
 }
