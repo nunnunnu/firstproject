@@ -93,6 +93,9 @@ public class MyOrderViewVO {
           for(MyOrderDetailVO o : orderDetail){
                this.totalPrice+=o.getPrice();
           }
+          if(discountPrice!=null && discountPrice!=0){
+               this.totalPrice-=discountPrice;
+          }
      }
 
      public void addOrderDetail(MyOrderDetailVO orderDetail){

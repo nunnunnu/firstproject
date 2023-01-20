@@ -76,9 +76,8 @@ public class CartController {
         map.remove("cart");
 
         return new ResponseEntity < > (map, (HttpStatus) map.get("code"));
-
     }
-
+    
     @GetMapping("/list")
     public ResponseEntity < Object > showCart(HttpSession session) {
         List < CartDetail > carts = (List < CartDetail > ) session.getAttribute("cart");

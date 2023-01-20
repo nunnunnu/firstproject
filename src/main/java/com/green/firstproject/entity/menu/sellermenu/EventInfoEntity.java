@@ -34,7 +34,7 @@ public class EventInfoEntity {
      @Column(name="ei_detail") private String eiDetail;
      @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="ei_di_seq") private DrinkInfoEntity eiDiSeq;
      @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="ei_di2_seq") private DrinkInfoEntity eiDi2Seq;
-     @ManyToOne(fetch = FetchType.LAZY)  @JoinColumn(name="ei_cate") private CategoryEntity cate;
+     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="ei_cate") private CategoryEntity cate;
      @Column(name="ei_file") private String eiFile;
      @Column(name="ei_uri") private String eiUri;
 

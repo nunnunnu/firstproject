@@ -2,12 +2,14 @@ package com.green.firstproject.entity.member;
 
 import java.time.LocalDate;
 
-
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,5 +39,5 @@ public class MemberInfoEntity {
     // @Column(name="mi_grade") private Integer miGrade;
     @Column(name="mi_status") @ColumnDefault("1")
     private Integer miStatus;
-    @ManyToOne @JoinColumn(name="mi_grade") @ColumnDefault("1") GradeInfoEntity miGrade;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="mi_grade") @ColumnDefault("1") GradeInfoEntity miGrade;
 }

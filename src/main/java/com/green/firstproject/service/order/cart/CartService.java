@@ -113,7 +113,7 @@ public class CartService {
                }
                if(menu.getMenuSelect() && ingredientsSeq!=null){ //재료선택이 가능한 세트메뉴 + 추가한 재료가 있을 경우
                     System.out.println("iiii");
-                    Set<IngredientsInfoEntity> list = iiRepo.findByingSeq(ingredientsSeq); //menu안에 lazy쿼리도 같이나감??
+                    Set<IngredientsInfoEntity> list = iiRepo.findByingSeq(ingredientsSeq); //menu안에 lazy도 같이나감??
                     System.out.println("yyyy");
                     for(IngredientsInfoEntity i : list){
                          cart.addIngredient(i);
@@ -252,7 +252,6 @@ public class CartService {
      }
      //장바구니 옵션 변경
      public Map<String, Object> cartOptionChange(CartDetail cart ,Long side, Long drink, Long drink2, Set<Long> ingredient){ 
-          System.out.println("start");
           Map<String, Object> map = new LinkedHashMap<>();
           Boolean setMenu = cart.getMenu().getBurger()!=null && cart.getMenu().getSide()!=null && cart.getMenu().getDrink()!=null;
           if(setMenu){

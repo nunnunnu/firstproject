@@ -123,6 +123,7 @@ public class OrderController {
      public ResponseEntity<Object> paymentPage(HttpSession session, @PathVariable Integer type){
           Map<String, Object> map = new LinkedHashMap<>();
           LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
+          
           // if(loginUser==null){
                //      map.put("status", false);
                //      map.put("message", "로그인 후 사용가능한 기능입니다.");

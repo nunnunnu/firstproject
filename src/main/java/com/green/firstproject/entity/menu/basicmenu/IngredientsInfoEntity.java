@@ -1,5 +1,6 @@
 package com.green.firstproject.entity.menu.basicmenu;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.vo.menu.IngredAddVO;
 
@@ -28,14 +29,12 @@ public class IngredientsInfoEntity {
     @Column(name = "ii_price")   private Integer iiPrice;
     @Column(name = "ii_file")    private String iiFile;
     @Column(name = "ii_uri")     private String iiUri;
-    // @Column(name = "ii_mi_seq")  private Long iiMiSeq;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "ii_menu_seq") MenuInfoEntity menu;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "ii_menu_seq") MenuInfoEntity menu;
 
     public IngredientsInfoEntity(IngredAddVO data){
         this.iiName= data.getName();
         this.iiPrice=data.getPrice();
         this.iiFile=data.getFile();
         this.iiUri=data.getUri();
-     }
-     
+    }
 }

@@ -33,8 +33,6 @@ public class PaymentService {
                payChild.add(payc);
           }
           OrderPaymentVO resultPay = new OrderPaymentVO(payChild, type);
-          System.out.println(resultPay.getPays().size());
-          System.out.println(resultPay.getPayType());
 
           map.put("status", true);
           map.put("message","결제 페이지를 조회했습니다.");

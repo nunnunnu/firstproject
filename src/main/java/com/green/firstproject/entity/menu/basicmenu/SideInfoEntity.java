@@ -1,5 +1,6 @@
 package com.green.firstproject.entity.menu.basicmenu;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.vo.menu.SideAddVO;
 
@@ -25,7 +26,7 @@ public class SideInfoEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="side_seq") private Long sideSeq;
      @Column(name="side_name") private String sideName;
-     @ManyToOne(fetch = FetchType.LAZY)
+     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore
      @JoinColumn(name="side_cate") private CategoryEntity cate;
      @Column(name="side_detail") private String sideDetail;
      @Column(name="side_file") private String sideFile;

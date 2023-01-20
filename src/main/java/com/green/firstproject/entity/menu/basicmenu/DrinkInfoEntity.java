@@ -1,4 +1,5 @@
 package com.green.firstproject.entity.menu.basicmenu;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.vo.menu.DrinkAddVO;
 
@@ -24,7 +25,7 @@ public class DrinkInfoEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="di_seq") private Long diSeq;
      @Column(name="di_name") private String diName;
-     @ManyToOne(fetch = FetchType.LAZY)
+     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore
      @JoinColumn(name="di_cate") private CategoryEntity cate;
      @Column(name="di_detail") private String diDetail;
      @Column(name="di_file") private String diFile;

@@ -101,7 +101,6 @@ public class OrderService {
           @Nullable Long couponSeq,
           String address, String detailAddress
      ){   
-          System.out.println("orderStart");
           Map<String, Object> resultMap = new LinkedHashMap<>();
           if(c==null || c.size()==0){ 
                resultMap.put("status", false);
@@ -381,14 +380,14 @@ public class OrderService {
           }
           List<OrderVO> resultOrder = new ArrayList<>();
           for(OrderInfoEntity o : orders){
-               OrderVO order = new OrderVO(o);
                List<OrderDetailEntity> orderDetails = odRepo.findByOdOiseq(o);
-               List<OrderDetailVO> orderDetailVo = new ArrayList<>();
+               OrderVO order = new OrderVO(o);
+               // List<OrderDetailVO> orderDetailVo = new ArrayList<>();
                if(orderDetails!=null){
-                    for(OrderDetailEntity od : orderDetails){
-                         OrderDetailVO orderDe = new OrderDetailVO(od);
-                         orderDe.addPrice(od);
-                         orderDetailVo.add(orderDe);
+                    for(OrderDetailEntity od : orderDetails){                         
+                         // OrderDetailVO orderDe = new OrderDetailVO(od);
+                         // orderDe.addPrice(od);
+                         // orderDetailVo.add(orderDe);
                          
                          order.setOrderPrice(od);
                          List<OrderIngredientsDetailEntity> ingredients = oidRepo.findByOrderdetail(od);
@@ -396,14 +395,13 @@ public class OrderService {
                               int count=0;
                               for(OrderIngredientsDetailEntity i : ingredients){
                                    if(i.getIngredient().getIiPrice()==0){
-                                        if(count>1){
-                                             order.addCheckIngredientPrice();
-                                        }
                                         count++;
                                    }else{
                                         order.addIngredientPrice(i);
                                    }
-                                   
+                              }
+                              if(count>1){
+                                   order.addCheckIngredientPrice();
                               }
                          }
                     }   
@@ -438,8 +436,8 @@ public class OrderService {
                for(OrderIngredientsDetailEntity i : ing){
                     OrderIngredientsVO iVo = new OrderIngredientsVO(i);
                     ingVo.add(iVo);
-                    oDetailVO.addPrice(od);
                }
+               oDetailVO.addPrice(od);
                oDetailVO.addOrderIngredients(ingVo);
                myOrderVo.addOrderDetail(oDetailVO);
           }

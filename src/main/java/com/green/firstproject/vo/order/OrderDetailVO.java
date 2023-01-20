@@ -43,6 +43,7 @@ public class OrderDetailVO {
           if(orderDetail.getOdLdot2Seq()!=null){
                this.drinkOpt2=orderDetail.getOdLdot2Seq().getDoName();
           }
+          addPrice(orderDetail);
      }
 
      public void addOrderIngredients(Set<OrderIngredientsVO> ingredientsVOs){

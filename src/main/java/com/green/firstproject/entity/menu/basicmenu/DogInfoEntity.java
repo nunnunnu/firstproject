@@ -1,4 +1,5 @@
 package com.green.firstproject.entity.menu.basicmenu;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.vo.menu.DogAddVO;
 
@@ -24,7 +25,7 @@ public class DogInfoEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name="dog_seq") private Long dogSeq;
      @Column(name="dog_name") private String dogName;
-     @ManyToOne(fetch = FetchType.LAZY)
+     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore
      @JoinColumn(name="dog_cate") private CategoryEntity cate;
      @Column(name="dog_detail") private String dogDetail;
      @Column(name="dog_file") private String dogFile;

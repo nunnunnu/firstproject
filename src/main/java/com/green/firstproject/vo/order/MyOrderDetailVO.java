@@ -42,7 +42,9 @@ public class MyOrderDetailVO {
                }
                this.composition+=od.getOdLdot2Seq().getDoName()+"교환";
           }
-
+          if(composition==""){
+               composition=null;
+          }
      }
      public void addOrderIngredients(Set<OrderIngredientsVO> ingredientsVOs){
           int count=0;
