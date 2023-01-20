@@ -7,14 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-<<<<<<< HEAD
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
+import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
+import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.vo.add.SideAddVO;
 import com.green.firstproject.vo.menu.BurgerAddVO;
+import com.green.firstproject.vo.menu.DogAddVO;
+import com.green.firstproject.vo.menu.DrinkAddVO;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,6 +30,9 @@ public class AddMenuController {
     @Autowired SideInfoRepository sRepo;
     @Autowired CategoryRepository cateRepo;
     @Autowired BurgerInfoRepository bRepo;
+    @Autowired DrinkInfoRepository dRepo;
+    @Autowired CategoryRepository cRepo;
+    @Autowired DogInfoRepository dogRepo;
 
     @GetMapping("/side")
     public String getsideAdd(Model model) {
@@ -61,22 +69,9 @@ public class AddMenuController {
         return "redirect:/menu/add/burger";
     }
     
-}
-=======
-import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
-import com.green.firstproject.repository.menu.CategoryRepository;
-import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
-import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
-import com.green.firstproject.vo.menu.DogAddVO;
-import com.green.firstproject.vo.menu.DrinkAddVO;
 
-@Controller
-@RequestMapping("/api/menu/add")
-public class AddMenuController {
-    @Autowired DrinkInfoRepository dRepo;
-    @Autowired CategoryRepository cRepo;
-    @Autowired DogInfoRepository dogRepo;
+
+
     @GetMapping("/drink")
     public String getDrinkAdd(Model model){
         model.addAttribute("drinkList", dRepo.findAll());
@@ -115,4 +110,3 @@ public class AddMenuController {
         return "redirect:/api/menu/add/dog";
     }
 }
->>>>>>> euu
