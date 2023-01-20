@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class CartDetail {
 
      // private Long cartSeq;
-     private Integer menuCount;
+     private Integer count;
      // private OrderInfoEntity order;
      private Long menu;
      private Long eventMenu;

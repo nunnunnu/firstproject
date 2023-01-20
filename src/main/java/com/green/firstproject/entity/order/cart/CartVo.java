@@ -32,7 +32,7 @@ public class CartVo {
         List<IngredientsInfoEntity> ingredients
     ){
         // this.cartSeq=cart.getCartSeq();
-        this.menuCount=cart.getMenuCount();
+        this.menuCount=cart.getCount();
         this.ingredient = new ArrayList<>();
         if(cart.getMenu()!=null){
             this.menuName=menu.getMenuName();

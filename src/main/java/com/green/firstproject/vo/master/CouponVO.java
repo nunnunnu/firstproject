@@ -17,7 +17,7 @@ public class CouponVO {
           this.couponSeq=coupon.getCoupon().getCiSeq();
           this.couponName = coupon.getCoupon().getCiName();
           this.couponPrice = coupon.getCoupon().getCiDiscount();
-          if(!coupon.getMcUse() || //이미 사용했거나
+          if(coupon.getMcUse() || //이미 사용했거나
                (coupon.getMcDate().getYear()!=LocalDate.now().getYear() //쿠폰 발급일자의 년도가 다르고
                &&coupon.getMcDate().getMonth()!=LocalDate.now().getMonth()) //쿠폰 발급일자의 월이 다를때
           ){
