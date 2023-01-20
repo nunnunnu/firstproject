@@ -28,6 +28,4 @@ public class BurgerAddVO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDate regDt;  
     private Integer salesRate;
-    
-    
 }
