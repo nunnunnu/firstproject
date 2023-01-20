@@ -81,7 +81,7 @@ public class BurgerService {
     public Map<String, Object> addDrink(DrinkAddVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         DrinkInfoEntity entity = new DrinkInfoEntity(data);
-        CategoryEntity cate = cateRepo.findByCateSeq(data.getCate());
+        CategoryEntity cate = cateRepo.findByCateSeq(data.getCategory());
         if(dRepo.countByDiName(entity.getDiName()) != 0){
             resultMap.put("status", false);
             resultMap.put("message", data.getName()+" 은/는 이미 등록된 메뉴입니다.");
