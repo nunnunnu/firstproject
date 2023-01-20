@@ -1,6 +1,7 @@
 package com.green.firstproject.vo.order;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import lombok.Data;
 @Data
 public class MyOrderViewVO {
      private String memberName;
-     private LocalDateTime orderDate;
+     private String orderDate;
      private String storeName;
      private String orderStatus;
      private PaymentInfoVO pay;
@@ -27,7 +28,7 @@ public class MyOrderViewVO {
      public MyOrderViewVO(OrderInfoEntity order){
           orderDetail = new ArrayList<>();
           this.memberName = order.getMember().getMiName();
-          this.orderDate = order.getOiOrderTime();
+          this.orderDate = order.getOiOrderTime().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
           this.storeName = order.getStore().getSiName();
           this.pay = new PaymentInfoVO(order.getPay());
           setStatus(order);

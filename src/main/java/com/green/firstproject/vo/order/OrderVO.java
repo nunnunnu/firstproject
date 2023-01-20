@@ -36,12 +36,13 @@ public class OrderVO {
           this.storeName=order.getStore().getSiName();
           setStatus(order);
           this.pay=order.getPay().getPayMethod();
+          this.totalPrice = 0;
           if(order.getCoupon()!=null){
                this.couponName=order.getCoupon().getCiName();
                this.discountPrice=order.getCoupon().getCiDiscount();
+               this.totalPrice -= discountPrice;
           }
           this.request = order.getOiRequest();
-          this.totalPrice = 0;
           this.menuList="";
           this.address=order.getOiAddress();
      }
@@ -96,19 +97,19 @@ public class OrderVO {
                     if(orderDetail.getOdLdotSeq()!=null){
                          totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                     }
-          }else if(orderDetail.getOdEiSeq()!=null){ //이벤트 선택
-               this.menuList+=orderDetail.getOdEiSeq().getEiName();
-               this.totalPrice += orderDetail.getOdEiSeq().getEiPrice();
-               if(orderDetail.getOdLsotSeq()!=null){
-                    totalPrice += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               }else if(orderDetail.getOdEiSeq()!=null){ //이벤트 선택
+                    this.menuList+=orderDetail.getOdEiSeq().getEiName();
+                    this.totalPrice += orderDetail.getOdEiSeq().getEiPrice();
+                    if(orderDetail.getOdLsotSeq()!=null){
+                         totalPrice += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+                    }
+                    if(orderDetail.getOdLdotSeq()!=null){
+                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    }
+                    if(orderDetail.getOdLdot2Seq()!=null){
+                         totalPrice += orderDetail.getOdLdot2Seq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    }
                }
-               if(orderDetail.getOdLdotSeq()!=null){
-                    totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
-               }
-               if(orderDetail.getOdLdot2Seq()!=null){
-                    totalPrice += orderDetail.getOdLdot2Seq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
-               }
-          }
           }
           
           // int count = 0;

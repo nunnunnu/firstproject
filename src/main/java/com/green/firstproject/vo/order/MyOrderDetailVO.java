@@ -3,6 +3,7 @@ package com.green.firstproject.vo.order;
 import java.util.Set;
 
 import com.green.firstproject.entity.order.OrderDetailEntity;
+import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
 
 import lombok.Data;
 
@@ -41,9 +42,6 @@ public class MyOrderDetailVO {
                     this.composition+=", ";
                }
                this.composition+=od.getOdLdot2Seq().getDoName()+"교환";
-          }
-          if(composition==""){
-               composition=null;
           }
      }
      public void addOrderIngredients(Set<OrderIngredientsVO> ingredientsVOs){
@@ -85,6 +83,15 @@ public class MyOrderDetailVO {
                if(orderDetail.getOdLdot2Seq()!=null){
                     price += orderDetail.getOdLdot2Seq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                }
+          }
+     }
+     public void ingredientName(OrderIngredientsDetailEntity i) {
+          if(composition!=null || composition.equals("")){
+                    this.composition+=", ";
+          }
+          this.composition+=i.getIngredient().getIiName()+" 추가";
+          if(composition==""){
+               composition=null;
           }
      }
 }

@@ -41,5 +41,8 @@ public class OrderDeliveryVO {
      public void addPrice(CartDetail c){
           this.totalPrice+=c.getPrice();
      }
+     public void addPrice(CartVo c){
+          this.totalPrice+=c.getPrice();
+     }
 
 }
