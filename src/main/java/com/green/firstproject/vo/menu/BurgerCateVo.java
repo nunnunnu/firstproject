@@ -12,6 +12,6 @@ public interface BurgerCateVo {
     LocalDate getBurgerRegDt();
     boolean getBurgerBest();
     // String getRanking();
-
-
+    boolean getBurgerNew();
+    boolean getBurgerSoldOut();
 }
