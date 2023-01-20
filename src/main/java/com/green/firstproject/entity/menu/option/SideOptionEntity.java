@@ -22,8 +22,8 @@ public class SideOptionEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "so_seq") private Long soSeq;
     @Column(name = "so_name") private String soName;
-    @Column(name = "so_price") private int soPrice;
-    @Column(name = "so_size") private int soSize;
+    @Column(name = "so_price") private Integer soPrice;
+    @Column(name = "so_size") private Integer soSize;
     @Column(name = "so_file") private String soFile;
     @Column(name = "so_uri") private String soUri;
 }

@@ -1,51 +1,82 @@
 package com.green.firstproject.entity.order.cart;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.green.firstproject.vo.menu.IngredientVo;
+import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
+import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
+import com.green.firstproject.entity.menu.option.SideOptionEntity;
+import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
+import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.vo.menu.cart.CartDrinkInfoVO;
 import com.green.firstproject.vo.menu.cart.CartIngredientVO;
 import com.green.firstproject.vo.menu.cart.CartSideInfoVO;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @Data
+@NoArgsConstructor
 public class CartVo {
-    private Long cartSeq;
+    // private Long cartSeq;
     private Integer menuCount;
     private String menuName;
     private String eventName;
     private CartSideInfoVO side;
     private CartDrinkInfoVO drink;
     private CartDrinkInfoVO drink2;
-    private Set<CartIngredientVO> ingredient; //중복 제거를 위해 set으로 변경함
+    private List<CartIngredientVO> ingredient; //중복 제거를 위해 set으로 변경함
     private int price;
 
-    public CartVo(CartDetail cart){
-        this.cartSeq=cart.getCartSeq();
+    public CartVo(CartDetail cart, MenuInfoEntity menu, EventInfoEntity eventMenu, 
+        SideOptionEntity sideOpt, DrinkOptionEntity drinkOpt, DrinkOptionEntity drink2Opt,
+        List<IngredientsInfoEntity> ingredients
+    ){
+        // this.cartSeq=cart.getCartSeq();
         this.menuCount=cart.getMenuCount();
-        this.ingredient = new LinkedHashSet<>();
+        this.ingredient = new ArrayList<>();
         if(cart.getMenu()!=null){
-            this.menuName=cart.getMenu().getMenuName();
-        }
-        if(cart.getEventMenu()!=null){
-            this.eventName=cart.getEventMenu().getEiName();
-        }
-        if(cart.getSideOpt()!=null){
-            this.side = new CartSideInfoVO(cart.getSideOpt(), cart.getMenu().getMenuSize());
-        }
-        if(cart.getDrinkOpt()!=null){
-            this.drink= new CartDrinkInfoVO(cart.getDrinkOpt(), cart.getMenu().getMenuSize());
-        }
-        if(cart.getDrink2Opt()!=null){
-            this.drink2= new CartDrinkInfoVO(cart.getDrink2Opt(), cart.getMenu().getMenuSize());
-        }
-        if(cart.getIngredient().size()!=0 || cart.getIngredient()!=null){
-            for(IngredientVo i : cart.getIngredient()){
-                CartIngredientVO iVo = new CartIngredientVO(i);
-                this.ingredient.add(iVo);
+            this.menuName=menu.getMenuName();
+            this.price+=menu.getMenuPrice();
+            if(cart.getSideOpt()!=null){
+                this.side = new CartSideInfoVO(sideOpt, menu.getMenuSize());
+                this.price+=side.getSidePrice();
+            }
+            if(cart.getDrinkOpt()!=null){
+                this.drink= new CartDrinkInfoVO(drinkOpt, menu.getMenuSize());
+                this.price+=drink.getDrinkPrice();
             }
         }
-        this.price = cart.getPrice() * this.menuCount;
+        if(cart.getEventMenu()!=null){
+            this.eventName=eventMenu.getEiName();
+            this.price+=eventMenu.getEiPrice();
+            if(cart.getDrinkOpt()!=null){
+                this.drink= new CartDrinkInfoVO(drinkOpt);
+                this.price+=drink.getDrinkPrice();
+            }
+            if(cart.getDrink2Opt()!=null){
+                this.drink2= new CartDrinkInfoVO(drink2Opt);
+                this.price += drink2.getDrinkPrice();
+            }
+        }
+        if(ingredients.size()!=0){
+            checkIngredient(ingredients);
+        }
+        this.price = this.price * this.menuCount;
+    }
+
+    public void checkIngredient(List<IngredientsInfoEntity> ingredients){
+        int count = 0;
+        for(IngredientsInfoEntity i : ingredients){
+            CartIngredientVO iVo = new CartIngredientVO(i);
+            this.ingredient.add(iVo);
+            if(i.getIiPrice()==0){
+                count++;
+            }
+        }
+        if(count>1){
+            this.price +=400;
+            ingredient.add(new CartIngredientVO("재료 추가", 400));
+        }
+
     }
 }

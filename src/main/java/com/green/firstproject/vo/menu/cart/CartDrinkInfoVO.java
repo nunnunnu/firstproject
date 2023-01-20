@@ -8,28 +8,40 @@ import lombok.Data;
 public class CartDrinkInfoVO {
      private Long   drinkSeq;
      private String drinkName;
-     private String drinkPrice;
+     private Integer drinkPrice;
 
      public CartDrinkInfoVO(DrinkOptionEntity drink, Integer menuSize){
+          if(drink!=null){
+               this.drinkSeq = drink.getDoSeq();
+               this.drinkName = drink.getDoName();
+               this.drinkPrice=0;
+               if(menuSize == 1){
+                    int price = drink.getDoPrice()-2600;
+                    if(price<0){
+                         this.drinkPrice = 0;
+     
+                    }else{
+                         this.drinkPrice = price;
+                    }
+               }else if(menuSize==2){
+                    int price = drink.getDoPrice()-2800;
+                    if(price<0){
+                         this.drinkPrice = 0;
+     
+                    }else{
+                         this.drinkPrice += price;
+                    }
+               }
+          }
+     }
+     public CartDrinkInfoVO(DrinkOptionEntity drink){
           this.drinkSeq = drink.getDoSeq();
           this.drinkName = drink.getDoName();
-          this.drinkPrice="+";
-          if(menuSize == 1){
-               int price = drink.getDoPrice()-2600;
-               if(price<0){
-                    this.drinkPrice += "0원";
-
-               }else{
-                    this.drinkPrice += price+"원";
-               }
-          }else if(menuSize==2){
-                              int price = drink.getDoPrice()-2800;
-               if(price<0){
-                    this.drinkPrice += "0원";
-
-               }else{
-                    this.drinkPrice += price+"원";
-               }
+          int price = drink.getDoPrice()-2600;
+          if(price<0){
+               this.drinkPrice = 0;
+          }else{
+               this.drinkPrice = price;
           }
      }
 }

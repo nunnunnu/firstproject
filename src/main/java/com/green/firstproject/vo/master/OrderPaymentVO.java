@@ -7,14 +7,14 @@ import lombok.Data;
 
 @Data
 public class OrderPaymentVO {
-     private String payType;
+     private String type;
      private List<OrderPaymentChildVO> pays;
 
      public void payTypeSetting(Integer type){
           if(type==1){
-               this.payType="카드 결제";
+               this.type="카드 결제";
           }else if(type==2){
-               this.payType="만나서 결제";
+               this.type="만나서 결제";
           }
      }
 

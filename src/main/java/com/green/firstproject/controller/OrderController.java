@@ -2,7 +2,6 @@ package com.green.firstproject.controller;
 
 import java.time.LocalTime;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
-import com.green.firstproject.entity.order.cart.CartDetail;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.service.order.OrderService;
 import com.green.firstproject.service.order.PaymentService;
-import com.green.firstproject.service.order.cart.CartService;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.order.OrderFormVO;
 
@@ -33,7 +30,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/order")
 public class OrderController {
 
-     @Autowired CartService cartService;
+     // @Autowired CartService cartService;
      @Autowired MemberInfoReposiroty mReposiroty;
      @Autowired StoreInfoRepository sRepository;
      @Autowired OrderService orderService;
@@ -42,6 +39,7 @@ public class OrderController {
      @PutMapping("")
      public ResponseEntity<Object> order(HttpSession session, @RequestBody OrderFormVO oVo
      ){
+          System.out.println(oVo);
           Map<String, Object> map = new LinkedHashMap<>();
           // if(session.getAttribute("loginUser")==null){
                //      map.put("status", false);
@@ -62,11 +60,15 @@ public class OrderController {
                map.put("code", HttpStatus.ACCEPTED);
                return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           }
-          List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
+          // List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
+
+          if(!orderService.stockCheck(oVo.getCart(), store)){ //재고가 부족하다면
+               return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+          }
           
-          map = orderService.order(member, store, oVo.getPay(), carts, oVo.getMessage(), oVo.getCartSeq(), oVo.getCouponSeq(), address, detailAddress);  
-          session.setAttribute("cart", map.get("notOrders"));
-          map.remove("notOrders");
+          map = orderService.order(member, store, oVo.getPay(), oVo.getCart(), oVo.getMessage(), oVo.getCouponSeq(), address, detailAddress);  
+          // session.setAttribute("cart", map.get("notOrders"));
+          // map.remove("notOrders");
 
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
@@ -137,6 +139,7 @@ public class OrderController {
      }
      @GetMapping("/info")
      public ResponseEntity<Object> orderPayment(HttpSession session, @RequestBody OrderFormVO oVo){
+          System.out.println(oVo);
           Map<String, Object> map = new LinkedHashMap<>();
           LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
           // if(loginUser==null){
@@ -149,8 +152,8 @@ public class OrderController {
 
           StoreInfoEntity store = sRepository.findAll().get(0); //매장 고정. 이후 변경 필요
 
-          List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
-          map = orderService.orderPage(login, store, carts, oVo.getCartSeq());
+          // List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
+          map = orderService.orderPage(login, store, oVo.getCart());
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
 

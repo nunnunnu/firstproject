@@ -1,5 +1,6 @@
 package com.green.firstproject.vo.menu.cart;
 
+import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.vo.menu.IngredientVo;
 
 import lombok.Data;
@@ -8,11 +9,16 @@ import lombok.Data;
 public class CartIngredientVO {
      private Long   ingredientSeq;
      private String ingredientName;
-     private String ingredientPrice;
+     private Integer ingredientPrice;
 
-     public CartIngredientVO(IngredientVo ingredient){
-          this.ingredientSeq=ingredient.getIngredirentSeq();
-          this.ingredientName=ingredient.getIngredientName();
-          this.ingredientPrice="+"+ingredient.getIngredientPrice()+"원";
+     public CartIngredientVO(IngredientsInfoEntity ingredient){
+          this.ingredientSeq=ingredient.getIiSeq();
+          this.ingredientName=ingredient.getIiName();
+          this.ingredientPrice=ingredient.getIiPrice();
+     }
+
+     public CartIngredientVO(String name, Integer price){
+          this.ingredientName=name;
+          this.ingredientPrice=price;
      }
 }

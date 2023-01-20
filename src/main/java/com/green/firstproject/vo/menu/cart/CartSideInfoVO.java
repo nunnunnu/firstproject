@@ -8,29 +8,24 @@ import lombok.Data;
 public class CartSideInfoVO {
      private Long sideSeq;
      private String sideName;
-     private String sidePrice;
+     private Integer sidePrice;
 
      public CartSideInfoVO(SideOptionEntity side, Integer menuSize){
-          this.sideSeq = side.getSoSeq();
-          this.sideName = side.getSoName();
-          this.sidePrice="+";
-          if(menuSize == 1){
-               int price = side.getSoPrice()-2700;
-               if(price<0){
-                    this.sidePrice += "0원";
-
-               }else{
-                    this.sidePrice += price+"원";
-               }
-          }else if(menuSize==2){
-               int price = side.getSoPrice()-3200;
-               if(price<0){
-                    this.sidePrice += "0원";
-
-               }else{
-                    this.sidePrice += price+"원";
+          if(side!=null){
+               this.sidePrice=0;
+               this.sideSeq = side.getSoSeq();
+               this.sideName = side.getSoName();
+               if(menuSize == 1){
+                    this.sidePrice = side.getSoPrice()-2700;
+               }else if(menuSize==2){
+                    this.sidePrice = side.getSoPrice()-3200;
                }
           }
+     }
+     public CartSideInfoVO(SideOptionEntity side){
+          this.sideSeq = side.getSoSeq();
+          this.sideName = side.getSoName();
+          this.sidePrice= side.getSoPrice()-2600;
      }
 
 }

@@ -29,4 +29,8 @@ public class OrderIngredientsDetailEntity {
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="odi_odc_seq") private OrderDetailEntity orderdetail;
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="odi_ii_seq")  private IngredientsInfoEntity ingredient;
     
+    public OrderIngredientsDetailEntity(IngredientsInfoEntity i, OrderDetailEntity orderDetail) {
+        this.orderdetail = orderDetail;
+        this.ingredient = i;
+    }
 }
