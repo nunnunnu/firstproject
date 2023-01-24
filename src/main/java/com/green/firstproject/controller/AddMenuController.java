@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
+import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
@@ -20,8 +22,7 @@ import com.green.firstproject.vo.add.SideAddVO;
 import com.green.firstproject.vo.menu.BurgerAddVO;
 import com.green.firstproject.vo.menu.DogAddVO;
 import com.green.firstproject.vo.menu.DrinkAddVO;
-
-import org.springframework.web.bind.annotation.RequestParam;
+import com.green.firstproject.vo.store.StoreAddForm;
 
 
 @Controller
@@ -33,6 +34,7 @@ public class AddMenuController {
     @Autowired DrinkInfoRepository dRepo;
     @Autowired CategoryRepository cRepo;
     @Autowired DogInfoRepository dogRepo;
+    @Autowired StoreInfoRepository siRepo;
 
     @GetMapping("/side")
     public String getsideAdd(Model model) {
@@ -108,5 +110,19 @@ public class AddMenuController {
         .build();
         dogRepo.save(entity);
         return "redirect:/api/menu/add/dog";
+    }
+
+    @GetMapping("/store")
+    public String getStoreAdd(){
+        
+        return "/store";
+    }
+    @PostMapping("/store")
+    public String postStoreAdd(StoreAddForm data){
+        System.out.println(data);
+        StoreInfoEntity store = new StoreInfoEntity(null, data.getName(), data.getAddress()+" "+data.getDetailAddress(), data.getPhone(), data.getOpenTime(), data.getCloseTime(), data.getDeliveryPrice(), 1);
+        siRepo.save(store);
+        
+        return "redirect:/";
     }
 }
