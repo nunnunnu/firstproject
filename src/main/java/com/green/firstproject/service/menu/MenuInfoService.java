@@ -33,6 +33,8 @@ import com.green.firstproject.repository.menu.option.SideOptionRepository;
 import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 import com.green.firstproject.vo.add.BurgerAddFileVO;
+import com.green.firstproject.vo.add.DogAddFIleVO;
+import com.green.firstproject.vo.add.DrinkAddFileVO;
 import com.green.firstproject.vo.add.SideAddVO;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
 import com.green.firstproject.vo.menu.option.SideOptionVO;
@@ -242,11 +244,8 @@ public class MenuInfoService {
     }
 
     @Value("${file.image.burger}") String burger_img_path; //springframework.beans임
-
     public void saveFile(BurgerAddFileVO data){
-
         MultipartFile file = data.getFile();
-        
         Path folderLocation = null; //todo_img_path 문자열로부터 실제 폴더 경로를 가져옴.
         folderLocation = Paths.get(burger_img_path);
 
@@ -257,6 +256,7 @@ public class MenuInfoService {
         for (int i = 0; i < split.length - 1; i++) {
             fileName += split[i]; //원래 split[i]+"." 이렇게 해줘야함
         }
+
         String saveFileName = "burger_"; //보통 원본 이름을 저장하는것이아니라 시간대를 입력함
         Calendar c = Calendar.getInstance();
         saveFileName += c.getTimeInMillis() + "." + ext; // todo_161310135.png 이런식으로 저장됨
@@ -270,11 +270,78 @@ public class MenuInfoService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-            BurgerInfoEntity entity = 
+        BurgerInfoEntity entity = 
             BurgerInfoEntity.builder().biName(data.getName()).cate(cateRepo.findByCateSeq(data.getCate()))
-                                        .biDetail(data.getDetail()).biRegDt(data.getRegDt())
-                                        .biFile(saveFileName).biUri(fileName).build();
+                                    .biDetail(data.getDetail()).biRegDt(data.getRegDt())
+                                    .biFile(saveFileName).biUri(fileName).build();
+    
+    burgerRepo.save(entity);
+    }
+    @Value("${file.image.drink}") String drink_img_path;
+    public void saveDrinkFile(DrinkAddFileVO data){
+        MultipartFile file = data.getDiFile();
+        Path folderLocation = null; 
+        folderLocation = Paths.get(drink_img_path);
 
-        burgerRepo.save(entity);
+        String originFileName = file.getOriginalFilename();
+        String[] split = originFileName.split(("\\.")); //.을 기준으로 나눔
+        String ext = split[split.length - 1]; //확장자
+        String fileName = "";
+        for (int i = 0; i < split.length - 1; i++) {
+            fileName += split[i]; //원래 split[i]+"." 이렇게 해줘야함
+        }
+        String saveFileName = "drink_"; //보통 원본 이름을 저장하는것이아니라 시간대를 입력함
+        Calendar c = Calendar.getInstance();
+        saveFileName += c.getTimeInMillis() + "." + ext; // todo_161310135.png 이런식으로 저장됨
+
+        Path targetFile = folderLocation.resolve(saveFileName); //폴더 경로와 파일의 이름을 합쳐서 목표 파일의 경로 생성
+        try {
+            //Files는 파일 처리에 대한 유틸리티 클래스
+            //copy - 복사, file.getInputStream() - 파일을 열어서 파일의 내용을 읽는 준비
+            //targetFile 경로로, standardCopyOption.REPLACE_EXISTING - 같은 파일이 있다면 덮어쓰기.
+            Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DrinkInfoEntity entity = 
+            DrinkInfoEntity.builder().diName(data.getName()).cate(cateRepo.findByCateSeq(data.getCategory()))
+                                        .diDetail(data.getDetail())
+                                        .diFile(saveFileName).diUri(fileName).build();
+        drinkRepo.save(entity);
+    }
+    
+    @Value("${file.image.dog}")String dog_img_path;
+    
+    public void saveDogFile(DogAddFIleVO data) {
+        MultipartFile file = data.getDogFile();
+        Path folderLocation = null;
+        folderLocation = Paths.get(dog_img_path);
+
+        String originFileName = file.getOriginalFilename();
+        String[] split = originFileName.split(("\\.")); // .을 기준으로 나눔
+        String ext = split[split.length - 1]; // 확장자
+        String fileName = "";
+        for (int i = 0; i < split.length - 1; i++) {
+            fileName += split[i]; // 원래 split[i]+"." 이렇게 해줘야함
+        }
+        String saveFileName = "dog_"; // 보통 원본 이름을 저장하는것이아니라 시간대를 입력함
+        Calendar c = Calendar.getInstance();
+        saveFileName += c.getTimeInMillis() + "." + ext; // todo_161310135.png 이런식으로 저장됨
+
+        Path targetFile = folderLocation.resolve(saveFileName); // 폴더 경로와 파일의 이름을 합쳐서 목표 파일의 경로 생성
+        try {
+            // Files는 파일 처리에 대한 유틸리티 클래스
+            // copy - 복사, file.getInputStream() - 파일을 열어서 파일의 내용을 읽는 준비
+            // targetFile 경로로, standardCopyOption.REPLACE_EXISTING - 같은 파일이 있다면 덮어쓰기.
+            Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DogInfoEntity entity = DogInfoEntity.builder().dogName(data.getName())
+                .cate(cateRepo.findByCateSeq(data.getCategory()))
+                .dogDetail(data.getDetail())
+                .dogFile(saveFileName).dogUri(fileName).build();
+        dogRepo.save(entity);
     }
 }
+

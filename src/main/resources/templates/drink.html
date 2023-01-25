@@ -5,11 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-<<<<<<< HEAD
-</head>
-<body>
-    <h1>음료 정보 추가</h1>
-=======
     <style>
         body {text-align: center;}
         #input_form_table {
@@ -22,7 +17,7 @@
 </head>
 <body>
     <h1>음료 정보 추가</h1>
-    <form action="/api/menu/add/drink" method="post">
+    <form action="/menu/add/drink" method="post" enctype="multipart/form-data">
         <table border="1" id="input_form_table">
             <tbody>
                 <tr>
@@ -48,12 +43,12 @@
                 </tr>
                 <tr>
                     <td>파일명</td>
-                    <td colspan="2"><input type="text" name="diFile"></td>
+                    <td colspan="2"><input type="file" name="diFile"></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>URI</td>
                     <td colspan="2"><input type="text" name="diUri"></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td colspan="6">
                         <button>저장</button>
@@ -63,6 +58,5 @@
             </tbody>
         </table>
     </form>
->>>>>>> euu
 </body>
 </html>

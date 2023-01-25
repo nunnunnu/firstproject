@@ -34,8 +34,8 @@ public class DrinkInfoEntity {
      @Column(name="di_uri") private String diUri;
 
      public DrinkInfoEntity(DrinkAddVO data){
-        this.diName= data.getName();
-        this.diDetail=data.getDetail();
+        this.diName= data.getDinkeName();
+        this.diDetail=data.getDrinkDetail();
         this.diFile=data.getDiFile();
         this.diUri=data.getDiFile();
      }

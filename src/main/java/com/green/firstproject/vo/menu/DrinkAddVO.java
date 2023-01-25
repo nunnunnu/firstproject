@@ -1,6 +1,7 @@
 package com.green.firstproject.vo.menu;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
@@ -15,9 +16,10 @@ import lombok.NoArgsConstructor;
 public class DrinkAddVO {
     @Autowired DrinkInfoRepository dRepo;
     @Autowired CategoryRepository cateRepo;
-    private String name;
+    private String dinkeName;
     private Long category;
-    private String detail;
+    private String drinkDetail;
     private String diFile;
     private String diUri;
+    private MultipartFile drinkFile;
 }
