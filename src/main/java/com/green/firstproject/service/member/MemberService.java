@@ -12,16 +12,20 @@ import org.springframework.stereotype.Service;
 
 import com.green.firstproject.entity.member.LatelyDeliveryEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
+import com.green.firstproject.entity.member.MyDeliveryEntity;
 import com.green.firstproject.repository.member.LatelyDeliveryRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
+import com.green.firstproject.repository.member.MyDeliveryRepository;
 import com.green.firstproject.utils.AESAlgorithm;
 import com.green.firstproject.vo.member.LatelyDeliveryVO;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.member.MemberMypageVO;
+import com.green.firstproject.vo.member.MyDeliveryVO;
 @Service
 public class MemberService {
     @Autowired MemberInfoReposiroty mRepo;
     @Autowired LatelyDeliveryRepository ldRepo;
+    @Autowired MyDeliveryRepository mdRepo;
 
     public Map<String, Object> addMember(MemberInfoEntity data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
@@ -225,6 +229,40 @@ public class MemberService {
         map.put("message", "최근 주문내역을 조회했습니다.");
         map.put("code", HttpStatus.ACCEPTED);    
         map.put("list", result);
+        return map;
+    }
+
+    public Map<String, Object> showMyDeliveryAddress(LoginUserVO data){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        MemberInfoEntity member = mRepo.findByMiEmail(data.getEmail());
+        List<MyDeliveryEntity> list = mdRepo.findMember(member);
+
+        if(list.size()==0){
+            map.put("status", false);
+            map.put("message", data.getEmail()+"님 \n"+"평소에 자주 배달받는 주소를 등록해 보세요.");
+            map.put("code", HttpStatus.ACCEPTED);
+        }
+        List<MyDeliveryVO> result = new ArrayList<>();
+        for(MyDeliveryEntity m : list){
+            MyDeliveryVO my = new MyDeliveryVO(m);
+            result.add(my);
+        }
+        map.put("status", true);
+        map.put("message", "MY배달지");
+        map.put("code", HttpStatus.ACCEPTED);
+        map.put("list", result);
+        return map;
+    }
+
+    public Map<String, Object> addMyDeliveryAddress(LoginUserVO data, String address, String detailAddress){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        MyDeliveryEntity my = new MyDeliveryEntity();
+        my.setMdAddress(address);
+        my.setMdDetailAddress(detailAddress);
+        mdRepo.save(my);
+        map.put("status", true);
+        map.put("message", "MY배달지가 등록되었습니다.");
+        map.put("code", HttpStatus.ACCEPTED);
         return map;
     }
 }    
