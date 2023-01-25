@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -19,10 +17,11 @@ import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.service.menu.MenuInfoService;
+import com.green.firstproject.vo.add.DogAddFIleVO;
+import com.green.firstproject.vo.add.DrinkAddFileVO;
 import com.green.firstproject.vo.add.SideAddVO;
 import com.green.firstproject.vo.menu.BurgerAddVO;
 import com.green.firstproject.vo.menu.DogAddVO;
-import com.green.firstproject.vo.menu.DrinkAddVO;
 import com.green.firstproject.vo.store.StoreAddForm;
 
 
@@ -84,16 +83,10 @@ public class AddMenuController {
         return "/drink";
     }
     @PostMapping("/drink")
-    public String postDrinkAdd(DrinkAddVO data){
-        DrinkInfoEntity entity = DrinkInfoEntity.builder()
-        .diName(data.getName())
-        .diDetail(data.getDetail())
-        .diFile(data.getDiFile())
-        .diUri(data.getDiUri())
-        .cate(cRepo.findByCateSeq(data.getCategory()))
-        .build();
-        dRepo.save(entity);
-        return "redirect:/api/menu/add/drink";
+    public String postDrinkAdd(DrinkAddFileVO data){
+        System.out.println(data);
+        menuService.saveFile(data);
+        return "redirect:/menu/add/drink";
     }
     @GetMapping("/dog")
     public String getDogAdd(Model model){
@@ -102,17 +95,10 @@ public class AddMenuController {
         return "/dog";
     }
     @PostMapping("/dog")
-    public String postDogAdd(DogAddVO data){
+    public String postDogAdd(DogAddFIleVO data){
         System.out.println(data);
-        DogInfoEntity entity = DogInfoEntity.builder()
-        .dogName(data.getName())
-        .dogDetail(data.getDetail())
-        .dogFile(data.getFile())
-        .dogUri(data.getUri())
-        .cate(cRepo.findByCateSeq(data.getCate()))
-        .build();
-        dogRepo.save(entity);
-        return "redirect:/api/menu/add/dog";
+        menuService.saveDogFile(data);
+        return "redirect:/menu/add/dog";
     }
 
     @GetMapping("/store")
