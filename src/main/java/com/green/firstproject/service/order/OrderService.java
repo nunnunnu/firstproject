@@ -136,7 +136,7 @@ public class OrderService {
           oiRepository.save(order);
           for(CartDetail c : carts){
                MenuInfoEntity menu = menuRepo.findByMenuSeq(c.getMenu());
-               EventInfoEntity event = eRepo.findByEiSeq(c.getEventMenu());
+               Boolean event = !(menu.getEvent()==null);
                SideOptionEntity side = soRepo.findBySoSeq(c.getSideOpt());
                DrinkOptionEntity drink = diRepo.findByDoSeq(c.getDrinkOpt());
                DrinkOptionEntity drink2 = diRepo.findByDoSeq(c.getDrink2Opt());
@@ -228,7 +228,7 @@ public class OrderService {
                DogInfoEntity dog = menu.getDog();
                DrinkInfoEntity drink = menu.getDrink();
                SideInfoEntity side = menu.getSide();
-               EventInfoEntity event = eRepo.findByEiSeq(c.getEventMenu());
+               EventInfoEntity event = menu.getEvent();
                if(burger!=null){
                     BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
                     if(bs.getBsStock()<c.getCount()){
@@ -444,13 +444,13 @@ public class OrderService {
           List<CartVo> carts = new ArrayList<>();
           for(CartDetail cart : c){
                MenuInfoEntity menu = menuRepo.findByMenuSeq(cart.getMenu());
-               EventInfoEntity eventMenu = eRepo.findByEiSeq(cart.getEventMenu());
+               Boolean event = !(menu.getEvent()==null);
                SideOptionEntity sideOpt = soRepo.findBySoSeq(cart.getSideOpt());
                DrinkOptionEntity drinkOpt = diRepo.findByDoSeq(cart.getDrinkOpt());
                DrinkOptionEntity drink2Opt = diRepo.findByDoSeq(cart.getDrink2Opt());
                List<IngredientsInfoEntity> ingredients = iiRepo.findByingSeq(cart.getIngredient());
                
-               CartVo cVo = new CartVo(cart, menu, eventMenu, sideOpt, drinkOpt, drink2Opt, ingredients);
+               CartVo cVo = new CartVo(cart, menu, event, sideOpt, drinkOpt, drink2Opt, ingredients);
                carts.add(cVo);
                order.addPrice(cVo);
 

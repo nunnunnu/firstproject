@@ -37,8 +37,10 @@ public class MenuInfoEntity {
     @Column(name = "menu_uri")              private String menuUri;
     @Column(name = "menu_ex")               private String menuEx;
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "menu_bi_seq") BurgerInfoEntity burger;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "menu_ei_seq") EventInfoEntity event;
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "menu_side_seq") SideInfoEntity side;
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "menu_di_seq") DrinkInfoEntity drink;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "menu_di2_seq") DrinkInfoEntity drink2;
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "menu_dog_seq") DogInfoEntity dog;
     @Column(name = "menu_size")             private Integer menuSize;
     @Column(name = "menu_select")     @ColumnDefault("false")      

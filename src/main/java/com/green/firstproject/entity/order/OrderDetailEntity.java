@@ -39,17 +39,16 @@ public class OrderDetailEntity {
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="od_ldot_seq")         private DrinkOptionEntity odLdotSeq;
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="od_ldot2_seq")        private DrinkOptionEntity odLdot2Seq;
 
-    public OrderDetailEntity(CartDetail cart, MenuInfoEntity menu, EventInfoEntity event,SideOptionEntity side, DrinkOptionEntity drink, DrinkOptionEntity drink2){
+    public OrderDetailEntity(CartDetail cart, MenuInfoEntity menu, Boolean event,SideOptionEntity side, DrinkOptionEntity drink, DrinkOptionEntity drink2){
         this.odCount=cart.getCount();
-        if(menu!=null){
+        if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){ //세트메뉴면
             this.odBiseq= menu;
             this.odLsotSeq=side;
             this.odLdotSeq=drink;
-        }else if(event!=null){
-            this.odEiSeq= event;
+        }else if(event){ //이벤트 메뉴면
+            this.odBiseq= menu;
             this.odLdotSeq=drink;
             this.odLdot2Seq=drink2;
         }
-        
     }
 }

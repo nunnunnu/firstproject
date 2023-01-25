@@ -97,12 +97,7 @@ public class OrderVO {
                     if(orderDetail.getOdLdotSeq()!=null){
                          totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                     }
-               }else if(orderDetail.getOdEiSeq()!=null){ //이벤트 선택
-                    this.menuList+=orderDetail.getOdEiSeq().getEiName();
-                    this.totalPrice += orderDetail.getOdEiSeq().getEiPrice();
-                    if(orderDetail.getOdLsotSeq()!=null){
-                         totalPrice += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
-                    }
+               }else if(orderDetail.getOdEiSeq()!=null){ //이벤트 메뉴
                     if(orderDetail.getOdLdotSeq()!=null){
                          totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                     }

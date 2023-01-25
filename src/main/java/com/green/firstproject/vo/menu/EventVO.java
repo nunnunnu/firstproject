@@ -22,8 +22,8 @@ public class EventVO {
         this.eventName = event.getEiName();
         this.eventStartDt = event.getEiStartDt();
         this.eventEndDt = event.getEiEndDt();
-        this.eventPrice = event.getEiPrice();
-        this.eventDetail = event.getEiDetail();
+        // this.eventPrice = event.getEiPrice();
+        // this.eventDetail = event.getEiDetail();
         this.eventFile = event.getEiFile();
         this.eventUri = event.getEiUri();
     }

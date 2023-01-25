@@ -1,6 +1,5 @@
 package com.green.firstproject.vo.order;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,17 +74,14 @@ public class MyOrderViewVO {
                     if(orderDetail.getOdLdotSeq()!=null){
                          totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                     }
-               }
-          }else if(orderDetail.getOdEiSeq()!=null){ //이벤트 선택
-               this.totalPrice += orderDetail.getOdEiSeq().getEiPrice();
-               if(orderDetail.getOdLsotSeq()!=null){
-                    totalPrice += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
-               }
-               if(orderDetail.getOdLdotSeq()!=null){
-                    totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
-               }
-               if(orderDetail.getOdLdot2Seq()!=null){
-                    totalPrice += orderDetail.getOdLdot2Seq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               }else if(orderDetail.getOdEiSeq()!=null){
+                    if(orderDetail.getOdLdotSeq()!=null){
+                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    }
+                    if(orderDetail.getOdLdot2Seq()!=null){
+                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    }
+
                }
           }
      }

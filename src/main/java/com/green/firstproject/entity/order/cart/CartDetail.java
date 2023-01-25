@@ -14,7 +14,6 @@ public class CartDetail {
      private Integer count;
      // private OrderInfoEntity order;
      private Long menu;
-     private Long eventMenu;
      private Long sideOpt;
      private Long drinkOpt;
      private Long drink2Opt; //싹다 VO로 변경

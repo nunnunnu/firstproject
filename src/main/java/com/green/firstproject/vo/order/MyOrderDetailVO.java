@@ -10,7 +10,6 @@ import lombok.Data;
 @Data
 public class MyOrderDetailVO {
      private String orderMenuName;
-     private String eventMenuName;
      private Integer price;
      private String menuEx;
      private Integer count;
@@ -23,10 +22,6 @@ public class MyOrderDetailVO {
           if(od.getOdBiseq()!=null){
                this.orderMenuName=od.getOdBiseq().getMenuName();
                this.menuEx=od.getOdBiseq().getMenuEx();
-          }
-          if(od.getOdEiSeq()!=null){
-               this.orderMenuName=od.getOdEiSeq().getEiName();
-               this.menuEx=od.getOdEiSeq().getEiDetail();
           }
           if(od.getOdLsotSeq()!=null){
                this.composition+=od.getOdLsotSeq().getSoName()+"교환";
@@ -63,8 +58,6 @@ public class MyOrderDetailVO {
           Integer lSizeDrinkPrice = 2800;
           if(orderDetail.getOdBiseq()!=null){
                this.price += orderDetail.getOdBiseq().getMenuPrice();
-          }else if(orderDetail.getOdEiSeq()!=null){
-               this.price += orderDetail.getOdEiSeq().getEiPrice();
           }
           if(orderDetail.getOdBiseq().getBurger()!=null && orderDetail.getOdBiseq().getSide()!=null && orderDetail.getOdBiseq().getDrink()!=null){
                if(orderDetail.getOdLsotSeq()!=null){

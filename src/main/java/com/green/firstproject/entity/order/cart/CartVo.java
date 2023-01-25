@@ -27,7 +27,7 @@ public class CartVo {
     private List<CartIngredientVO> ingredient; //중복 제거를 위해 set으로 변경함
     private int price;
 
-    public CartVo(CartDetail cart, MenuInfoEntity menu, EventInfoEntity eventMenu, 
+    public CartVo(CartDetail cart, MenuInfoEntity menu, Boolean event, 
         SideOptionEntity sideOpt, DrinkOptionEntity drinkOpt, DrinkOptionEntity drink2Opt,
         List<IngredientsInfoEntity> ingredients
     ){
@@ -45,17 +45,11 @@ public class CartVo {
                 this.drink= new CartDrinkInfoVO(drinkOpt, menu.getMenuSize());
                 this.price+=drink.getDrinkPrice();
             }
-        }
-        if(cart.getEventMenu()!=null){
-            this.eventName=eventMenu.getEiName();
-            this.price+=eventMenu.getEiPrice();
-            if(cart.getDrinkOpt()!=null){
-                this.drink= new CartDrinkInfoVO(drinkOpt);
-                this.price+=drink.getDrinkPrice();
-            }
-            if(cart.getDrink2Opt()!=null){
-                this.drink2= new CartDrinkInfoVO(drink2Opt);
-                this.price += drink2.getDrinkPrice();
+            if(event && cart.getDrink2Opt()!=null){
+                if(cart.getDrink2Opt()!=null){
+                    this.drink2= new CartDrinkInfoVO(drink2Opt);
+                    this.price += drink2.getDrinkPrice();
+                }
             }
         }
         if(ingredients.size()!=0){

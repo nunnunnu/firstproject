@@ -30,10 +30,6 @@ public class EventInfoEntity {
      @Column(name="ei_name") private String eiName;
      @Column(name="ei_start_dt") private LocalDate eiStartDt;
      @Column(name="ei_end_dt") private LocalDate eiEndDt;
-     @Column(name="ei_price") private Integer eiPrice;
-     @Column(name="ei_detail") private String eiDetail;
-     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="ei_di_seq") private DrinkInfoEntity eiDiSeq;
-     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="ei_di2_seq") private DrinkInfoEntity eiDi2Seq;
      @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="ei_cate") private CategoryEntity cate;
      @Column(name="ei_file") private String eiFile;
      @Column(name="ei_uri") private String eiUri;
@@ -42,8 +38,8 @@ public class EventInfoEntity {
         this.eiName=data.getName();
         this.eiStartDt=data.getStartDt();
         this.eiEndDt=data.getEndDt();
-        this.eiPrice=data.getPrice();
-        this.eiDetail=data.getDetail();
+      //   this.eiPrice=data.getPrice();
+      //   this.eiDetail=data.getDetail();
         this.eiFile=data.getFile();
         this.eiUri=data.getUri();
      }
@@ -52,8 +48,8 @@ public class EventInfoEntity {
         this.cate = cate;
      }
 
-     public void setDrink(DrinkInfoEntity drink){
-        this.eiDiSeq = drink;
-        this.eiDi2Seq = drink;
-     }
+   //   public void setDrink(DrinkInfoEntity drink){
+   //      this.eiDiSeq = drink;
+   //      this.eiDi2Seq = drink;
+   //   }
 }

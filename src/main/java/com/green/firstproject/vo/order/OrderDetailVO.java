@@ -65,8 +65,6 @@ public class OrderDetailVO {
           Integer lSizeDrinkPrice = 2800;
           if(orderDetail.getOdBiseq()!=null){
                this.price += orderDetail.getOdBiseq().getMenuPrice();
-          }else if(orderDetail.getOdEiSeq()!=null){
-               this.price += orderDetail.getOdEiSeq().getEiPrice();
           }
           if(orderDetail.getOdBiseq().getBurger()!=null && orderDetail.getOdBiseq().getSide()!=null && orderDetail.getOdBiseq().getDrink()!=null){
                if(orderDetail.getOdLsotSeq()!=null){

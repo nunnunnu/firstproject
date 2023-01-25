@@ -21,10 +21,10 @@ public class EventAddVO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate endDt;
-    private Integer price;
-    private String detail;
-    private Long diSeq;
-    private Long di2Seq;
+    // private Integer price;
+    // private String detail;
+    // private Long diSeq;
+    // private Long di2Seq;
     private Long cate;
     private String file;
     private String uri;
