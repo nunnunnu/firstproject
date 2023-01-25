@@ -13,7 +13,7 @@
 </head>
 <body>
     <h1>버거 추가</h1>
-    <form action="/menu/add/burger" method="post">
+    <form action="/menu/add/burger" method="post" enctype="multipart/form-data">
         <table border="1" id="input_form_table">
             <tbody>
                 <tr>
@@ -31,14 +31,14 @@
                     <td>메뉴 설명</td>
                     <td colspan="6"><input type="text" name="detail"></td>
                     <td>출시일</td>
-                    <td colspan="2"><input type="text" name="regDt"></td>
+                    <td colspan="2"><input type="date" name="regDt"></td>
                 </tr>
                 <tr>
-                    <td>파일명</td>
-                    <td colspan="2"><input type="text" name="file"></td>
+                    <!-- <td>파일명</td>
+                    <td colspan="2"><input type="text" name="file"></td> -->
                     <td>이미지 파일</td>
                         <td colspan="6">
-                            <input type="text" name="uri">
+                            <input type="file" name="file">
                         </td>
                 </tr>
                 <tr>

@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -19,8 +17,8 @@ import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.service.menu.MenuInfoService;
+import com.green.firstproject.vo.add.BurgerAddFileVO;
 import com.green.firstproject.vo.add.SideAddVO;
-import com.green.firstproject.vo.menu.BurgerAddVO;
 import com.green.firstproject.vo.menu.DogAddVO;
 import com.green.firstproject.vo.menu.DrinkAddVO;
 import com.green.firstproject.vo.store.StoreAddForm;
@@ -67,13 +65,15 @@ public class AddMenuController {
     }
 
     @PostMapping("/burger")
-    public String postburgerAdd(BurgerAddVO data) {
-        BurgerInfoEntity entity = BurgerInfoEntity.builder()
-                .biName(data.getName()).biDetail(data.getDetail())
-                .cate(cateRepo.findByCateSeq(data.getCate()))
-                .biFile(data.getFile()).biUri(data.getUri())
-                .biRegDt(data.getRegDt()).build();
-        bRepo.save(entity);
+    public String postburgerAdd(BurgerAddFileVO data) {
+        // BurgerInfoEntity entity = BurgerInfoEntity.builder()
+        //         .biName(data.getName()).biDetail(data.getDetail())
+        //         .cate(cateRepo.findByCateSeq(data.getCate()))
+        //         .biFile(data.getFile()).biUri(data.getUri())
+        //         .biRegDt(data.getRegDt()).build();
+        // bRepo.save(entity);
+
+        menuService.saveFile(data);
         return "redirect:/menu/add/burger";
     }
     
