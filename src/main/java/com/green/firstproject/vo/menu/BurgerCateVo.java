@@ -6,12 +6,14 @@ public interface BurgerCateVo {
 
     Long getBurgerSeq();
     String getBurgerName();
+    LocalDate getBurgerRegDt();
     String getBurgerDetail();
     String getBurgerFile();
     String getBurgerUri();
-    LocalDate getBurgerRegDt();
-    boolean getBurgerBest();
-    // String getRanking();
+    Integer getPrice();
     boolean getBurgerNew();
-    boolean getBurgerSoldOut();
+    boolean getBurgerBest();
+    boolean getBurgerSoldout();
+    Integer getCount();
+    Long getCategory();
 }
