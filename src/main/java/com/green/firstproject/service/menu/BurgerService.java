@@ -84,7 +84,7 @@ public class BurgerService {
         CategoryEntity cate = cateRepo.findByCateSeq(data.getCategory());
         if(dRepo.countByDiName(entity.getDiName()) != 0){
             resultMap.put("status", false);
-            resultMap.put("message", data.getDinkeName()+" 은/는 이미 등록된 메뉴입니다.");
+            resultMap.put("message", data.getName()+" 은/는 이미 등록된 메뉴입니다.");
             resultMap.put("code", HttpStatus.BAD_REQUEST);
         }
         else{

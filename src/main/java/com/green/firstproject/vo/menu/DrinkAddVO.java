@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 public class DrinkAddVO {
     @Autowired DrinkInfoRepository dRepo;
     @Autowired CategoryRepository cateRepo;
-    private String dinkeName;
+    private String Name;
     private Long category;
-    private String drinkDetail;
+    private String Detail;
     private String diFile;
     private String diUri;
     private MultipartFile drinkFile;
