@@ -18,6 +18,7 @@ import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
+import com.green.firstproject.service.menu.MenuInfoService;
 import com.green.firstproject.vo.add.SideAddVO;
 import com.green.firstproject.vo.menu.BurgerAddVO;
 import com.green.firstproject.vo.menu.DogAddVO;
@@ -36,6 +37,8 @@ public class AddMenuController {
     @Autowired DogInfoRepository dogRepo;
     @Autowired StoreInfoRepository siRepo;
 
+    @Autowired MenuInfoService menuService;
+
     @GetMapping("/side")
     public String getsideAdd(Model model) {
         model.addAttribute("sideList", sRepo.findAll());
@@ -45,12 +48,15 @@ public class AddMenuController {
     
     @PostMapping("/side")
     public String postsideAdd(SideAddVO data) {
-        SideInfoEntity entity = SideInfoEntity.builder()
-        .sideName(data.getSideTitle()).sideDetail(data.getSideDetail())
-        .cate(cateRepo.findByCateSeq(data.getCategory()))
-        .sideFile(data.getSideFile()).sideUri(data.getSideUri())
-        .build();
-        sRepo.save(entity);
+        System.out.println(data.getSideFile().getOriginalFilename());
+        menuService.saveFile(data);
+        
+        // SideInfoEntity entity = SideInfoEntity.builder()
+        // .sideName(data.getSideTitle()).sideDetail(data.getSideDetail())
+        // .cate(cateRepo.findByCateSeq(data.getCategory()))
+        // // .sideFile(data.getSideFile()).sideUri(data.getSideUri())
+        // .build();
+        // sRepo.save(entity);
         return "redirect:/menu/add/side";
     }
     @GetMapping("/burger")
@@ -71,9 +77,6 @@ public class AddMenuController {
         return "redirect:/menu/add/burger";
     }
     
-
-
-
     @GetMapping("/drink")
     public String getDrinkAdd(Model model){
         model.addAttribute("drinkList", dRepo.findAll());
@@ -120,7 +123,7 @@ public class AddMenuController {
     @PostMapping("/store")
     public String postStoreAdd(StoreAddForm data){
         System.out.println(data);
-        StoreInfoEntity store = new StoreInfoEntity(null, data.getName(), data.getAddress()+" "+data.getDetailAddress(), data.getPhone(), data.getOpenTime(), data.getCloseTime(), data.getDeliveryPrice(), 1);
+        StoreInfoEntity store = new StoreInfoEntity(null, data.getName(), data.getAddress(), data.getDetailAddress(), data.getPhone(), data.getOpenTime(), data.getCloseTime(), data.getDeliveryPrice(), 1);
         siRepo.save(store);
         
         return "redirect:/";

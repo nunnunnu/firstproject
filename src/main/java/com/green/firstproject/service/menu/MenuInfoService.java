@@ -1,25 +1,27 @@
 package com.green.firstproject.service.menu;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
-import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -30,8 +32,7 @@ import com.green.firstproject.repository.menu.option.DrinkOptionRepository;
 import com.green.firstproject.repository.menu.option.SideOptionRepository;
 import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
-import com.green.firstproject.vo.menu.BestMenuVO;
-import com.green.firstproject.vo.menu.MenuListVO;
+import com.green.firstproject.vo.add.SideAddVO;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
 import com.green.firstproject.vo.menu.option.SideOptionVO;
 
@@ -202,4 +203,40 @@ public class MenuInfoService {
     //     return resultMap;
     // }
     
+    @Value("${file.image.side}") String side_img_path; //springframework.beans임
+
+    public void saveFile(SideAddVO data){
+
+        MultipartFile file = data.getSideFile();
+        
+        Path folderLocation = null; //todo_img_path 문자열로부터 실제 폴더 경로를 가져옴.
+        folderLocation = Paths.get(side_img_path);
+
+        String originFileName = file.getOriginalFilename();
+        String[] split = originFileName.split(("\\.")); //.을 기준으로 나눔
+        String ext = split[split.length - 1]; //확장자
+        String fileName = "";
+        for (int i = 0; i < split.length - 1; i++) {
+            fileName += split[i]; //원래 split[i]+"." 이렇게 해줘야함
+        }
+        String saveFileName = "side_"; //보통 원본 이름을 저장하는것이아니라 시간대를 입력함
+        Calendar c = Calendar.getInstance();
+        saveFileName += c.getTimeInMillis() + "." + ext; // todo_161310135.png 이런식으로 저장됨
+
+        Path targetFile = folderLocation.resolve(saveFileName); //폴더 경로와 파일의 이름을 합쳐서 목표 파일의 경로 생성
+        try {
+            //Files는 파일 처리에 대한 유틸리티 클래스
+            //copy - 복사, file.getInputStream() - 파일을 열어서 파일의 내용을 읽는 준비
+            //targetFile 경로로, standardCopyOption.REPLACE_EXISTING - 같은 파일이 있다면 덮어쓰기.
+            Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            SideInfoEntity entity = 
+                SideInfoEntity.builder().sideName(data.getSideTitle()).cate(cateRepo.findByCateSeq(data.getCategory()))
+                                        .sideDetail(data.getSideDetail())
+                                        .sideFile(saveFileName).sideUri(fileName).build();
+
+        sideRepo.save(entity);
+    }
 }

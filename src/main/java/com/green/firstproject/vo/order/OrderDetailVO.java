@@ -74,9 +74,6 @@ public class OrderDetailVO {
                     price += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                }
           }else if(orderDetail.getOdEiSeq() !=null){
-               if(orderDetail.getOdLsotSeq()!=null){
-                    price += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
-               }
                if(orderDetail.getOdLdotSeq()!=null){
                     price += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
                }

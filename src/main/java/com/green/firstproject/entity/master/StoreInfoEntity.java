@@ -26,6 +26,7 @@ public class StoreInfoEntity {
     @Column(name = "si_seq")                    private Long siSeq;
     @Column(name = "si_name")                   private String siName;
     @Column(name = "si_address")                private String siAddress;
+    @Column(name = "si_address_detail")         private String siAddressDetail;
     @Column(name = "si_phone")                  private String siPhone;
     @Column(name = "si_open_time")              private LocalTime siOpenTime;
     @Column(name = "si_close_time")             private LocalTime siCloseTime;

@@ -13,7 +13,7 @@
 </head>
 <body>
     <h1>사이드 추가</h1>
-    <form action="/menu/add/side" method="post">
+    <form action="/menu/add/side" method="post" enctype="multipart/form-data">
         <table border="1" id="input_form_table">
             <tbody>
                 <tr>
@@ -30,11 +30,11 @@
                     <td colspan="6"><input type="text" name="sideDetail"></td>
                 </tr>
                 <tr>
-                    <td>파일명</td>
-                    <td colspan="2"><input type="text" name="sideFile"></td>
+                    <!-- <td>파일명</td>
+                    <td colspan="2"><input type="text" name="sideFile"></td> -->
                     <td>이미지 파일</td>
                         <td colspan="6">
-                            <input type="text" name="sideUri">
+                            <input type="file" name="sideFile">
                         </td>
                 </tr>
                 <tr>
