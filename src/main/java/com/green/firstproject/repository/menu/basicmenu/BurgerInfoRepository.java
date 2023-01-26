@@ -19,7 +19,7 @@ public interface BurgerInfoRepository extends JpaRepository<BurgerInfoEntity, Lo
 
 
     BurgerInfoEntity findByBiSeq(Long seq);
-
+    BurgerInfoEntity findByBiUri(String uri);
 
     List<BurgerInfoEntity> findByCate(CategoryEntity cate);
 

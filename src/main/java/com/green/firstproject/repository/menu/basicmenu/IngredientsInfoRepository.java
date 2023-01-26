@@ -25,5 +25,6 @@ public interface IngredientsInfoRepository extends JpaRepository<IngredientsInfo
      public IngredientsInfoEntity findByIiSeq(Long seq);
 
      public Integer countByIiName(String iiName);
+     IngredientsInfoEntity findByIiUri(String uri);
      
 }

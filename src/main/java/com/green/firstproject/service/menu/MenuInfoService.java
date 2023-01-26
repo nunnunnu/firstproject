@@ -51,6 +51,14 @@ public class MenuInfoService {
     @Autowired DrinkOptionRepository drnikoptRepo;
     @Autowired EventInfoRepository eventRepo;
 
+
+    //이미지 파일 저장 코드
+
+    // public String getFilenameByUri (String uri){
+    //     MenuInfoEntity data = menuRepo.(uri);
+    //     return data.get(0).getFileName();
+    // }
+
     public Map<String, Object> getBuregerInfo(Long seq){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         BurgerInfoEntity b = burgerRepo.findByBiSeq(seq);

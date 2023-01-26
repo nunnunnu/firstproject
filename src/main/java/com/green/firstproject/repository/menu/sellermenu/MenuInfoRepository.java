@@ -16,6 +16,7 @@ import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 @Repository
 public interface MenuInfoRepository extends JpaRepository<MenuInfoEntity, Long>{
      MenuInfoEntity findByMenuSeq(Long seq);
+     MenuInfoEntity findByMenuUri(String uri);
 
      @Query("select m from MenuInfoEntity m left join fetch m.burger left join fetch m.side left join fetch m.drink left join fetch m.dog where m.menuSeq=:seq")
      MenuInfoEntity findMenuSeq(@Param("seq") Long seq);

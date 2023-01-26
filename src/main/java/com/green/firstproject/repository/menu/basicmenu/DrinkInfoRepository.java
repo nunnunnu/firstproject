@@ -13,4 +13,5 @@ public interface DrinkInfoRepository extends JpaRepository<DrinkInfoEntity, Long
     List<DrinkInfoEntity> findByCate(CategoryEntity cate);
     public Integer countByDiName(String diName);
     DrinkInfoEntity findByDiSeq(Long seq);
+    DrinkInfoEntity findByDiUri(String uri);
 }

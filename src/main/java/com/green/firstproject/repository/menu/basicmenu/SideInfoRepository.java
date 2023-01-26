@@ -12,4 +12,5 @@ public interface SideInfoRepository extends JpaRepository<SideInfoEntity, Long> 
     List <SideInfoEntity> findByCate(CategoryEntity cate);
         public Integer countBySideName(String sideName);
         SideInfoEntity findBySideSeq(Long seq);
+        SideInfoEntity findBySideUri(String uri);
 }

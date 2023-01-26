@@ -11,6 +11,7 @@ import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 @Repository
 public interface EventInfoRepository extends JpaRepository<EventInfoEntity, Long>{
      EventInfoEntity findByEiSeq(Long seq);
+     EventInfoEntity findByEiUri(String uri);
 
      public Integer countByEiName(String eiName);
 

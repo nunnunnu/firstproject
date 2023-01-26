@@ -13,4 +13,5 @@ public interface DogInfoRepository extends JpaRepository<DogInfoEntity, Long>{
     List<DogInfoEntity> findByCate(CategoryEntity cate);
      public Integer countByDogName(String dogName);
      DogInfoEntity findByDogSeq(Long seq);
+     DogInfoEntity findByDogUri(String uri);
 }

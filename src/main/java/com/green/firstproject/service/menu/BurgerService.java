@@ -40,6 +40,11 @@ public class BurgerService {
 
     //이미지 파일 저장 코드
 
+    // public String getFilenameByUri (String uri){
+    //     BurgerInfoEntity data = bRepo.findByBiUri(uri);
+    //     return data.getBiFile();
+    // }
+
     public Map<String,Object> addBurger(BurgerAddVO data){ 
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             BurgerInfoEntity entity = new BurgerInfoEntity(data);
