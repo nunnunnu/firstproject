@@ -1,7 +1,6 @@
 package com.green.firstproject.entity.menu.basicmenu;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.CategoryEntity;
-import com.green.firstproject.vo.menu.DrinkAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,12 +32,12 @@ public class DrinkInfoEntity {
      @Column(name="di_file") private String diFile;
      @Column(name="di_uri") private String diUri;
 
-     public DrinkInfoEntity(DrinkAddVO data){
-        this.diName= data.getName();
-        this.diDetail=data.getDetail();
-        this.diFile=data.getDiFile();
-        this.diUri=data.getDiFile();
-     }
+   //   public DrinkInfoEntity(DrinkAddVO data){
+   //      this.diName= data.getName();
+   //      this.diDetail=data.getDetail();
+   //      this.diFile=data.getDiFile();
+   //      this.diUri=data.getDiFile();
+   //   }
      public void setCategory(CategoryEntity cate){
         this.cate = cate;
      }

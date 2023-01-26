@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//회원 로그인을 위한 VO
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

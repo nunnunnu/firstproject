@@ -30,17 +30,13 @@ public class StoreController {
     Map<String, Object> resultMap = siService.getStoreInfo(pageable, keyword);
     return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
-    @GetMapping("/search/{type}")
+    @GetMapping("/search")
     public ResponseEntity<Object> getStoreSearch (
-        @PageableDefault(size = 8) Pageable pageable, @RequestParam @Nullable String keyword,
-        @PathVariable @Nullable String type) {
-            if (type == null) {
-                return new ResponseEntity<>(siService.getStoreInfo(pageable, keyword), HttpStatus.BAD_REQUEST);
-            }
-            else if(type.equals("name")){
-                return new ResponseEntity<>(siService.getStoreDetailInfo(pageable, keyword), HttpStatus.OK);
-            }
-            return null;
+        @PageableDefault(size = 8) Pageable pageable, @RequestParam @Nullable String keyword
+        ) {
+            if(keyword==null) keyword="";
+
+            return new ResponseEntity<>(siService.getStoreDetailInfo(pageable, keyword), HttpStatus.OK);
         }
         @PatchMapping("/update/{seq}")
         public ResponseEntity<Object> updateStoreInfo(@RequestBody StoreInfoVO data, @PathVariable Long seq
@@ -52,6 +48,6 @@ public class StoreController {
                 return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
             }
             map = siService.updateStoreInfo(data, seq);
-                return new ResponseEntity<>(map, HttpStatus.OK);
+            return new ResponseEntity<>(map, HttpStatus.OK);
         }
 }

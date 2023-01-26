@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//회원 정보 변경을 위한 VO
 
 @Data
 @AllArgsConstructor

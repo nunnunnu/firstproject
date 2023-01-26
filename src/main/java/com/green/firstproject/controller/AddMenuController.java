@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -18,9 +16,9 @@ import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.service.menu.MenuInfoService;
 import com.green.firstproject.vo.add.BurgerAddFileVO;
-import com.green.firstproject.vo.add.SideAddVO;
-import com.green.firstproject.vo.menu.DogAddVO;
-import com.green.firstproject.vo.menu.DrinkAddVO;
+import com.green.firstproject.vo.add.DogAddFIleVO;
+import com.green.firstproject.vo.add.DrinkAddFileVO;
+import com.green.firstproject.vo.add.SideAddFileVO;
 import com.green.firstproject.vo.store.StoreAddForm;
 
 
@@ -45,16 +43,10 @@ public class AddMenuController {
     }
     
     @PostMapping("/side")
-    public String postsideAdd(SideAddVO data) {
+    public String postsideAdd(SideAddFileVO data) {
         System.out.println(data.getSideFile().getOriginalFilename());
         menuService.saveFile(data);
-        
-        // SideInfoEntity entity = SideInfoEntity.builder()
-        // .sideName(data.getSideTitle()).sideDetail(data.getSideDetail())
-        // .cate(cateRepo.findByCateSeq(data.getCategory()))
-        // // .sideFile(data.getSideFile()).sideUri(data.getSideUri())
-        // .build();
-        // sRepo.save(entity);
+
         return "redirect:/menu/add/side";
     }
     @GetMapping("/burger")
@@ -66,13 +58,6 @@ public class AddMenuController {
 
     @PostMapping("/burger")
     public String postburgerAdd(BurgerAddFileVO data) {
-        // BurgerInfoEntity entity = BurgerInfoEntity.builder()
-        //         .biName(data.getName()).biDetail(data.getDetail())
-        //         .cate(cateRepo.findByCateSeq(data.getCate()))
-        //         .biFile(data.getFile()).biUri(data.getUri())
-        //         .biRegDt(data.getRegDt()).build();
-        // bRepo.save(entity);
-
         menuService.saveFile(data);
         return "redirect:/menu/add/burger";
     }
@@ -84,15 +69,8 @@ public class AddMenuController {
         return "/drink";
     }
     @PostMapping("/drink")
-    public String postDrinkAdd(DrinkAddVO data){
-        DrinkInfoEntity entity = DrinkInfoEntity.builder()
-        .diName(data.getName())
-        .diDetail(data.getDetail())
-        .diFile(data.getDiFile())
-        .diUri(data.getDiUri())
-        .cate(cRepo.findByCateSeq(data.getCategory()))
-        .build();
-        dRepo.save(entity);
+    public String postDrinkAdd(DrinkAddFileVO data){
+        menuService.saveDrinkFile(data);
         return "redirect:/api/menu/add/drink";
     }
     @GetMapping("/dog")
@@ -102,16 +80,8 @@ public class AddMenuController {
         return "/dog";
     }
     @PostMapping("/dog")
-    public String postDogAdd(DogAddVO data){
-        System.out.println(data);
-        DogInfoEntity entity = DogInfoEntity.builder()
-        .dogName(data.getName())
-        .dogDetail(data.getDetail())
-        .dogFile(data.getFile())
-        .dogUri(data.getUri())
-        .cate(cRepo.findByCateSeq(data.getCate()))
-        .build();
-        dogRepo.save(entity);
+    public String postDogAdd(DogAddFIleVO data){
+        menuService.saveDogFile(data);
         return "redirect:/api/menu/add/dog";
     }
 
@@ -130,5 +100,4 @@ public class AddMenuController {
     }
 
     
-
 }

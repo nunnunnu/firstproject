@@ -4,6 +4,8 @@ import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 
 import lombok.Data;
 
+//삭제 보류. 장바구니 확정되면 삭제
+
 @Data
 public class DogVO {
     private Long dogSeq;

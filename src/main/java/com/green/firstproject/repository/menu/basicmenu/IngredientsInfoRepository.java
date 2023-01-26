@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
+import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 
 @Repository
 public interface IngredientsInfoRepository extends JpaRepository<IngredientsInfoEntity, Long>{
@@ -26,5 +27,8 @@ public interface IngredientsInfoRepository extends JpaRepository<IngredientsInfo
 
      public Integer countByIiName(String iiName);
      IngredientsInfoEntity findByIiUri(String uri);
+
+     @Query("select i from IngredientsInfoEntity i where i.menu=:menu or i.menu is null")
+     public List<IngredientsInfoEntity> showIngredient(@Param("menu") MenuInfoEntity menu);
      
 }

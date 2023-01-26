@@ -4,6 +4,8 @@ import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 
 import lombok.Data;
 
+//삭제 보류. 장바구니 확정되면 삭제
+
 @Data
 public class IngredientVo {
     private Long ingredirentSeq;
