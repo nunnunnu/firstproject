@@ -174,20 +174,20 @@ public class MemberService {
             resultMap.put("code", HttpStatus.ACCEPTED);
             return resultMap;
         }
-        public Map<String, Object> deleteMember(LoginUserVO data){
+        public Map<String, Object> deleteMember(LoginUserVO data, Long seq){
             Map<String, Object> map = new LinkedHashMap<String, Object>();
             MemberInfoEntity member = mRepo.findByMiEmailAndMiPwd(data.getEmail(), data.getPwd());
-            if (member!=null) {
-                member.setMiStatus(2);
-                mRepo.save(member);
-                map.put("status", true);
-                map.put("message", "회원 탈퇴 되었습니다.");
-                map.put("code", HttpStatus.ACCEPTED);
+            if (member == null) {
+                map.put("status", false);
+                map.put("message", "로그인 해주세요!");
+                map.put("code", HttpStatus.BAD_REQUEST);
                 return map;
             }
-            map.put("status", false);
-            map.put("message", "로그인 해주세요!");
-            map.put("code", HttpStatus.BAD_REQUEST);
+            member.setMiStatus(2);
+            mRepo.save(member);
+            map.put("status", true);
+            map.put("message", "회원 탈퇴 되었습니다.");
+            map.put("code", HttpStatus.ACCEPTED);
             return map;
         
     }
