@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//매장 정보 업데이트를 위한 VO
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

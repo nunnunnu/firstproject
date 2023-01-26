@@ -6,7 +6,6 @@ import java.util.List;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
-import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.vo.menu.cart.CartDrinkInfoVO;
 import com.green.firstproject.vo.menu.cart.CartIngredientVO;

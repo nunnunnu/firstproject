@@ -1,6 +1,5 @@
 package com.green.firstproject.repository.menu.basicmenu;
 
-import java.security.Timestamp;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;

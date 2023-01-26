@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicInsert;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.CategoryEntity;
-import com.green.firstproject.vo.menu.BurgerAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,30 +30,22 @@ import lombok.NoArgsConstructor;
 @DynamicInsert
 @Table(name="burger_info")
 public class BurgerInfoEntity {
-      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-      @Column(name="bi_seq") private Long biSeq;
-      @Column(name="bi_name") private String biName;
-      @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="bi_cate") private CategoryEntity cate;
-      @Column(name="bi_detail") private String biDetail;
-      @Column(name="bi_file") private String biFile;
-      @Column(name="bi_uri") private String biUri;
-      @Column(name="bi_reg_dt") /* @ColumnDefault("CURRENT_TIMESTAMP") */ private LocalDate biRegDt;
-      @Column(name="bi_sales_rate") @ColumnDefault("0") private Integer biSalesRate;
+   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name="bi_seq") private Long biSeq;
+   @Column(name="bi_name") private String biName;
+   @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="bi_cate") private CategoryEntity cate;
+   @Column(name="bi_detail") private String biDetail;
+   @Column(name="bi_file") private String biFile;
+   @Column(name="bi_uri") private String biUri;
+   @Column(name="bi_reg_dt") /* @ColumnDefault("CURRENT_TIMESTAMP") */ private LocalDate biRegDt;
+   @Column(name="bi_sales_rate") @ColumnDefault("0") private Integer biSalesRate;
 
-      public BurgerInfoEntity(BurgerAddVO data){
-         this.biName= data.getName();
-         this.biDetail=data.getDetail();
-         this.biFile=data.getFile();
-         this.biUri=data.getUri();
-         this.biRegDt=data.getRegDt();
-         this.biSalesRate=data.getSalesRate();
-      }
-      public void setCategory(CategoryEntity cate){
-         this.cate = cate;
-      }
+   public void setCategory(CategoryEntity cate){
+      this.cate = cate;
+   }
 
-      public void upSales(Integer count){
-         int sales = biSalesRate+count;
-         this.biSalesRate = sales;
-      }
+   public void upSales(Integer count){
+      int sales = biSalesRate+count;
+      this.biSalesRate = sales;
+   }
 }

@@ -6,6 +6,8 @@ import com.green.firstproject.entity.member.MemberInfoEntity;
 
 import lombok.Data;
 
+//마이페이지 조회를 위한 VO
+
 @Data
 public class MemberMypageVO {
     private Long memberSeq;

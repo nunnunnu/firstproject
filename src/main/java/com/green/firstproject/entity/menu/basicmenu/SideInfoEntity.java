@@ -2,7 +2,6 @@ package com.green.firstproject.entity.menu.basicmenu;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.menu.CategoryEntity;
-import com.green.firstproject.vo.menu.SideAddVO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,12 +33,6 @@ public class SideInfoEntity {
      @Column(name="side_file") private String sideFile;
      @Column(name="side_uri") private String sideUri;
 
-     public SideInfoEntity(SideAddVO data){
-        this.sideName= data.getName();
-        this.sideDetail=data.getDetail();
-        this.sideFile=data.getFile();
-        this.sideUri=data.getUri();
-     }
      public void setCategory(CategoryEntity cate){
         this.cate = cate;
      }

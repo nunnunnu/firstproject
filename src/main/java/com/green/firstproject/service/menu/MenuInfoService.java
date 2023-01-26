@@ -37,7 +37,7 @@ import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 import com.green.firstproject.vo.add.BurgerAddFileVO;
 import com.green.firstproject.vo.add.DogAddFIleVO;
 import com.green.firstproject.vo.add.DrinkAddFileVO;
-import com.green.firstproject.vo.add.SideAddVO;
+import com.green.firstproject.vo.add.SideAddFileVO;
 import com.green.firstproject.vo.menu.IngredientVo;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
 import com.green.firstproject.vo.menu.option.SideOptionVO;
@@ -241,7 +241,7 @@ public class MenuInfoService {
     
     @Value("${file.image.side}") String side_img_path; //springframework.beans임
 
-    public void saveFile(SideAddVO data){
+    public void saveFile(SideAddFileVO data){
 
         MultipartFile file = data.getSideFile();
         

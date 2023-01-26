@@ -1,10 +1,12 @@
 package com.green.firstproject.vo.menu;
 
+//카테고리 조회(사이드용)를 위한 VO - projection
+
 public interface SideCateVO {
      Long getSeq();
      String getName();
-     String get_detail();
-     String get_uri();
+     String getDetail();
+     String getUri();
      Integer getCount();
      Integer getPrice();
      Boolean getSoldout();

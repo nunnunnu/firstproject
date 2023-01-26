@@ -1,7 +1,6 @@
 package com.green.firstproject.vo.menu.cart;
 
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
-import com.green.firstproject.vo.menu.IngredientVo;
 
 import lombok.Data;
 

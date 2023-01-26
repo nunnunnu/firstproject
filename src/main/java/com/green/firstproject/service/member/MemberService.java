@@ -17,10 +17,9 @@ import com.green.firstproject.repository.member.LatelyDeliveryRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.repository.member.MyDeliveryRepository;
 import com.green.firstproject.utils.AESAlgorithm;
-import com.green.firstproject.vo.member.LatelyDeliveryVO;
+import com.green.firstproject.vo.member.DeliveryVO;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.member.MemberMypageVO;
-import com.green.firstproject.vo.member.MyDeliveryVO;
 @Service
 public class MemberService {
     @Autowired MemberInfoReposiroty mRepo;
@@ -220,9 +219,9 @@ public class MemberService {
             map.put("code", HttpStatus.ACCEPTED);    
             return map;
         }
-        List<LatelyDeliveryVO> result = new ArrayList<>();
+        List<DeliveryVO> result = new ArrayList<>();
         for(LatelyDeliveryEntity l : list){
-            LatelyDeliveryVO late = new LatelyDeliveryVO(l);
+            DeliveryVO late = new DeliveryVO(l);
             result.add(late);
         }
         map.put("status", true);
@@ -242,9 +241,9 @@ public class MemberService {
             map.put("message", data.getEmail()+"님 \n"+"평소에 자주 배달받는 주소를 등록해 보세요.");
             map.put("code", HttpStatus.ACCEPTED);
         }
-        List<MyDeliveryVO> result = new ArrayList<>();
+        List<DeliveryVO> result = new ArrayList<>();
         for(MyDeliveryEntity m : list){
-            MyDeliveryVO my = new MyDeliveryVO(m);
+            DeliveryVO my = new DeliveryVO(m);
             result.add(my);
         }
         map.put("status", true);

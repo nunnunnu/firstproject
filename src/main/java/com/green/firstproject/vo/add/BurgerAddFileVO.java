@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+//HTML Form을 이용해서 버거 메뉴 등록
 
 @Data
 @NoArgsConstructor

@@ -1,10 +1,10 @@
 package com.green.firstproject.vo.menu;
 
-import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
 import com.green.firstproject.vo.menu.option.SideOptionVO;
+
+//삭제 보류. 장바구니 확정되면 삭제
 
 public class SellerMenuVO {
      private String menuName;

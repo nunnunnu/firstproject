@@ -9,40 +9,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
-import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 import com.green.firstproject.service.category.MenuService;
-import com.green.firstproject.service.menu.BurgerService;
 import com.green.firstproject.service.menu.MenuInfoService;
-import com.green.firstproject.vo.menu.BurgerAddVO;
-import com.green.firstproject.vo.menu.DogAddVO;
-import com.green.firstproject.vo.menu.DrinkAddVO;
-import com.green.firstproject.vo.menu.EventAddVO;
-import com.green.firstproject.vo.menu.IngredAddVO;
-import com.green.firstproject.vo.menu.SideAddVO;
-
-import io.micrometer.common.lang.Nullable;
 
 @RestController
 @RequestMapping("/api/menu")
 public class MenuAPIController {
     @Autowired MenuInfoRepository menuRepo;
-    @Autowired DrinkInfoRepository dRepo;
     @Autowired BurgerInfoRepository bRepo;
     @Autowired DogInfoRepository dogRepo;
     @Autowired SideInfoRepository sRepo;
     @Autowired MenuService mService;
     @Autowired MenuInfoService miService;
-    @Autowired BurgerService bService;
 
     @GetMapping("/all")
     public ResponseEntity<Object> getMenuList(Pageable pageable){
@@ -55,13 +41,6 @@ public class MenuAPIController {
         Map<String, Object> resultMap = mService.cateSeq(seq);
         return resultMap;
     }
-
-    // @GetMapping("/new")
-    // public Map<String, Object> getMenuNew(@RequestParam @Nullable Long seq){
-    //     Map<String, Object> resultMap = miService.getNewMenu(seq);
-    //     return resultMap;
-    // }
-    
     @GetMapping("/burger")
     public ResponseEntity<Object> getBuregerInfo(@RequestParam Long seq) {
             Map<String, Object> map = miService.getBuregerInfo(seq);
@@ -93,47 +72,6 @@ public class MenuAPIController {
         return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
     }
 
-    @PostMapping("/burger")
-    public ResponseEntity<Object> burgerAdd(@RequestBody BurgerAddVO data){
-        Map<String, Object> resultMap = bService.addBurger(data);
-        return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
-    }
-    
-    @PostMapping("/side")
-    public ResponseEntity<Object> sideAdd(@RequestBody SideAddVO data){
-        Map<String, Object> resultMap = bService.addSide(data);
-        return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
-    }
-
-    @PostMapping("/drink")
-    public ResponseEntity<Object> drinkAdd(@RequestBody DrinkAddVO data){
-        Map<String, Object> resultMap = bService.addDrink(data);
-        return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
-    }
-
-    @PostMapping("/dog")
-    public ResponseEntity<Object> dogAdd(@RequestBody DogAddVO data){
-        Map<String, Object> resultMap = bService.addDog(data);
-        return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
-    }
-
-    @PostMapping("/ingred")
-    public ResponseEntity<Object> ingredAdd(@RequestBody IngredAddVO data){
-        Map<String, Object> resultMap = bService.addIngredients(data);
-        return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
-    }
-
-    @PostMapping("/event")
-    public ResponseEntity<Object> eventAdd(@RequestBody EventAddVO data){
-        Map<String, Object> resultMap = bService.addEvent(data);
-        return new ResponseEntity<Object>(resultMap,(HttpStatus)resultMap.get("code"));
-    }
-    
-    // @GetMapping("/best")
-    // public ResponseEntity<Object> bestMenu(@RequestParam @Nullable Long seq){
-        //     Map<String, Object> map = miService.getBestMenu(seq);
-        //     return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-        // }
     @GetMapping("/ingredient/{seq}")
     public ResponseEntity<Object> getIngredient(@PathVariable Long seq){
         System.out.println(seq);

@@ -3,20 +3,19 @@ package com.green.firstproject.vo.menu.cart;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.vo.menu.IngredientVo;
-import com.green.firstproject.vo.menu.MenuListVO;
 import com.green.firstproject.vo.menu.SellerMenuVO;
-import com.green.firstproject.vo.menu.option.DrinkOptionVO;
-import com.green.firstproject.vo.menu.option.SideOptionVO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+//삭제 보류. 장바구니 확정되면 삭제
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -52,36 +51,36 @@ public class CartShowVO {
 
           if(menu!=null){
                this.price += menu.getMenuPrice();
-          }
-          if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){
-               if(side!=null){
-                    price += side.getSoPrice()-(menu.getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+               if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){
+                    if(side!=null){
+                         price += side.getSoPrice()-(menu.getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+                    }
+                    if(drink!=null){
+                         price += drink.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    }
+               }else if(menu.getEvent() !=null){
+                    if(drink!=null){
+                         price += drink.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    }
+                    if(drink2!=null){
+                         price += drink2.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    }
                }
-               if(drink!=null){
-                    price += drink.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               int count = 0;
+               if(menu.getMenuSelect()){
+                    for(IngredientsInfoEntity i : ingredient){
+                         if(i.getIiPrice()==0){
+                              count++;
+                         }else{
+                              price+= i.getIiPrice();
+                         }
+                    }
                }
-          }else if(menu.getEvent() !=null){
-               if(drink!=null){
-                    price += drink.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
-               }
-               if(drink2!=null){
-                    price += drink2.getDoPrice() - (menu.getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+               if(count>1){
+                    price+=400;
                }
           }
           
-          int count = 0;
-          if(menu.getMenuSelect()){
-               for(IngredientsInfoEntity i : ingredient){
-                    if(i.getIiPrice()==0){
-                         count++;
-                    }else{
-                         price+= i.getIiPrice();
-                    }
-               }
-          }
-          if(count>1){
-               price+=400;
-          }
      }
      public void ingredientFreeMenu(List<IngredientsInfoEntity> ingredients){
           int count = 0;

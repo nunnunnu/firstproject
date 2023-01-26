@@ -1,7 +1,5 @@
 package com.green.firstproject.service.category;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.menu.CategoryEntity;
-import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -24,12 +19,9 @@ import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
 import com.green.firstproject.vo.menu.BurgerCateVo;
 import com.green.firstproject.vo.menu.DogCateVO;
-import com.green.firstproject.vo.menu.DogVO;
 import com.green.firstproject.vo.menu.DrinkCateVO;
-import com.green.firstproject.vo.menu.DrinkVO;
 import com.green.firstproject.vo.menu.EventCateVO;
 import com.green.firstproject.vo.menu.SideCateVO;
-import com.green.firstproject.vo.menu.SideVO;
 
 @Service
 public class MenuService {
