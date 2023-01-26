@@ -2,14 +2,13 @@ package com.green.firstproject.vo.menu;
 
 public interface BurgerCateVo {
 
-    Long getBurgerSeq();
-    String getBurgerName();
-    String getBurgerDetail();
-    String getBurgerUri();
+    Long getSeq();
+    String getName();
+    String getDetail();
+    String getUri();
+    boolean getNew();
+    boolean getBest();
     Integer getPrice();
-    boolean getBurgerNew();
-    boolean getBurgerBest();
-    boolean getBurgerSoldout();
     Integer getCount();
-    Long getCategory();
+    boolean getSoldout();
 }

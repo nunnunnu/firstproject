@@ -31,6 +31,7 @@ public class EventInfoEntity {
      @Column(name="ei_start_dt") private LocalDate eiStartDt;
      @Column(name="ei_end_dt") private LocalDate eiEndDt;
      @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name="ei_cate") private CategoryEntity cate;
+     @Column(name="ei_detail") private String eiDetail;
      @Column(name="ei_file") private String eiFile;
      @Column(name="ei_uri") private String eiUri;
 
