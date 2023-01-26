@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -86,18 +87,18 @@ public class MemberAPIController {
         map.put("code", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<Object>(map, (HttpStatus) map.get("code"));
   }
-  @PatchMapping("/delete")//회원정보 삭제
-  public ResponseEntity<Object> deleteMember(HttpSession session){
+  @DeleteMapping("/delete/{seq}")//회원정보 삭제
+  public ResponseEntity<Object> deleteMember(HttpSession session, @PathVariable Long seq){
     LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
     Map<String, Object> map = new LinkedHashMap<>();
-    if (session.getAttribute("loginUser") != null) {
-      map = mService.deleteMember(loginUser);
+    if (loginUser == null) {
+      map.put("status", false);
+      map.put("message", "로그인 먼저 해주세요.");
+      map.put("code", HttpStatus.BAD_REQUEST);
       return new ResponseEntity<>(map, (HttpStatus) map.get("code"));
     }
-        map.put("status", false);
-        map.put("message", "로그인 먼저 해주세요.");
-        map.put("code", HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<Object>(map, (HttpStatus) map.get("code"));
+    map = mService.deleteMember(loginUser,seq);
+    return new ResponseEntity<Object>(map, (HttpStatus) map.get("code"));
   }
   @GetMapping("/mypage")//회원 정보 조회
   public ResponseEntity<Object> memberMypage(HttpSession session){
