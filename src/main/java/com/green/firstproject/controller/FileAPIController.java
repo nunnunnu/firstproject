@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.green.firstproject.service.category.MenuService;
 import com.green.firstproject.service.file.FileService;
-import com.green.firstproject.service.menu.BurgerService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class FileAPIController {
-    @Autowired BurgerService bService; 
     @Autowired MenuService mService;
     @Autowired FileService fService;
     @Value("${file.image.burger}") String burger_img_path;
