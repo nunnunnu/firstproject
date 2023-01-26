@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -127,10 +128,17 @@ public class MenuAPIController {
         Map<String, Object> resultMap = bService.addEvent(data);
         return new ResponseEntity<Object>(resultMap,(HttpStatus)resultMap.get("code"));
     }
-
+    
     // @GetMapping("/best")
     // public ResponseEntity<Object> bestMenu(@RequestParam @Nullable Long seq){
-    //     Map<String, Object> map = miService.getBestMenu(seq);
-    //     return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-    // }
+        //     Map<String, Object> map = miService.getBestMenu(seq);
+        //     return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+        // }
+    @GetMapping("/ingredient/{seq}")
+    public ResponseEntity<Object> getIngredient(@PathVariable Long seq){
+        System.out.println(seq);
+        Map<String, Object> resultMap = miService.showIngredient(seq);
+        return new ResponseEntity<Object>(resultMap,(HttpStatus)resultMap.get("code"));
+    }
+    
 }

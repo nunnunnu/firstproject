@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
+import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
@@ -27,6 +28,7 @@ import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
+import com.green.firstproject.repository.menu.basicmenu.IngredientsInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.option.DrinkOptionRepository;
 import com.green.firstproject.repository.menu.option.SideOptionRepository;
@@ -36,6 +38,7 @@ import com.green.firstproject.vo.add.BurgerAddFileVO;
 import com.green.firstproject.vo.add.DogAddFIleVO;
 import com.green.firstproject.vo.add.DrinkAddFileVO;
 import com.green.firstproject.vo.add.SideAddVO;
+import com.green.firstproject.vo.menu.IngredientVo;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
 import com.green.firstproject.vo.menu.option.SideOptionVO;
 
@@ -50,6 +53,7 @@ public class MenuInfoService {
     @Autowired SideOptionRepository sideoptRepo;
     @Autowired DrinkOptionRepository drnikoptRepo;
     @Autowired EventInfoRepository eventRepo;
+    @Autowired IngredientsInfoRepository ingRepo;
 
     public Map<String, Object> getBuregerInfo(Long seq){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
@@ -205,6 +209,35 @@ public class MenuInfoService {
     //     resultMap.put("list", result);
     //     return resultMap;
     // }
+
+    public Map<String, Object> showIngredient(Long menuSeq){
+        Map<String, Object> map = new LinkedHashMap();
+        MenuInfoEntity menu = menuRepo.findByMenuSeq(menuSeq);
+        if(menu==null){
+            map.put("status", false);
+            map.put("code", HttpStatus.BAD_REQUEST);
+            map.put("message", "해당 메뉴가 존재하지 않습니다.");
+            return map;
+        }else if(!menu.getMenuSelect()){
+            map.put("status", false);
+            map.put("code", HttpStatus.BAD_REQUEST);
+            map.put("message", "해당 메뉴는 재료를 선택할 수 없는 메뉴입니다.");
+            return map;
+        }
+        List<IngredientsInfoEntity> list = ingRepo.showIngredient(menu);
+
+        List<IngredientVo> result = new ArrayList<>();
+        for(IngredientsInfoEntity i : list){
+            result.add(new IngredientVo(i));
+        }
+
+        map.put("status", true);
+        map.put("code", HttpStatus.ACCEPTED);
+        map.put("message", "재료를 조회했습니다.");
+        map.put("list", result);
+
+        return map;
+    }
     
     @Value("${file.image.side}") String side_img_path; //springframework.beans임
 
