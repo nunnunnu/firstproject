@@ -27,9 +27,12 @@ public class FileAPIController {
     @Value("${file.image.menu}") String menu_img_path;
     @Value("${file.image.event}") String event_img_path;
     @Value("${file.image.ingredients}") String ingredients_img_path;
+    @Value("${file.image.drinkOpt}") String drinkOpt_img_path;
+    @Value("${file.image.sideOpt}") String sideOpt_img_path;
+    
 
 @GetMapping("/images/{type}/{uri}") 
-   public ResponseEntity<Resource> getImage ( @PathVariable String uri, 
+    public ResponseEntity<Resource> getImage ( @PathVariable String uri, 
             @PathVariable String type , HttpServletRequest request ) throws Exception { 
                 return fService.getImage(uri, type, request);
     }

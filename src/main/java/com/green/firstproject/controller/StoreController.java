@@ -35,7 +35,6 @@ public class StoreController {
         @PageableDefault(size = 8) Pageable pageable, @RequestParam @Nullable String keyword
         ) {
             if(keyword==null) keyword="";
-
             return new ResponseEntity<>(siService.getStoreDetailInfo(pageable, keyword), HttpStatus.OK);
         }
         @PatchMapping("/update/{seq}")

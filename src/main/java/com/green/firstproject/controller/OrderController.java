@@ -149,13 +149,10 @@ public class OrderController {
                
                //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           // } //귀찮아서 주석처리함
-
           StoreInfoEntity store = sRepository.findAll().get(0); //매장 고정. 이후 변경 필요
-
           // List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
           map = orderService.orderPage(login, store, oVo.getCart());
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-
      }
 }

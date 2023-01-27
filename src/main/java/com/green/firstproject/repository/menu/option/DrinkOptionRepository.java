@@ -11,4 +11,7 @@ import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 public interface DrinkOptionRepository extends JpaRepository<DrinkOptionEntity,Long>{
      DrinkOptionEntity findByDoSeq(Long ser);
      List<DrinkOptionEntity> findByDoSize(Integer size);
+     
+     DrinkOptionEntity findByDoUri(String uri);
+
 }

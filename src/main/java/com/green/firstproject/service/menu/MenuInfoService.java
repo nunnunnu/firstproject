@@ -23,6 +23,7 @@ import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
+import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -37,7 +38,11 @@ import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 import com.green.firstproject.vo.add.BurgerAddFileVO;
 import com.green.firstproject.vo.add.DogAddFIleVO;
 import com.green.firstproject.vo.add.DrinkAddFileVO;
+import com.green.firstproject.vo.add.DrinkOptAddFileVo;
+import com.green.firstproject.vo.add.EventAddFileVO;
+import com.green.firstproject.vo.add.IngredientsAddFileVO;
 import com.green.firstproject.vo.add.SideAddFileVO;
+import com.green.firstproject.vo.add.SideOptAddFileVO;
 import com.green.firstproject.vo.menu.IngredientVo;
 import com.green.firstproject.vo.menu.SellerVO;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
@@ -451,6 +456,129 @@ public class MenuInfoService {
         resultMap.put("list",result);
 
         return resultMap;
+    }
+
+    @Value("${file.image.ingredients}")String ingredients_img_path;
+
+    public void saveIngredientFile(IngredientsAddFileVO data) {
+        MultipartFile file = data.getIngredientsFile();
+        Path folderLocation = null;
+        folderLocation = Paths.get(ingredients_img_path);
+
+        String originFileName = file.getOriginalFilename();
+        String[] split = originFileName.split(("\\.")); // .을 기준으로 나눔
+        String ext = split[split.length - 1]; // 확장자
+        String fileName = "";
+        for (int i = 0; i < split.length - 1; i++) {
+            fileName += split[i]; // 원래 split[i]+"." 이렇게 해줘야함
+        }
+        String saveFileName = "ingredients_"; // 보통 원본 이름을 저장하는것이아니라 시간대를 입력함
+        Calendar c = Calendar.getInstance();
+        saveFileName += c.getTimeInMillis() + "." + ext; // todo_161310135.png 이런식으로 저장됨
+
+        Path targetFile = folderLocation.resolve(saveFileName); // 폴더 경로와 파일의 이름을 합쳐서 목표 파일의 경로 생성
+        try {
+            // Files는 파일 처리에 대한 유틸리티 클래스
+            // copy - 복사, file.getInputStream() - 파일을 열어서 파일의 내용을 읽는 준비
+            // targetFile 경로로, standardCopyOption.REPLACE_EXISTING - 같은 파일이 있다면 덮어쓰기.
+            Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        IngredientsInfoEntity entity = IngredientsInfoEntity.builder().iiName(data.getIiName())
+                .iiPrice(data.getIiPrice()).iiFile(saveFileName).iiUri(fileName).build();
+                ingRepo.save(entity);
+    }
+
+    @Value("${file.image.event}")String event_img_path; 
+    public void saveEventFile(EventAddFileVO data) {
+        MultipartFile file = data.getEventfile();
+        Path folderLocation = null; 
+        folderLocation = Paths.get(event_img_path);
+
+        String originFileName = file.getOriginalFilename();
+        String[] split = originFileName.split(("\\.")); // .을 기준으로 나눔
+        String ext = split[split.length - 1]; // 확장자
+        String fileName = "";
+        for (int i = 0; i < split.length - 1; i++) {
+            fileName += split[i]; // 원래 split[i]+"." 이렇게 해줘야함
+        }
+
+        String saveFileName = "event_"; // 보통 원본 이름을 저장하는것이아니라 시간대를 입력함
+        Calendar c = Calendar.getInstance();
+        saveFileName += c.getTimeInMillis() + "." + ext; // todo_161310135.png 이런식으로 저장됨
+
+        Path targetFile = folderLocation.resolve(saveFileName); // 폴더 경로와 파일의 이름을 합쳐서 목표 파일의 경로 생성
+        try {
+            Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        EventInfoEntity entity = EventInfoEntity.builder().eiName(data.getName())
+                .cate(cateRepo.findByCateSeq(data.getCate()))
+                .eiDetail(data.getDetail()).eiStartDt(data.getRegDt()).eiEndDt(data.getEndDt())
+                .eiFile(saveFileName).eiUri(fileName).build();
+
+        eventRepo.save(entity);
+    }
+    
+    
+    @Value("${file.image.drinkOpt}") String drinkOpt_img_path;
+    public void saveDrinkOptFile(DrinkOptAddFileVo data) {
+        MultipartFile file = data.getDrinkOptfile();
+        Path folderLocation = null;
+        folderLocation = Paths.get(drinkOpt_img_path);
+
+        String originFileName = file.getOriginalFilename();
+        String[] split = originFileName.split(("\\.")); 
+        String ext = split[split.length - 1]; 
+        String fileName = "";
+        for (int i = 0; i < split.length - 1; i++) {
+            fileName += split[i]; 
+        }
+        String saveFileName = "drinkOpt_";
+        Calendar c = Calendar.getInstance();
+        saveFileName += c.getTimeInMillis() + "." + ext; 
+
+        Path targetFile = folderLocation.resolve(saveFileName); 
+        try {
+            Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DrinkOptionEntity entity = DrinkOptionEntity.builder().doName(data.getDoName())
+                .doPrice(data.getDoPrice()).doSize(data.getDoSize())
+                .doFile(saveFileName).doUri(fileName).build();
+        drnikoptRepo.save(entity);
+    }
+    
+    @Value("${file.image.sideOpt}")String sideOpt_img_path;
+    public void saveSideOptFile(SideOptAddFileVO data) {
+        MultipartFile file = data.getSideOptfile();
+        Path folderLocation = null;
+        folderLocation = Paths.get(sideOpt_img_path);
+
+        String originFileName = file.getOriginalFilename();
+        String[] split = originFileName.split(("\\."));
+        String ext = split[split.length - 1];
+        String fileName = "";
+        for (int i = 0; i < split.length - 1; i++) {
+            fileName += split[i];
+        }
+        String saveFileName = "sideOpt_";
+        Calendar c = Calendar.getInstance();
+        saveFileName += c.getTimeInMillis() + "." + ext;
+
+        Path targetFile = folderLocation.resolve(saveFileName);
+        try {
+            Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SideOptionEntity entity = SideOptionEntity.builder().soName(data.getSoName())
+                .soPrice(data.getSoPrice()).soSize(data.getSoSize())
+                .soFile(saveFileName).soUri(fileName).build();
+        sideoptRepo.save(entity);
     }
 }
 
