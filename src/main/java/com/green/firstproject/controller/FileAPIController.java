@@ -31,11 +31,7 @@ public class FileAPIController {
     @Value("${file.image.sideOpt}") String sideOpt_img_path;
     
 
-<<<<<<< HEAD
-    @GetMapping("/images/{type}/{uri}") 
-=======
 @GetMapping("/images/{type}/{uri}") 
->>>>>>> yje6
     public ResponseEntity<Resource> getImage ( @PathVariable String uri, 
             @PathVariable String type , HttpServletRequest request ) throws Exception { 
                 return fService.getImage(uri, type, request);
