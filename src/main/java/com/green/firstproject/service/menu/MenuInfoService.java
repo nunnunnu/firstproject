@@ -211,7 +211,7 @@ public class MenuInfoService {
     // }
 
     public Map<String, Object> showIngredient(Long menuSeq){
-        Map<String, Object> map = new LinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
         MenuInfoEntity menu = menuRepo.findByMenuSeq(menuSeq);
         if(menu==null){
             map.put("status", false);
