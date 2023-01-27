@@ -61,16 +61,19 @@ public class MenuAPIController {
     //         Map<String, Object> map = miService.getSideInfo(seq);
     //         return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
     // }
+    //옵션 조회
     @GetMapping("/sideopt")
     public ResponseEntity<Object> getSideOptionInfo(@RequestParam Long seq){
         Map<String, Object> map = miService.getSideOptionInfo(seq);
         return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
     }
+    //음료 옵션 조회
     @GetMapping("/drinkopt")
     public ResponseEntity<Object> getDrinkOptionInfo(@RequestParam Long seq){
         Map<String, Object> map = miService.getDrinkOptionInfo(seq);
         return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
     }
+    //판매 메뉴 조회
     @GetMapping("/{type}/{seq}")
     public ResponseEntity<Object> getSellerMenu(
             @PathVariable String type,

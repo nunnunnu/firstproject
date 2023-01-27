@@ -415,15 +415,12 @@ public class MenuInfoService {
                 .dogFile(saveFileName).dogUri(fileName).build();
         dogRepo.save(entity);
     }
+
+    //판매 메뉴 조회
     public Map<String, Object> getSellerMenu(String type, Long seq) {
         Map<String, Object> resultMap = new LinkedHashMap<>();
         List<MenuInfoEntity> list = new ArrayList<>();
-        if(type==null || type.equals("")){
-            resultMap.put("status", false);
-            resultMap.put("message", "타입을 입력하지 않으셨습니다. [입력예시 : burger, side, drink, event, dog]");
-            resultMap.put("code", HttpStatus.BAD_REQUEST);
-            return resultMap;
-        }else if(type.equalsIgnoreCase("burger")){
+        if(type.equalsIgnoreCase("burger")){
             list = menuRepo.findByBurger(burgerRepo.findByBiSeq(seq));
         }else if(type.equalsIgnoreCase("side")){
             list = menuRepo.findBySideAndBurgerIsNullAndEventIsNull(sideRepo.findBySideSeq(seq));
@@ -434,6 +431,11 @@ public class MenuInfoService {
             list = menuRepo.findEventMenu(eventRepo.findByEiSeq(seq));
         }else if(type.equalsIgnoreCase("dog")){
             list = menuRepo.findDogMenu(dogRepo.findByDogSeq(seq));
+        }else{
+            resultMap.put("status", false);
+            resultMap.put("message", "타입을 잘못 입력하셨습니다. [입력예시 : burger, side, drink, event, dog]");
+            resultMap.put("code", HttpStatus.BAD_REQUEST);
+            return resultMap;
         }
         if(list.size()==0){
             resultMap.put("status", false);
