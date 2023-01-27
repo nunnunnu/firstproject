@@ -12,9 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginUserVO {
+    private Long seq;
     private String email;
     private String pwd;
     public LoginUserVO(MemberInfoEntity account){
+        this.seq = account.getMiSeq();
         this.email = account.getMiEmail();
         this.pwd = account.getMiPwd();
     } 

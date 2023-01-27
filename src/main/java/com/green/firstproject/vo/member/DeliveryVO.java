@@ -10,7 +10,11 @@ import lombok.Data;
 @Data
 public class DeliveryVO {
      private String address;
+<<<<<<< HEAD
      private String detailAddress;
+=======
+     private Integer basic;
+>>>>>>> hia21
 
      public DeliveryVO(LatelyDeliveryEntity late){
           this.address = late.getLdAddress();
@@ -18,7 +22,12 @@ public class DeliveryVO {
      }
 
      public DeliveryVO(MyDeliveryEntity my){
+<<<<<<< HEAD
           this.address = my.getMdAddress();
           this.detailAddress=my.getMdDetailAddress();
+=======
+          this.address = my.getMdAddress() + " "+my.getMdDetailAddress();
+          this. basic = my.getMdBasic();
+>>>>>>> hia21
      }
 }

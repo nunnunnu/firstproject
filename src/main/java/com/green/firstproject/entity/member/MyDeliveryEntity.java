@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name="my_delivery")
 public class MyDeliveryEntity {
      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +29,5 @@ public class MyDeliveryEntity {
      @Column(name="md_address") private String mdAddress;
      @Column(name="md_detail_address") private String mdDetailAddress;
      @Column(name="md_name") private String mdName;
+     @Column(name="md_basic")  private Integer mdBasic;
 }
