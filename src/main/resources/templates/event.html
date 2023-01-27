@@ -12,31 +12,37 @@
     </style>
 </head>
 <body>
-    <h1>사이드 추가</h1>
-    <form action="/menu/add/side" method="post" enctype="multipart/form-data">
+    <h1>이벤트 메뉴 추가</h1>
+    <form action="/menu/add/event" method="post" enctype="multipart/form-data">
         <table border="1" id="input_form_table">
             <tbody>
                 <tr>
-                    <!-- <td>카테고리</td>
+                    <td>카테고리</td>
                     <td>
-                        <select name="category">
+                        <select name="cate">
                             <option value="0">선택안함</option>
-                            <option th:each="category, i : ${categoryList}"th:text="${category.cateName}" th:value="${category.cateSeq}"></option>
+                            <option th:each="cate, i : ${categoryList}" th:text="${cate.cateName}" th:value="${cate.cateSeq}"></option>
                         </select>
-                    </td> -->
+                    </td>
                     <td>이름</td>
-                    <td colspan="2"><input type="text" name="sideTitle"></td>
+                    <td ><input type="text" name="name"></td>
                     <td>메뉴 설명</td>
-                    <td colspan="6"><input type="text" name="sideDetail"></td>
+                    <td ><input type="text" name="detail"></td>
+                </tr>
+                <tr>
+                    <td>출시일</td>
+                    <td ><input type="date" name="regDt"></td>
+                    <td>종료일</td>
+                    <td ><input type="date" name="endDt"></td>
                 </tr>
                 <tr>
                     <td>이미지 파일</td>
-                        <td colspan="6">
-                            <input type="file" name="sideFile">
+                        <td colspan="14">
+                            <input type="file" name="eventfile">
                         </td>
                 </tr>
                 <tr>
-                    <td colspan="7">
+                    <td colspan="14">
                         <button>저장</button>
                         <a href="/">돌아가기</a>
                     </td>

@@ -21,6 +21,8 @@ import com.green.firstproject.repository.menu.basicmenu.DogInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.DrinkInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.IngredientsInfoRepository;
 import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
+import com.green.firstproject.repository.menu.option.DrinkOptionRepository;
+import com.green.firstproject.repository.menu.option.SideOptionRepository;
 import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 
@@ -36,6 +38,8 @@ public class FileService {
     @Autowired IngredientsInfoRepository iRepo;
     @Autowired EventInfoRepository eRepo;
     @Autowired MenuInfoRepository menuRepo;
+    @Autowired DrinkOptionRepository drinkOptRepo;
+    @Autowired SideOptionRepository sideOptRepo;
 
     @Value("${file.image.burger}") String burger_img_path;
     @Value("${file.image.side}") String side_img_path;
@@ -44,6 +48,8 @@ public class FileService {
     @Value("${file.image.menu}") String menu_img_path;
     @Value("${file.image.event}") String event_img_path;
     @Value("${file.image.ingredients}") String ingredients_img_path;
+    @Value("${file.image.drinkOpt}")String drinkOpt_img_path;
+    @Value("${file.image.sideOpt}")String sideOpt_img_path;
 
     public ResponseEntity<Resource> getImage ( @PathVariable String uri, 
     @PathVariable String type , HttpServletRequest request ) throws Exception { 
@@ -80,6 +86,14 @@ public class FileService {
         else if(type.equals("ingredients")){
             folderLocation = Paths.get(ingredients_img_path);
             filename = iRepo.findByIiUri(uri).getIiFile();
+        }
+        else if (type.equals("drinkOpt")) {
+            folderLocation = Paths.get(drinkOpt_img_path);
+            filename = drinkOptRepo.findByDoUri(uri).getDoFile();
+        }
+        else if (type.equals("sideOpt")) {
+            folderLocation = Paths.get(sideOpt_img_path);
+            filename = sideOptRepo.findBySoUri(uri).getSoFile();
         }
         String[] split = filename.split("\\.");
         String ext = split[split.length - 1];

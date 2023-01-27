@@ -37,19 +37,16 @@ public class MemberAPIController {
         Map<String, Object> resultMap = mService.addMember(data);
         return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
-
     @GetMapping("/email")
     public ResponseEntity<Object> findEmail(@RequestParam String name, @RequestParam String phone){
         Map<String, Object> resultMap = mService.findEmail(name, phone);
         return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
-
     @GetMapping("/pwd")
     public ResponseEntity<Object> findPwd(@RequestParam String name, @RequestParam String email){
         Map<String, Object> resultMap = mService.findPwd(name, email);
         return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
-      
     @PostMapping("/login")
     public ResponseEntity<Object> memberLogin(@RequestBody LoginUserVO data, HttpSession session){
       Map<String, Object> resultMap = mService.loginMember(data);
@@ -72,7 +69,6 @@ public class MemberAPIController {
     resultMap.put("code", HttpStatus.ACCEPTED);
     return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
   }
-  
   @PostMapping("/update")//patch-> post
   public ResponseEntity<Object> userupdate(@RequestBody UserUpdateVO userUpdate, HttpSession session) {
     LoginUserVO loginUser = (LoginUserVO)session.getAttribute("loginUser");
@@ -127,7 +123,6 @@ public class MemberAPIController {
     
     return new ResponseEntity<Object>(map, (HttpStatus) map.get("code"));
   }
-
   @GetMapping("/address/my")
   public ResponseEntity<Object> myDeliveryAddress(HttpSession session){
     LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");

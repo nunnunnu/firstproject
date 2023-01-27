@@ -62,7 +62,6 @@ public class MenuAPIController {
         Map<String, Object> map = miService.getSellerMenu(type, seq);
         return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
     }
-
     @GetMapping("/ingredient/{seq}")
     public ResponseEntity<Object> getIngredient(@PathVariable Long seq){
         System.out.println(seq);

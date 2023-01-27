@@ -11,4 +11,7 @@ import com.green.firstproject.entity.menu.option.SideOptionEntity;
 public interface SideOptionRepository extends JpaRepository<SideOptionEntity,Long>{
      SideOptionEntity findBySoSeq(Long seq);
      List<SideOptionEntity> findBySoSize(Integer size);
+     
+     SideOptionEntity findBySoUri(String uri);
+
 }

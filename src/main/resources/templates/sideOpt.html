@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {text-align: center;}
+        #input_form_table {
+            margin : 0 auto; border-collapse: collapse; 
+            border: 0;
+        }
+        #input_form_table input {width: 70%;}
+        #input_form_table td {padding: 10px;}
+    </style>
+</head>
+<body>
+    <h1>사이드 옵션 추가</h1>
+    <form action="/menu/add/sideOpt" method="post" enctype="multipart/form-data">
+        <table border="1" id="input_form_table">
+            <tbody>
+                <tr>
+                    <td>사이드명</td>
+                    <td colspan="2"><input type="text" name="soName"></td>
+                </tr>
+                <tr>
+                    <td>사이드 추가 비용</td>
+                    <td colspan="2"><input type="number" name="soPrice"></td>
+                </tr>
+                <tr>
+                    <td>파일명</td>
+                    <td colspan="2"><input type="file" name="sideOptfile"></td>
+                </tr>
+                <tr>
+                    <td>사이즈</td>
+                    <td>
+                        <select name="soSize">
+                            <option value="0">선택안함</option>
+                            <option value="1">Regular</option>
+                            <option value="2">Large</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <button>저장</button>
+                        <a href="/">돌아가기</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
