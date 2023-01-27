@@ -23,6 +23,7 @@ import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
+import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -38,8 +39,14 @@ import com.green.firstproject.vo.add.BurgerAddFileVO;
 import com.green.firstproject.vo.add.DogAddFIleVO;
 import com.green.firstproject.vo.add.DrinkAddFileVO;
 import com.green.firstproject.vo.add.SideAddFileVO;
+import com.green.firstproject.vo.menu.BasicVO;
+import com.green.firstproject.vo.menu.BurgerVO;
+import com.green.firstproject.vo.menu.DogVO;
+import com.green.firstproject.vo.menu.DrinkVO;
+import com.green.firstproject.vo.menu.EventVO;
 import com.green.firstproject.vo.menu.IngredientVo;
 import com.green.firstproject.vo.menu.SellerVO;
+import com.green.firstproject.vo.menu.SideVO;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
 import com.green.firstproject.vo.menu.option.SideOptionVO;
 
@@ -55,14 +62,6 @@ public class MenuInfoService {
     @Autowired DrinkOptionRepository drnikoptRepo;
     @Autowired EventInfoRepository eventRepo;
     @Autowired IngredientsInfoRepository ingRepo;
-
-
-    //이미지 파일 저장 코드
-
-    // public String getFilenameByUri (String uri){
-    //     MenuInfoEntity data = menuRepo.(uri);
-    //     return data.get(0).getFileName();
-    // }
 
     public Map<String, Object> getBuregerInfo(Long seq){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
@@ -94,87 +93,7 @@ public class MenuInfoService {
         resultMap.put("code", HttpStatus.ACCEPTED);
         return resultMap;
     }
-    // public Map<String, Object> getBuregerInfo(Long seq){
-    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-    //     BurgerInfoEntity b = burgerRepo.findByBiSeq(seq);
-    //     if(b==null){
-    //         resultMap.put("status", false);
-    //         resultMap.put("message", "해당되는 버거가 없습니다.");
-    //         resultMap.put("code", HttpStatus.BAD_REQUEST);
-    //         return resultMap;
-    //     }
-    //     List<MenuInfoEntity> list = menuRepo.findByBurger(b);
-    //     resultMap.put("list", list);
-    //     resultMap.put("message", "조회하였습니다.");
-    //     resultMap.put("code", HttpStatus.ACCEPTED);
-    //     return resultMap;
-    // }
-    // public Map<String, Object> getDogInfo(Long seq){
-    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-    //     DogInfoEntity dog = dogRepo.findByDogSeq(seq);
-    //     if(dog==null){
-    //         resultMap.put("status", false);
-    //         resultMap.put("message", "해당되는 독퍼가 없습니다.");
-    //         resultMap.put("code", HttpStatus.BAD_REQUEST);
-    //         return resultMap;
-    //     }
-    //     List<MenuInfoEntity> list = menuRepo.findBydog(dog);
-    //     resultMap.put("list", list);
-    //     resultMap.put("message", "조회하였습니다.");
-    //     resultMap.put("code", HttpStatus.ACCEPTED);
-    //     return resultMap;
-    // }
-
-    // public Map<String, Object> getDrinkInfo(Long seq){
-    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-    //     DrinkInfoEntity drink = drinkRepo.findByDiSeq(seq);
-    //     if(drink==null){
-    //         resultMap.put("status", false);
-    //         resultMap.put("message", "해당되는 음료가 없습니다.");
-    //         resultMap.put("code", HttpStatus.BAD_REQUEST);
-    //         return resultMap;
-    //     }
-    //     List<MenuInfoEntity> list = menuRepo.findByDrink(drink);
-    //     if(list.size() == 0){
-    //         resultMap.put("message", "해당하는 메뉴가 없습니다.");
-    //     }
-    //     List<MenuInfoEntity> list3 = menuRepo.findByDrink(drink);
-    //     for(MenuInfoEntity m : list){
-    //         if(m.getBurger()==null && m.getDog()==null && m.getSide()==null && m.getDrink()!=null){
-    //             list3.add(m);
-    //         }
-    //     }
-    //     resultMap.put("list", list3);
-    //     resultMap.put("message", "조회하였습니다.");
-    //     resultMap.put("code", HttpStatus.ACCEPTED);
-    //     return resultMap;
-    // }
-    // public Map<String, Object> getSideInfo(Long seq){
-    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-    //     SideInfoEntity side = sideRepo.findBySideSeq(seq);
-    //     if(side==null){
-    //         resultMap.put("status", false);
-    //         resultMap.put("message", "해당되는 사이드 메뉴가 없습니다.");
-    //         resultMap.put("code", HttpStatus.BAD_REQUEST);
-    //         return resultMap;
-    //     }
-    //     List<MenuInfoEntity> list = menuRepo.findBySide(side);
-    //     if(list.size() == 0){
-    //         resultMap.put("message", "해당하는 메뉴가 없습니다.");
-    //     }
-    //     List<MenuInfoEntity> list2 = new ArrayList<>();
-    //     for(MenuInfoEntity m : list){
-    //         if(m.getBurger()==null && m.getDrink()==null && m.getDog()==null && m.getSide()!=null){
-    //             list2.add(m);
-    //         }
-    //     }
-    //     resultMap.put("list", list2);
-    //     resultMap.put("message", "조회하였습니다.");
-    //     resultMap.put("code", HttpStatus.ACCEPTED);
-    //     return resultMap;
-    // }
-
-    
+  
     public Map<String, Object> getSideOptionInfo(Long seq) { 
         Map<String, Object> resultMap = new LinkedHashMap<>();
         MenuInfoEntity menu = menuRepo.findByMenuSeq(seq);
@@ -228,26 +147,6 @@ public class MenuInfoService {
         resultMap.put("list", result);
         return resultMap;
     }
-
-    // public Map<String, Object> getNewMenu(Long seq){
-    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-    //     LocalDate now = LocalDate.now();
-    //     // SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-    //     // f.format(now);
-    //     List<MenuListVO> result = new ArrayList<>();
-    //     for(BurgerInfoEntity b : burgerRepo.findAll()){
-    //         MenuListVO data = new MenuListVO(b);
-    //         // if((Period.between(now, data.getRegDt()).getDays() <= 30)&&(Period.between(now, data.getRegDt()).getYears() == 0)){
-    //         //     data.setStatus(true);
-    //         // }
-    //         result.add(data);
-    //     }
-    //     resultMap.put("status", true);
-    //     resultMap.put("message", "신제품 목록 입니다.");
-    //     resultMap.put("code", HttpStatus.ACCEPTED);
-    //     resultMap.put("list", result);
-    //     return resultMap;
-    // }
 
     public Map<String, Object> showIngredient(Long menuSeq){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
@@ -420,17 +319,27 @@ public class MenuInfoService {
     public Map<String, Object> getSellerMenu(String type, Long seq) {
         Map<String, Object> resultMap = new LinkedHashMap<>();
         List<MenuInfoEntity> list = new ArrayList<>();
+        BasicVO basic;
         if(type.equalsIgnoreCase("burger")){
-            list = menuRepo.findByBurger(burgerRepo.findByBiSeq(seq));
+            BurgerInfoEntity burger = burgerRepo.findByBiSeq(seq);
+            list = menuRepo.findByBurger(burger);
+            basic = new BasicVO(burger);
         }else if(type.equalsIgnoreCase("side")){
-            list = menuRepo.findBySideAndBurgerIsNullAndEventIsNull(sideRepo.findBySideSeq(seq));
+            SideInfoEntity side = sideRepo.findBySideSeq(seq);
+            list = menuRepo.findBySideAndBurgerIsNullAndEventIsNull(side);
+            basic = new BasicVO(side);
         }else if(type.equalsIgnoreCase("drink")){
-            list = menuRepo.findDrinkMenu(drinkRepo.findByDiSeq(seq));
-            System.out.println(list);
+            DrinkInfoEntity drink = drinkRepo.findByDiSeq(seq);
+            list = menuRepo.findDrinkMenu(drink);
+            basic = new BasicVO(drink);
         }else if(type.equalsIgnoreCase("event")){
-            list = menuRepo.findEventMenu(eventRepo.findByEiSeq(seq));
+            EventInfoEntity event = eventRepo.findByEiSeq(seq);
+            list = menuRepo.findEventMenu(event);
+            basic = new BasicVO(event);
         }else if(type.equalsIgnoreCase("dog")){
-            list = menuRepo.findDogMenu(dogRepo.findByDogSeq(seq));
+            DogInfoEntity dog = dogRepo.findByDogSeq(seq);
+            list = menuRepo.findDogMenu(dog);
+            basic = new BasicVO(dog);
         }else{
             resultMap.put("status", false);
             resultMap.put("message", "타입을 잘못 입력하셨습니다. [입력예시 : burger, side, drink, event, dog]");
@@ -440,17 +349,16 @@ public class MenuInfoService {
         if(list.size()==0){
             resultMap.put("status", false);
             resultMap.put("message", "조회가능한 메뉴가 없습니다. 조회 번호를 다시 확인해주세요.");
-            resultMap.put("code", HttpStatus.OK);
+            resultMap.put("code", HttpStatus.BAD_REQUEST);
             return resultMap;
         }
-        List<SellerVO> result = new ArrayList<>();
-        for(MenuInfoEntity m : list){
-            result.add(new SellerVO(m));
-        }
+
+        basic.changeSeller(list);
+
         resultMap.put("status", true);
         resultMap.put("message", "판매 메뉴를 조회했습니다.");
         resultMap.put("code", HttpStatus.OK);
-        resultMap.put("list",result);
+        resultMap.put("list",basic);
 
         return resultMap;
     }

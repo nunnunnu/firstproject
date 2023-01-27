@@ -1,22 +1,34 @@
 package com.green.firstproject.vo.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
+import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 
 import lombok.Data;
 
+//판매메뉴 조회 용 VO
+
 @Data
 public class SideVO {
-    private Long sideSeq;
-    private String sideName;
-    private String sideDetail;
-    private String sideFile;
-    private String sideUri;
+    private Long seq;
+    private String name;
+    private String detail;
+    private String uri;
+    private List<SellerVO> seller = new ArrayList<>();
 
     public SideVO(SideInfoEntity side){
-        this.sideSeq = side.getSideSeq();
-        this.sideName = side.getSideName();
-        this.sideDetail = side.getSideDetail();
-        this.sideFile = side.getSideDetail();
-        this.sideUri = side.getSideUri();
+        this.seq = side.getSideSeq();
+        this.name = side.getSideName();
+        this.detail = side.getSideDetail();
+        this.uri = side.getSideUri();
+    }
+    public void changeSeller(List<MenuInfoEntity> list){
+        List<SellerVO> result = new ArrayList<>();
+        for(MenuInfoEntity m : list){
+            result.add(new SellerVO(m));
+        }
+        this.seller.addAll(result);
     }
 }

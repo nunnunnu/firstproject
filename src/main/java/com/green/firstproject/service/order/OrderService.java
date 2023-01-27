@@ -153,7 +153,6 @@ public class OrderService {
                discountStock(store, orderDetail);
                
                odRepo.save(orderDetail);
-               System.out.println(c.getIngredient());
                if(c.getIngredient()!=null){
                     List<IngredientsInfoEntity> ings = iiRepo.findByingSeq(c.getIngredient());
                     List<IngredientVo> ingsVo = new ArrayList<>();
@@ -165,7 +164,7 @@ public class OrderService {
                          OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity(i, orderDetail);
                          // orderIngredient.setIngredient(i);
                          // orderIngredient.setOrderdetail(orderDetail);
-                         discountIngredientStock(store, i);
+                         discountIngredientStock(store, i, c.getCount());
                          oidRepo.save(orderIngredient);
                     }
                }
@@ -214,9 +213,9 @@ public class OrderService {
           }
      }
      //재료 재고 감소
-     public void discountIngredientStock(StoreInfoEntity store, IngredientsInfoEntity ingredirent){
+     public void discountIngredientStock(StoreInfoEntity store, IngredientsInfoEntity ingredirent, int count){
           IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredirent);
-          int ingStock = ing.getIsStock()-1;
+          int ingStock = ing.getIsStock()-count;
           ing.setIsStock(ingStock);
      }
      // 매장 재고 검사

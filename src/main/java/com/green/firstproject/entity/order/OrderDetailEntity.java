@@ -19,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -28,6 +29,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="order_detail")
 @DynamicInsert
+@Builder
 public class OrderDetailEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="od_seq")              private Long odSeq ;

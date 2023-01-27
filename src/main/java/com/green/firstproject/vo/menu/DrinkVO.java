@@ -1,24 +1,34 @@
 package com.green.firstproject.vo.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
+import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 
 import lombok.Data;
 
-//삭제 보류. 장바구니 확정되면 삭제
+//판매메뉴 조회 용 VO
 
 @Data
 public class DrinkVO {
-    private Long drinkSeq;
-    private String drinkName;
-    private String drinkDetail;
-    private String drinkFile;
-    private String drinkUri;
+    private Long seq;
+    private String name;
+    private String detail;
+    private String uri;
+    private List<SellerVO> seller = new ArrayList<>();
 
     public DrinkVO(DrinkInfoEntity drink){
-        this.drinkSeq = drink.getDiSeq();
-        this.drinkName = drink.getDiName();
-        this.drinkDetail = drink.getDiDetail();
-        this.drinkFile = drink.getDiFile();
-        this.drinkUri = drink.getDiUri();
+        this.seq = drink.getDiSeq();
+        this.name = drink.getDiName();
+        this.detail = drink.getDiDetail();
+        this.uri = drink.getDiUri();
+    }
+    public void changeSeller(List<MenuInfoEntity> list){
+        List<SellerVO> result = new ArrayList<>();
+        for(MenuInfoEntity m : list){
+            result.add(new SellerVO(m));
+        }
+        this.seller.addAll(result);
     }
 }

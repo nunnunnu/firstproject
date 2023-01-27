@@ -36,31 +36,11 @@ public class MenuAPIController {
         map.put("list", menuRepo.findAll(pageable));
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
-    // @GetMapping("/category")
-    // public Map<String, Object> selectCategories(@RequestParam Long seq) {
-    //     Map<String, Object> resultMap = mService.cateSeq(seq);
-    //     return resultMap;
-    // }
-    // @GetMapping("/burger")
-    // public ResponseEntity<Object> getBuregerInfo(@RequestParam Long seq) {
-    //         Map<String, Object> map = miService.getBuregerInfo(seq);
-    //         return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-    // }
-    // @GetMapping("/dog")
-    // public ResponseEntity<Object> getDogInfo(@RequestParam Long seq){
-    //         Map<String, Object> map = miService.getDogInfo(seq);
-    //         return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-    // }
-    // @GetMapping("/drink")
-    // public ResponseEntity<Object> getDrinkInfo(@RequestParam Long seq){
-    //         Map<String, Object> map = miService.getDrinkInfo(seq);
-    //         return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-    // }
-    // @GetMapping("/side")
-    // public ResponseEntity<Object> getSideInfo(@RequestParam Long seq){
-    //         Map<String, Object> map = miService.getSideInfo(seq);
-    //         return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-    // }
+    @GetMapping("/category")
+    public Map<String, Object> selectCategories(@RequestParam Long seq) {
+        Map<String, Object> resultMap = mService.cateSeq(seq);
+        return resultMap;
+    }
     //옵션 조회
     @GetMapping("/sideopt")
     public ResponseEntity<Object> getSideOptionInfo(@RequestParam Long seq){
@@ -89,10 +69,7 @@ public class MenuAPIController {
         Map<String, Object> resultMap = miService.showIngredient(seq);
         return new ResponseEntity<Object>(resultMap,(HttpStatus)resultMap.get("code"));
     }
-    // @GetMapping("/best")
-    // public ResponseEntity<Object> bestMenu(@RequestParam @Nullable Long seq){
-    //     Map<String, Object> map = miService.getBestMenu(seq);
-    //     return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-    // }
     
 }
+
+

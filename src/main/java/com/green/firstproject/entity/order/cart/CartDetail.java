@@ -3,11 +3,13 @@ package com.green.firstproject.entity.order.cart;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CartDetail {
 
      // private Long cartSeq;

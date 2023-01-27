@@ -1,24 +1,34 @@
 package com.green.firstproject.vo.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
+import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 
 import lombok.Data;
 
-//삭제 보류. 장바구니 확정되면 삭제
+////판매메뉴 조회 용 VO
 
 @Data
 public class DogVO {
-    private Long dogSeq;
-    private String dogName;
-    private String dogDetail;
-    private String dogFile;
-    private String dogUri;
+    private Long seq;
+    private String name;
+    private String detail;
+    private String uri;
+    private List<SellerVO> seller = new ArrayList<>();
 
     public DogVO(DogInfoEntity dog){
-        this.dogSeq = dog.getDogSeq();
-        this.dogName = dog.getDogName();
-        this.dogDetail = dog.getDogDetail();
-        this.dogFile = dog.getDogFile();
-        this.dogUri = dog.getDogFile();
+        this.seq = dog.getDogSeq();
+        this.name = dog.getDogName();
+        this.detail = dog.getDogDetail();
+        this.uri = dog.getDogFile();
+    }
+    public void changeSeller(List<MenuInfoEntity> list){
+        List<SellerVO> result = new ArrayList<>();
+        for(MenuInfoEntity m : list){
+            result.add(new SellerVO(m));
+        }
+        this.seller.addAll(result);
     }
 }

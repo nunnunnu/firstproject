@@ -216,7 +216,7 @@ public class MemberService {
         if(list.size()==0){
             map.put("status", false);
             map.put("message", "최근 주문 내역이 없습니다.");
-            map.put("code", HttpStatus.ACCEPTED);    
+            map.put("code", HttpStatus.NO_CONTENT);    
             return map;
         }
         List<DeliveryVO> result = new ArrayList<>();
