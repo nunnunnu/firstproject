@@ -21,7 +21,9 @@ import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 // import com.green.firstproject.service.MemberService;
 import com.green.firstproject.service.member.MemberService;
+import com.green.firstproject.vo.member.DeliveryVO;
 import com.green.firstproject.vo.member.LoginUserVO;
+import com.green.firstproject.vo.member.MyDeliveryVO;
 import com.green.firstproject.vo.member.UserUpdateVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -141,5 +143,32 @@ public class MemberAPIController {
     map = mService.showMyDeliveryAddress(loginUser);
     
     return new ResponseEntity<Object>(map, (HttpStatus) map.get("code"));
+  }
+
+  @PutMapping("/add/my")
+  public ResponseEntity<Object> addMyDeliveryAddress(@RequestBody MyDeliveryVO data,HttpSession session){
+    LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
+    Map<String, Object> resultMap = mService.addMyDeliveryAddress(loginUser, data);
+    if(session.getAttribute("loginUser") == null){
+        resultMap.put("status", false);
+      resultMap.put("message", "로그인 먼저 해주세요.");
+      resultMap.put("code", HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(resultMap, (HttpStatus) resultMap.get("code"));
+    }
+    return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
+  }
+
+  @DeleteMapping("/delete/my/{seq}")
+  public ResponseEntity<Object> deleteMyDeliveryAddress(HttpSession session, @PathVariable Long seq){
+    LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
+    Map<String, Object> resultMap = mService.deleteMyDeliveryAddress(loginUser, seq);
+    return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
+  }
+
+  @PatchMapping("/update/my/{seq}")
+  public ResponseEntity<Object> updateMyDeliveryName(HttpSession session, @PathVariable Long seq, @RequestBody MyDeliveryVO data){
+    LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
+    Map<String, Object> resultMap = mService.updateMyDeliveryName(loginUser,data.getName(), seq);
+    return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
   }
 }

@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class DeliveryVO {
      private String address;
+     private Integer basic;
 
      public DeliveryVO(LatelyDeliveryEntity late){
           this.address = late.getLdAddress() + " "+late.getLdDetailAddress();
@@ -17,5 +18,6 @@ public class DeliveryVO {
 
      public DeliveryVO(MyDeliveryEntity my){
           this.address = my.getMdAddress() + " "+my.getMdDetailAddress();
+          this. basic = my.getMdBasic();
      }
 }

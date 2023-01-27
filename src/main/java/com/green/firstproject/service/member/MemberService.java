@@ -20,6 +20,9 @@ import com.green.firstproject.utils.AESAlgorithm;
 import com.green.firstproject.vo.member.DeliveryVO;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.member.MemberMypageVO;
+import com.green.firstproject.vo.member.MyDeliveryVO;
+
+import jakarta.servlet.http.HttpSession;
 @Service
 public class MemberService {
     @Autowired MemberInfoReposiroty mRepo;
@@ -235,33 +238,75 @@ public class MemberService {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         MemberInfoEntity member = mRepo.findByMiEmail(data.getEmail());
         List<MyDeliveryEntity> list = mdRepo.findMember(member);
-
-        if(list.size()==0){
-            map.put("status", false);
-            map.put("message", data.getEmail()+"님 \n"+"평소에 자주 배달받는 주소를 등록해 보세요.");
+            if(list.size()==0){
+                map.put("status", false);
+                map.put("message", data.getEmail()+"님 \n"+"평소에 자주 배달받는 주소를 등록해 보세요.");
+                map.put("code", HttpStatus.ACCEPTED);
+            }
+            List<DeliveryVO> result = new ArrayList<>();
+            for(MyDeliveryEntity m : list){
+                DeliveryVO my = new DeliveryVO(m);
+                result.add(my);
+            }
+            map.put("status", true);
+            map.put("message", "MY배달지");
             map.put("code", HttpStatus.ACCEPTED);
-        }
-        List<DeliveryVO> result = new ArrayList<>();
-        for(MyDeliveryEntity m : list){
-            DeliveryVO my = new DeliveryVO(m);
-            result.add(my);
-        }
-        map.put("status", true);
-        map.put("message", "MY배달지");
-        map.put("code", HttpStatus.ACCEPTED);
-        map.put("list", result);
+            map.put("list", result);
         return map;
     }
 
-    public Map<String, Object> addMyDeliveryAddress(LoginUserVO data, String address, String detailAddress){
+    public Map<String, Object> addMyDeliveryAddress(LoginUserVO login,MyDeliveryVO data){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-        MyDeliveryEntity my = new MyDeliveryEntity();
-        my.setMdAddress(address);
-        my.setMdDetailAddress(detailAddress);
+        MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());   
+        List<MyDeliveryEntity> list = mdRepo.findMember(member);       
+        MyDeliveryEntity my = MyDeliveryEntity.builder().mdAddress(data.getAddress()).mdDetailAddress(data.getDetailAddress()).mdName(data.getName()).member(member).mdBasic(data.getBasic()).build();
+        if(list.size() > 5){
+            map.put("status", false);
+            map.put("message", "마이 배달지는 5개 까지 등록 가능합니다.");
+            map.put("code", HttpStatus.BAD_REQUEST);
+            return map;
+        }
         mdRepo.save(my);
         map.put("status", true);
         map.put("message", "MY배달지가 등록되었습니다.");
         map.put("code", HttpStatus.ACCEPTED);
+        return map;
+    }
+
+    public Map<String, Object> deleteMyDeliveryAddress(LoginUserVO login, Long seq){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
+        MyDeliveryEntity entity = mdRepo.findById(seq).get();
+        if(member.getMiSeq() == entity.getMember().getMiSeq()){
+                mdRepo.deleteById(seq);
+                map.put("status", true);
+                map.put("message", "MY배달지가 삭제되었습니다.");
+                map.put("code", HttpStatus.ACCEPTED);
+        }
+        else{
+            map.put("status", false);
+            map.put("message", "회원 번호를 확인해주세요.");
+            map.put("code", HttpStatus.BAD_REQUEST);
+        }
+        return map;
+    }
+
+    public Map<String, Object> updateMyDeliveryName(LoginUserVO login, String name, Long seq){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
+        MyDeliveryEntity entity = mdRepo.findById(seq).get();
+        if(member.getMiSeq() == entity.getMember().getMiSeq()){
+            entity.setMdName(name);
+            mdRepo.save(entity);
+            map.put("status", true);
+            map.put("message", "MY배달지 별칭이 수정되었습니다.");
+            map.put("code", HttpStatus.ACCEPTED);
+        }
+        else{
+            map.put("status", false);
+            map.put("message", "회원 번호를 확인해주세요.");
+            map.put("code", HttpStatus.BAD_REQUEST);
+        }
         return map;
     }
 }    
