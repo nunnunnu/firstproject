@@ -14,6 +14,7 @@ public interface StoreInfoRepository extends JpaRepository<StoreInfoEntity, Long
     public List <StoreInfoEntity> findAllBySiSeq(Long siSeq);
     public StoreInfoEntity findBySiSeq(Long seq);
     public StoreInfoEntity findBySiName(String name);
+    public StoreInfoEntity findBySiDeliveryArea(String area);
 
     @Query(value = "select * from store_info where si_name like %:keyword%", nativeQuery = true)
     List<StoreInfoEntity> searchStoreName(@Param("keyword") String keyword);

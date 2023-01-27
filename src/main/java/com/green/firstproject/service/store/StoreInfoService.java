@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.vo.store.StoreInfoVO;
+import com.green.firstproject.vo.store.StoreVO;
 
 import io.micrometer.common.lang.Nullable;
 
@@ -82,5 +83,32 @@ public class StoreInfoService {
         }
         return resultMap;
 
+    }
+
+    public Map<String, Object> findStore(String address){
+        Map<String, Object> map = new LinkedHashMap<>();
+
+        List<StoreInfoEntity> store = siRepo.findAll();
+        StoreInfoEntity entity = new StoreInfoEntity();
+        for(StoreInfoEntity s : store){
+            if(address.contains(s.getSiDeliveryArea())){
+                entity = s;
+            }
+        }
+
+        if(entity.getSiSeq()==null){
+            map.put("status", false);
+            map.put("message", "배달 불가능한 지역입니다.");
+            map.put("code", HttpStatus.NO_CONTENT);
+        }else{
+
+            StoreVO result =  new StoreVO(entity);
+            map.put("store", result);
+            map.put("status", true);
+            map.put("message", "매장을 선택했습니다.");
+            map.put("code", HttpStatus.OK);
+        }
+
+        return map;
     }
 }

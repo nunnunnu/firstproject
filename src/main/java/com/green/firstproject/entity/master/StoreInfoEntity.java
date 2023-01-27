@@ -33,4 +33,5 @@ public class StoreInfoEntity {
     @Column(name = "si_min_order_amount")       private Integer siMinOrderAmount;
     @Column(name = "si_status")      @ColumnDefault("1")        
     private Integer siStatus;
+    @Column(name="si_delivery_area") private String siDeliveryArea;
 }

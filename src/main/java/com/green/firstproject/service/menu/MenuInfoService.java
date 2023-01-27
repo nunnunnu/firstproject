@@ -40,13 +40,7 @@ import com.green.firstproject.vo.add.DogAddFIleVO;
 import com.green.firstproject.vo.add.DrinkAddFileVO;
 import com.green.firstproject.vo.add.SideAddFileVO;
 import com.green.firstproject.vo.menu.BasicVO;
-import com.green.firstproject.vo.menu.BurgerVO;
-import com.green.firstproject.vo.menu.DogVO;
-import com.green.firstproject.vo.menu.DrinkVO;
-import com.green.firstproject.vo.menu.EventVO;
 import com.green.firstproject.vo.menu.IngredientVo;
-import com.green.firstproject.vo.menu.SellerVO;
-import com.green.firstproject.vo.menu.SideVO;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
 import com.green.firstproject.vo.menu.option.SideOptionVO;
 
@@ -207,7 +201,7 @@ public class MenuInfoService {
             e.printStackTrace();
         }
             SideInfoEntity entity = 
-                SideInfoEntity.builder().sideName(data.getSideTitle()).cate(cateRepo.findByCateSeq(data.getCategory()))
+                SideInfoEntity.builder().sideName(data.getSideTitle()).cate(cateRepo.findByCateSeq(6L))
                                         .sideDetail(data.getSideDetail())
                                         .sideFile(saveFileName).sideUri(fileName).build();
 
@@ -275,7 +269,7 @@ public class MenuInfoService {
             e.printStackTrace();
         }
         DrinkInfoEntity entity = 
-            DrinkInfoEntity.builder().diName(data.getName()).cate(cateRepo.findByCateSeq(data.getCategory()))
+            DrinkInfoEntity.builder().diName(data.getName()).cate(cateRepo.findByCateSeq(7L))
                                         .diDetail(data.getDetail())
                                         .diFile(saveFileName).diUri(fileName).build();
         drinkRepo.save(entity);
@@ -309,7 +303,7 @@ public class MenuInfoService {
             e.printStackTrace();
         }
         DogInfoEntity entity = DogInfoEntity.builder().dogName(data.getName())
-                .cate(cateRepo.findByCateSeq(data.getCategory()))
+                .cate(cateRepo.findByCateSeq(8L))
                 .dogDetail(data.getDetail())
                 .dogFile(saveFileName).dogUri(fileName).build();
         dogRepo.save(entity);

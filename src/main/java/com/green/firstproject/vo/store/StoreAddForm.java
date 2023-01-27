@@ -16,4 +16,5 @@ public class StoreAddForm {
     private LocalTime closeTime;
     private Integer deliveryPrice;
     private String phone;
+    private String deliveryArea;
 }

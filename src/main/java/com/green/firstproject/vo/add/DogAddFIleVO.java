@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DogAddFIleVO {
     private String name;
-    private Long category;
+    // private Long category;
     private String detail;
     private MultipartFile dogFile;
 }

@@ -33,21 +33,29 @@ public class StoreController {
     @GetMapping("/search")
     public ResponseEntity<Object> getStoreSearch (
         @PageableDefault(size = 8) Pageable pageable, @RequestParam @Nullable String keyword
-        ) {
-            if(keyword==null) keyword="";
+    ) {
+        if(keyword==null) keyword="";
 
-            return new ResponseEntity<>(siService.getStoreDetailInfo(pageable, keyword), HttpStatus.OK);
+        Map<String, Object> map = siService.getStoreDetailInfo(pageable, keyword);
+
+        return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+    }
+    @PatchMapping("/update/{seq}")
+    public ResponseEntity<Object> updateStoreInfo(@RequestBody StoreInfoVO data, @PathVariable Long seq
+    ) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        if(seq == null){
+            map.put("status", false);
+            map.put("message", "로그인 먼저 해주세요.");
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
         }
-        @PatchMapping("/update/{seq}")
-        public ResponseEntity<Object> updateStoreInfo(@RequestBody StoreInfoVO data, @PathVariable Long seq
-        ) {
-            Map<String, Object> map = new LinkedHashMap<>();
-            if(seq == null){
-                map.put("status", false);
-                map.put("message", "로그인 먼저 해주세요.");
-                return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
-            }
-            map = siService.updateStoreInfo(data, seq);
-            return new ResponseEntity<>(map, HttpStatus.OK);
-        }
+        map = siService.updateStoreInfo(data, seq);
+        return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+    }
+    
+    @GetMapping("/store/select")
+    public ResponseEntity<Object> selectStore(@RequestParam String address){
+        Map<String, Object> map = siService.findStore(address);
+        return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+    }
 }

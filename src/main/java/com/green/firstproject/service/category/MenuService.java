@@ -47,29 +47,31 @@ public class MenuService {
         StoreInfoEntity store = siRepo.findAll().get(0);
 
         Map<String, Object> list = new LinkedHashMap<>();
-        List<BurgerCateVo> burgerList = bRepo.searchBurger(seq, store.getSiSeq());
-        if(burgerList.size()!=0){
-            list.put("burger", burgerList);
-        }
-
-        List<DrinkCateVO> drinkList = dRepo.searchDrink(seq, store.getSiSeq());
-        if(drinkList.size()!=0){
-            list.put("drink", drinkList);
-        }
-        
-        List<DogCateVO> dogList = dogRepo.searchDog(seq, store.getSiSeq());
-        if(dogList.size()!=0){
-            list.put("dog", dogList);
-        }
-
-        List<SideCateVO> sideList = sRepo.searchSide(seq, store.getSiSeq());
-        if(sideList.size()!=0){
-            list.put("side", sideList);
-        }
-
-        List<EventCateVO> eventList = eRepo.searchEvent(seq, store.getSiSeq());
-        if(eventList.size()!=0){
-            list.put("event", eventList);
+        if(seq==2||seq==3||seq==4||seq==5){
+            List<BurgerCateVo> burgerList = bRepo.searchBurger(seq, store.getSiSeq());
+            if(burgerList.size()!=0){
+                list.put("burger", burgerList);
+            }
+        }else if(seq==7){
+            List<DrinkCateVO> drinkList = dRepo.searchDrink(seq, store.getSiSeq());
+            if(drinkList.size()!=0){
+                list.put("drink", drinkList);
+            }
+        }else if(seq==8){
+            List<DogCateVO> dogList = dogRepo.searchDog(seq, store.getSiSeq());
+            if(dogList.size()!=0){
+                list.put("dog", dogList);
+            }
+        }else if(seq==6){
+            List<SideCateVO> sideList = sRepo.searchSide(seq, store.getSiSeq());
+            if(sideList.size()!=0){
+                list.put("side", sideList);
+            }
+        }else if(seq==1){
+            List<EventCateVO> eventList = eRepo.searchEvent(seq, store.getSiSeq());
+            if(eventList.size()!=0){
+                list.put("event", eventList);
+            }
         }
 
         if (list.size()==0) {

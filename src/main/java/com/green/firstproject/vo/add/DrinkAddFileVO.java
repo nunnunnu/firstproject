@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DrinkAddFileVO {
     private String name;
-    private Long category;
+    // private Long category;
     private String detail;
     private MultipartFile diFile;
 

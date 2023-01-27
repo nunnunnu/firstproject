@@ -9,7 +9,7 @@ import lombok.Data;
 public class SideAddFileVO {
     private String sideTitle;
     private String sideDetail;
-    private Long category;
+    // private Long category;
     private MultipartFile sideFile;
 
 }
