@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
@@ -37,6 +36,7 @@ import com.green.firstproject.repository.stock.EventStockRepository;
 import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
 import com.green.firstproject.service.menu.MenuInfoService;
+import com.green.firstproject.vo.stock.BurgerStockVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -71,8 +71,11 @@ public class StockMenuController {
     }
     @GetMapping("/burger")
     public String getBurgerStock(Model model){
-        List<BurgerInfoEntity> burgerStockList =new ArrayList<BurgerInfoEntity>();
-        model.addAttribute("burgerStockList", bRepo.findAll());
+        System.out.println("!11");
+        List<BurgerStockVO> burgerStockList = bsRepo.stockAll(siRepo.findAll().get(0).getSiSeq());
+        System.out.println(burgerStockList.size());
+        System.out.println("!222");
+        model.addAttribute("burgerStockList", burgerStockList);
         return "/stock/burgerStock";
     }
 
