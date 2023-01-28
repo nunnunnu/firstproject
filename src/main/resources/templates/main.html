@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta charset="UTF-8">
     <!-- html 캐싱 제거 -->
     <meta http-equiv="Pragma" content="no-cache">
@@ -11,18 +12,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <h1>메인페이지 입니다.</h1>
-     
-        <a href="/menu/add/burger" style=" font-size: 1.5em">버거 정보 추가</a><br><br>
-        <a href="/menu/add/menu" style=" font-size: 1.5em">메뉴 정보 추가</a><br><br>
-        <a href="/menu/add/event" style=" font-size: 1.5em">이벤트 정보 추가</a><br><br>
-        <a href="/menu/add/side" style=" font-size: 1.5em">사이드 정보 추가</a><br><br>
-        <a href="/menu/add/sideOpt" style=" font-size: 1.5em">사이드 옵션 정보 추가</a><br><br>
-        <a href="/menu/add/drink" style=" font-size: 1.5em">음료 정보 추가</a><br><br>
-        <a href="/menu/add/ingredients" style=" font-size: 1.5em">재료 정보 추가</a><br><br>
-        <a href="/menu/add/dog" style=" font-size: 1.5em">독퍼 정보 추가</a><br><br>
-        <a href="/menu/add/store" style=" font-size: 1.5em">매장 정보 추가</a><br><br>
+<body class="container">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #DB1D09">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/main">
+                <img src="https://post-phinf.pstatic.net/MjAxODEwMjNfMjYy/MDAxNTQwMjY5NTEzMTAy.i6UZ_vJDU5OFn8FjIS5hDrVhB5GUGFgJU-9Imw2sZZMg.FKmluovzic5WebT60P5A5QPAhY1SGayH8o5cLbA7Sewg.PNG/%EB%B2%84%EA%B1%B0%ED%82%B91994.png?type=w1200" alt="Logo" width="30" height="24" class="d-inline-block align-text-left">
+                <span style="color: white; font-weight: 900;">BurgerWang</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; font-weight: 700;">
+                        기본메뉴 추가
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/menu/add/burger">버거 추가</a></li>
+                        <li><a class="dropdown-item" href="/menu/add/event">이벤트 추가</a></li>
+                        <li><a class="dropdown-item" href="/menu/add/dog">독퍼 추가</a></li>
+                        <li><a class="dropdown-item" href="/menu/add/drink">음료 추가</a></li>
+                        <li><a class="dropdown-item" href="/menu/add/side">사이드 추가</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/sellmenu" style="color: white; font-weight: 700;">판매 메뉴 추가</a>
+                </li>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; font-weight: 700;">
+                        옵션 추가
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/menu/add/sideOpt">사이드 옵션 추가</a></li>
+                        <li><a class="dropdown-item" href="/menu/add/drinkOpt">음료 옵션 추가</a></li>
+                        <li><a class="dropdown-item" href="/menu/add/ingredients">재료 옵션 추가</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/store" style="color: white; font-weight: 700;">매장 추가</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; font-weight: 700;">
+                        재고관리
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/menu/stock/burger">버거 재고 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/event">이벤트 재고 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/dog">독퍼 재고 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/drink">음료 재고 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/side">사이드 재고 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/ingredients">재료 재고 관리</a></li>
+                    </ul>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+        <h4 class="p-3 mb-2 bg-dark text-white">메인페이지</h4>
+
 
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </html>

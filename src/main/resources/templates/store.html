@@ -16,8 +16,57 @@ function kakaopost() {
 }
 </script>
 </head>
-<body>
-    <div class="p-3 mb-2 bg-secondary text-white">매장 추가</div>
+<body class="container">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/main">BurgerWang</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/burger">버거추가</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/sellmenu">메뉴추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/event">이벤트추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/side">사이드추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/sideOpt">사이드옵션추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/drink">음료추가</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/drinkOpt">음료옵션추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/ingredients">재료추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/dog">독퍼추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/store">매장추가</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+    <h4 class="p-3 mb-2 bg-dark text-white">매장 추가</h4>
     <form action="/menu/add/store" method="post">
         <table id="input_form_table">
             <tbody>
@@ -26,23 +75,36 @@ function kakaopost() {
                     <input type="text" class="form-control" id="exampleFormControlInput1" name ="name" placeholder="name">
                 <tr>
                 <tr>
-                    <td width="200">우편주소</td>
-                </tr>
-                <tr>
-                    <label class="form-label">우편주소</label>
-                    <input type="text" class="form-control" name="zipcode" id="zipcode" size="7"
-                        readonly>  
-                        <input type="button" value="주소찾기"
-                        onclick="kakaopost()">
+                    <br>
+                    <div class="row">
                         <br>
-                    <label for="address" class="form-label">주소</label>
-                    <input type="text" class="form-control" id="address" name ="address" placeholder="address">
-                    <input type="text" class="form-control" name="detailAddress" id="detailAddress" placeholder="상세주소">
+                        <div class="col-1">
+                            <input type="button" value="주소찾기"
+                            onclick="kakaopost()">
+                        </div>
+                        <div class="col-2">
+                            <input type="text" class="form-control" name="zipcode" id="zipcode" size="7"
+                            readonly>          
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-7">
+                            <label for="address" class="form-label">주소</label>
+                            <input type="text" class="form-control" id="address" name ="address" placeholder="address">
+                        </div>
+                        <div class="col-3">
+                            <label class="form-label">상세 주소</label>
+                            <input type="text" class="form-control" name="detailAddress" id="detailAddress" placeholder="상세주소">
+                        </div>
+
+                    </div>
                 </tr>
                 <tr>
-                    개점시간
+                    <br>
                     <div class="container">
                         <div class="row">
+                            개점시간
                             <div class='col-sm-3'>
                                 <div class="form-group">
                                     <div class='input-group date' id='opentimepicker3' >
@@ -53,20 +115,7 @@ function kakaopost() {
                                     </div>
                                 </div>
                             </div>
-                            <script type="text/javascript">
-                                $(function () {
-                                    $('#datetimepicker3').datetimepicker({
-                                        format: 'LT'
-                                    });
-                                });
-                            </script>
-                        </div>
-                    </div>
-                </tr>
-                <tr>
-                    폐점시간
-                    <div class="container">
-                        <div class="row">
+                            폐점시간
                             <div class='col-sm-3'>
                                 <div class="form-group">
                                     <div class='input-group date' id='datetime'>
@@ -88,6 +137,20 @@ function kakaopost() {
                     </div>
                 </tr>
                 <tr>
+                    <div class="container">
+                        <div class="row">
+                            <script type="text/javascript">
+                                $(function () {
+                                    $('#datetimepicker3').datetimepicker({
+                                        format: 'LT'
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </tr>
+                <tr>
+                    <br>
                     <label for="exampleFormControlInput2" class="form-label">최소배달비</label>
                     <input type="number" class="form-control" id="exampleFormControlInput1" name ="deliveryPrice" placeholder="price">
                 </tr>
@@ -100,9 +163,10 @@ function kakaopost() {
                     <input type="text" class="form-control" id="exampleFormControlInput1" name ="deliveryArea" placeholder="area">
                 </tr>
                 <tr>
+                    <br>
                     <td>
-                        <button>저장</button>
-                        <a href="/main">돌아가기</a>
+                        <button class="btn btn-dark">저장</button>
+                        <a href="/main"  class="btn btn-dark">돌아가기</a>
                     </td>
                 </tr>
             </tbody>

@@ -6,8 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <div class="p-3 mb-2 bg-secondary text-white">판매 메뉴 추가</div>
+<body class="container">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/main">BurgerWang</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/burger">버거추가</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/sellmenu">메뉴추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/event">이벤트추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/side">사이드추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/sideOpt">사이드옵션추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/drink">음료추가</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/drinkOpt">음료옵션추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/ingredients">재료추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/dog">독퍼추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/store">매장추가</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+    <h4 class="p-3 mb-2 bg-dark text-white">판매 메뉴 추가</h4>
     <form action="/menu/add/sellmenu" method="post" enctype="multipart/form-data">
         <table id="input_form_table">
             <tbody>
@@ -17,7 +66,7 @@
                 </tr>
                 <tr>
                     <label for="exampleFormControlTextarea1" class="form-label">메뉴 설명</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" name="menuEx" rows="3"></textarea>
+                    <input type="text" class="form-control" id="exampleFormControlTextarea1" name="menuEx" rows="3"></textarea>
                 </tr>
                 <tr>
                     <label for="exampleFormControlInput2" class="form-label">메뉴 가격</label>
@@ -28,19 +77,24 @@
                     <input class="form-control" type="file" name="menufile" id="formFile">
                 </tr>
                 <tr>
-                    사이즈
-                    <select class="form-select" id="floatingSelect1" name="menuSize">
-                            <option value="0">선택안함</option>
-                            <option value="1">Regular</option>
-                            <option value="2">Large</option>
-                    </select>
-                </tr>
-                <tr>
-                    재료 추가 기능
-                    <select class="form-select" id="floatingSelect2" name="menuselect">
-                            <option value="2">불가능</option>
-                            <option value="1">가능</option>
-                    </select>
+                    <br>
+                    <div class="row">
+                        <div class="col-3">
+                            사이즈
+                            <select class="form-select" id="floatingSelect1" name="menuSize">
+                                    <option value="0">선택안함</option>
+                                    <option value="1">Regular</option>
+                                    <option value="2">Large</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            재료 추가 기능
+                            <select class="form-select" id="floatingSelect2" name="menuselect">
+                                    <option value="2">불가능</option>
+                                    <option value="1">가능</option>
+                            </select>
+                        </div>
+                    </div>
                 </tr>
                 <tr>
                     버거 선택
@@ -64,18 +118,22 @@
                     </select>
                 </tr>
                 <tr>
-                    음료 선택
-                    <select class="form-select" id="floatingSelect5" name="menuDiSeq">
-                        <option value="0">선택안함</option>
-                        <option th:each="menuDiSeq, i : ${drinkList}"th:text="${menuDiSeq.diName}" th:value="${menuDiSeq.diSeq}"></option>
-                    </select>
-                </tr>
-                <tr>
-                    음료2 선택
-                    <select class="form-select" id="floatingSelect6" name="menuDi2Seq">
-                        <option value="0">선택안함</option>
-                        <option th:each="menuDi2Seq, i : ${drink2List}"th:text="${menuDi2Seq.diName}" th:value="${menuDi2Seq.diSeq}"></option>
-                    </select>
+                    <div class="row">
+                        <div class="col-3">
+                            음료 선택
+                            <select class="form-select" id="floatingSelect5" name="menuDiSeq">
+                                <option value="0">선택안함</option>
+                                <option th:each="menuDiSeq, i : ${drinkList}"th:text="${menuDiSeq.diName}" th:value="${menuDiSeq.diSeq}"></option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            음료2 선택
+                            <select class="form-select" id="floatingSelect6" name="menuDi2Seq">
+                                <option value="0">선택안함</option>
+                                <option th:each="menuDi2Seq, i : ${drink2List}"th:text="${menuDi2Seq.diName}" th:value="${menuDi2Seq.diSeq}"></option>
+                            </select>
+                        </div>
+                    </div>
                 </tr>
                 <tr>
                     독퍼 선택
@@ -85,9 +143,10 @@
                     </select>
                 </tr>
                 <tr>
+                    <br>
                     <td colspan="14">
                         <button class="btn btn-dark">저장</button>
-                        <a href="/">돌아가기</a>
+                        <a href="/"  class="btn btn-dark">돌아가기</a>
                     </td>
                 </tr>
             </tbody>

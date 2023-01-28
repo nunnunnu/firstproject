@@ -7,24 +7,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <div class="p-3 mb-2 bg-secondary text-white">독퍼 추가</div>
+<body class="container">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/main">BurgerWang</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/burger">버거추가</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/sellmenu">메뉴추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/event">이벤트추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/side">사이드추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/sideOpt">사이드옵션추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/drink">음료추가</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/drinkOpt">음료옵션추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/ingredients">재료추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/dog">독퍼추가</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/menu/add/store">매장추가</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+    <h4 class="p-3 mb-2 bg-dark text-white">독퍼 추가</h4>
     <form action="/menu/add/dog" method="post" enctype="multipart/form-data">
         <table id="input_form_table">
             <tbody>
-                <!-- <tr>
-                    <td>카테고리</td>
-                    <td>
-                        <select name="category">
-                            <option value="0">선택안함</option>
-                            <option 
-                            th:each="category, i: ${categoryList}"
-                            th:text="${category.cateName}"
-                            th:value="${category.cateSeq}"
-                            ></option>
-                        </select>
-                    </td>
-                </tr> -->
                 <tr>
                     <label for="exampleFormControlInput1" class="form-label">이름</label>
                     <input type="text" class="form-control" id="exampleFormControlInput1" name ="name" placeholder="name">
@@ -38,9 +74,10 @@
                     <input class="form-control" type="file" name="dogFile" id="formFile">
                 </tr>
                 <tr>
+                    <br>
                     <td colspan="6">
                         <button class="btn btn-dark">저장</button>
-                        <a href="/main">돌아가기</a>
+                        <a href="/main"  class="btn btn-dark">돌아가기</a>
                     </td>
                 </tr>
             </tbody>
