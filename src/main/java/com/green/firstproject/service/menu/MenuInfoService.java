@@ -42,11 +42,8 @@ import com.green.firstproject.vo.add.DrinkOptAddFileVo;
 import com.green.firstproject.vo.add.EventAddFileVO;
 import com.green.firstproject.vo.add.IngredientsAddFileVO;
 import com.green.firstproject.vo.add.SideAddFileVO;
-<<<<<<< HEAD
 import com.green.firstproject.vo.menu.BasicVO;
-=======
 import com.green.firstproject.vo.add.SideOptAddFileVO;
->>>>>>> yje6
 import com.green.firstproject.vo.menu.IngredientVo;
 import com.green.firstproject.vo.menu.option.DrinkOptionVO;
 import com.green.firstproject.vo.menu.option.SideOptionVO;
