@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {text-align: center;}
+        #input_form_table {margin: 0 auto; border-collapse: collapse; border: 0;}
+        #input_form_table input {width: 70%;}
+        #input_form_table td {padding: 10px;}
+    </style>
+</head>
+<body>
+    <h1>판매 메뉴 추가</h1>
+    <form action="/menu/add/sellmenu" method="post" enctype="multipart/form-data">
+        <table border="1" id="input_form_table">
+            <tbody>
+                <tr>
+                    <td>메뉴 이름</td>
+                    <td ><input type="text" name="menuName"></td>
+                    <td>메뉴 설명</td>
+                    <td colspan="6"><input type="text" name="menuEx"></td>
+                    <td>메뉴 가격</td>
+                    <td colspan="2"><input type="number" name="menuPrice"></td>
+                </tr>
+                <tr>
+                    <td>이미지 파일</td>
+                        <td colspan="14">
+                            <input type="file" name="menufile">
+                        </td>
+                </tr>
+                <tr>
+                    <td>사이즈</td>
+                    <td>
+                        <select name="menuSize">
+                            <option value="0">선택안함</option>
+                            <option value="1">Regular</option>
+                            <option value="2">Large</option>
+                        </select>
+                    </td>
+                    <td>재료 추가 기능</td>
+                    <td>
+                        <select name="menuselect">
+                            <option value="0">선택안함</option>
+                            <option value="1">가능</option>
+                            <option value="2">불가능</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>버거 선택</td>
+                    <td>
+                        <select name="menuBiSeq">
+                            <option value="0">선택안함</option>
+                            <option th:each="menuBiSeq, i : ${burgerList}"th:text="${menuBiSeq.biName}" th:value="${menuBiSeq.biSeq}"></option>
+                        </select>
+                    </td>
+                    <td>사이드 선택</td>
+                    <td>
+                        <select name="menuSideSeq">
+                            <option value="0">선택안함</option>
+                            <option th:each="menuSideSeq, i : ${sideList}"th:text="${menuSideSeq.sideName}" th:value="${menuSideSeq.sideSeq}"></option>
+                        </select>
+                    </td>
+                    <td>음료 선택</td>
+                    <td>
+                        <select name="menuDiSeq">
+                            <option value="0">선택안함</option>
+                            <option th:each="menuDiSeq, i : ${drinkList}"th:text="${menuDiSeq.diName}" th:value="${menuDiSeq.diSeq}"></option>
+                        </select>
+                    </td>
+                    <td>음료2 선택</td>
+                    <td>
+                        <select name="menuDi2Seq">
+                            <option value="0">선택안함</option>
+                            <option th:each="menuDi2Seq, i : ${drink2List}"th:text="${menuDi2Seq.diName}" th:value="${menuDi2Seq.diSeq}"></option>
+                        </select>
+                    </td>
+                    <td>독퍼 선택</td>
+                    <td>
+                        <select name="menuDogSeq">
+                            <option value="0">선택안함</option>
+                            <option th:each="menuDogSeq, i : ${dogList}"th:text="${menuDogSeq.dogName}" th:value="${menuDogSeq.dogSeq}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="14">
+                        <button>저장</button>
+                        <a href="/">돌아가기</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>

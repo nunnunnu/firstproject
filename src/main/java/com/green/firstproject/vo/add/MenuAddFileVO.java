@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 public class MenuAddFileVO {
     private String menuName;
     private Integer menuPrice;
-    private String menuDetail;
+    private String menuEx;
     private MultipartFile menufile;
+    private Boolean menuselect;
     private Integer menuSize;
     private Long menuBiSeq;
     private Long menuEiSeq;
