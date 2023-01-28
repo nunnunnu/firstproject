@@ -41,6 +41,7 @@ import com.green.firstproject.vo.add.DrinkAddFileVO;
 import com.green.firstproject.vo.add.DrinkOptAddFileVo;
 import com.green.firstproject.vo.add.EventAddFileVO;
 import com.green.firstproject.vo.add.IngredientsAddFileVO;
+import com.green.firstproject.vo.add.MenuAddFileVO;
 import com.green.firstproject.vo.add.SideAddFileVO;
 import com.green.firstproject.vo.menu.BasicVO;
 import com.green.firstproject.vo.add.SideOptAddFileVO;
@@ -389,8 +390,11 @@ public class MenuInfoService {
             e.printStackTrace();
         }
         IngredientsInfoEntity entity = IngredientsInfoEntity.builder().iiName(data.getIiName())
-                .iiPrice(data.getIiPrice()).iiFile(saveFileName).iiUri(fileName).build();
-                ingRepo.save(entity);
+                .iiPrice(data.getIiPrice()).iiFile(saveFileName).iiUri(fileName)
+                .menu(menuRepo.findMenuSeq(data.getEventSeq()))
+                .build();
+        System.out.println(entity);
+        ingRepo.save(entity);
     }
 
     @Value("${file.image.event}")String event_img_path; 
@@ -418,7 +422,7 @@ public class MenuInfoService {
             e.printStackTrace();
         }
         EventInfoEntity entity = EventInfoEntity.builder().eiName(data.getName())
-                .cate(cateRepo.findByCateSeq(data.getCate()))
+                .cate(cateRepo.findByCateSeq(1L))
                 .eiDetail(data.getDetail()).eiStartDt(data.getRegDt()).eiEndDt(data.getEndDt())
                 .eiFile(saveFileName).eiUri(fileName).build();
 
@@ -482,6 +486,43 @@ public class MenuInfoService {
                 .soPrice(data.getSoPrice()).soSize(data.getSoSize())
                 .soFile(saveFileName).soUri(fileName).build();
         sideoptRepo.save(entity);
+    }
+    
+    @Value("${file.image.menu}") String menu_img_path;
+
+    public void savesellMenuFile(MenuAddFileVO data) {
+        MultipartFile file = data.getMenufile();
+        Path folderLocation = null;
+        folderLocation = Paths.get(menu_img_path);
+
+        String originFileName = file.getOriginalFilename();
+        String[] split = originFileName.split(("\\."));
+        String ext = split[split.length - 1];
+        String fileName = "";
+        for (int i = 0; i < split.length - 1; i++) {
+            fileName += split[i];
+        }
+        String saveFileName = "Menu_";
+        Calendar c = Calendar.getInstance();
+        saveFileName += c.getTimeInMillis() + "." + ext;
+
+        Path targetFile = folderLocation.resolve(saveFileName);
+        try {
+            Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        MenuInfoEntity entity = MenuInfoEntity.builder().menuName(data.getMenuName())
+                .menuPrice(data.getMenuPrice()).menuSize(data.getMenuSize()).menuEx(data.getMenuEx())
+                .dog(dogRepo.findByDogSeq(data.getMenuDogSeq()))
+                .burger(burgerRepo.findByBiSeq(data.getMenuBiSeq()))
+                .event(eventRepo.findByEiSeq(data.getMenuEiSeq()))
+                .drink(drinkRepo.findByDiSeq(data.getMenuDiSeq()))
+                .drink2(drinkRepo.findByDiSeq(data.getMenuDi2Seq()))
+                .side(sideRepo.findBySideSeq(data.getMenuSideSeq()))
+                .menuSelect(data.getMenuselect())
+                .menuFile(saveFileName).menuUri(fileName).build();
+        menuRepo.save(entity);
     }
 }
 

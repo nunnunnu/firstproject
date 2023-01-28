@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>재료 재고 관리</h1>
+    <table>
+        <thead>
+            <th>번호</th>
+            <th>재고명</th>
+            <th>재고</th>
+        </thead>
+        <tbody>
+            <tr th:each="list : ${ingredientStockList}">
+                <td th:text="${list.iiSeq}"></td>
+                <td>
+                    <a th:text="${list.iiName}"></a>
+                </td>
+                    <td colspan="6"><input type="number" name="iiStock"></td>
+                <td>
+                    <tr>
+                        <td colspan="7">
+                            <button>저장</button>
+                            <a href="/">돌아가기</a>
+                        </td>
+                    </tr>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- <div class="search_area">
+        <form action="/side/list" method="get" id="search_form">
+            <input type="text" name="Keyword" placeholder="재고 검색" th:value="${Keyword}"><button>검색</button>
+        </form>
+    </div> -->
+</body>
+</html>

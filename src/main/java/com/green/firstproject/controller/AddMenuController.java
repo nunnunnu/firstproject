@@ -19,6 +19,7 @@ import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.option.DrinkOptionRepository;
 import com.green.firstproject.repository.menu.option.SideOptionRepository;
 import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
+import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 import com.green.firstproject.service.menu.MenuInfoService;
 import com.green.firstproject.vo.add.BurgerAddFileVO;
 import com.green.firstproject.vo.add.DogAddFIleVO;
@@ -26,6 +27,7 @@ import com.green.firstproject.vo.add.DrinkAddFileVO;
 import com.green.firstproject.vo.add.DrinkOptAddFileVo;
 import com.green.firstproject.vo.add.EventAddFileVO;
 import com.green.firstproject.vo.add.IngredientsAddFileVO;
+import com.green.firstproject.vo.add.MenuAddFileVO;
 import com.green.firstproject.vo.add.SideAddFileVO;
 import com.green.firstproject.vo.add.SideOptAddFileVO;
 import com.green.firstproject.vo.store.StoreAddForm;
@@ -44,6 +46,7 @@ public class AddMenuController {
     @Autowired EventInfoRepository eventRepo;
     @Autowired DrinkOptionRepository doRepo;
     @Autowired SideOptionRepository soRepo;
+    @Autowired MenuInfoRepository menuRepo;
     @Autowired MenuInfoService menuService;
 
     @GetMapping("/side")
@@ -106,10 +109,12 @@ public class AddMenuController {
     @GetMapping("/ingredients")
     public String getIngredient(Model model){
         model.addAttribute("ingredientsList", iiRepo.findAll());
+        model.addAttribute("menu", menuRepo.findAll());
         return "/ingredients";
     }
     @PostMapping("/ingredients")
     public String postIngredientAdd(IngredientsAddFileVO data) {
+        System.out.println("sss");
         menuService.saveIngredientFile(data);
         return "redirect:/menu/add/ingredients";
     }
@@ -145,5 +150,21 @@ public class AddMenuController {
     public String postsideOptAdd(SideOptAddFileVO data) {
         menuService.saveSideOptFile(data);
         return "redirect:/menu/add/sideOpt";
+    }
+    @GetMapping("/sellmenu")
+    public String getsellMenuAdd(Model model){
+        model.addAttribute("sellMenuList", menuRepo.findAll());
+        model.addAttribute("burgerList", bRepo.findAll());
+        model.addAttribute("eventList", eventRepo.findAll());
+        model.addAttribute("sideList", sRepo.findAll());
+        model.addAttribute("drinkList", dRepo.findAll());
+        model.addAttribute("drink2List", dRepo.findAll());
+        model.addAttribute("dogList", dogRepo.findAll());
+        return "/sellmenu";
+    }
+    @PostMapping("/sellmenu")
+    public String postsellMenuAdd(MenuAddFileVO data) {
+        menuService.savesellMenuFile(data);
+        return "redirect:/menu/add/sellmenu";
     }
 }
