@@ -418,7 +418,7 @@ public class MenuInfoService {
             e.printStackTrace();
         }
         EventInfoEntity entity = EventInfoEntity.builder().eiName(data.getName())
-                .cate(cateRepo.findByCateSeq(data.getCate()))
+                .cate(cateRepo.findByCateSeq(1L))
                 .eiDetail(data.getDetail()).eiStartDt(data.getRegDt()).eiEndDt(data.getEndDt())
                 .eiFile(saveFileName).eiUri(fileName).build();
 
