@@ -19,6 +19,7 @@ import com.green.firstproject.repository.menu.basicmenu.SideInfoRepository;
 import com.green.firstproject.repository.menu.option.DrinkOptionRepository;
 import com.green.firstproject.repository.menu.option.SideOptionRepository;
 import com.green.firstproject.repository.menu.sellermenu.EventInfoRepository;
+import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 import com.green.firstproject.service.menu.MenuInfoService;
 import com.green.firstproject.vo.add.BurgerAddFileVO;
 import com.green.firstproject.vo.add.DogAddFIleVO;
@@ -45,6 +46,7 @@ public class AddMenuController {
     @Autowired DrinkOptionRepository doRepo;
     @Autowired SideOptionRepository soRepo;
     @Autowired MenuInfoService menuService;
+    @Autowired MenuInfoRepository menuRepo;
 
     @GetMapping("/side")
     public String getsideAdd(Model model) {
@@ -106,10 +108,12 @@ public class AddMenuController {
     @GetMapping("/ingredients")
     public String getIngredient(Model model){
         model.addAttribute("ingredientsList", iiRepo.findAll());
+        model.addAttribute("menu", menuRepo.findAll());
         return "/ingredients";
     }
     @PostMapping("/ingredients")
     public String postIngredientAdd(IngredientsAddFileVO data) {
+        System.out.println("sss");
         menuService.saveIngredientFile(data);
         return "redirect:/menu/add/ingredients";
     }

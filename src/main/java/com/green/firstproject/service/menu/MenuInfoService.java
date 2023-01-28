@@ -389,8 +389,11 @@ public class MenuInfoService {
             e.printStackTrace();
         }
         IngredientsInfoEntity entity = IngredientsInfoEntity.builder().iiName(data.getIiName())
-                .iiPrice(data.getIiPrice()).iiFile(saveFileName).iiUri(fileName).build();
-                ingRepo.save(entity);
+                .iiPrice(data.getIiPrice()).iiFile(saveFileName).iiUri(fileName)
+                .menu(menuRepo.findMenuSeq(data.getEventSeq()))
+                .build();
+        System.out.println(entity);
+        ingRepo.save(entity);
     }
 
     @Value("${file.image.event}")String event_img_path; 
