@@ -1,48 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        body {text-align: center;}
-        #input_form_table {margin: 0 auto; border-collapse: collapse; border: 0;}
-        #input_form_table input {width: 70%;}
-        #input_form_table td {padding: 10px;}
-    </style>
 </head>
 <body>
-    <h1>사이드 추가</h1>
+    <h3>
+        <div class="p-3 mb-2 bg-secondary text-white">사이드 추가</div>
+    </h3>
     <form action="/menu/add/side" method="post" enctype="multipart/form-data">
-        <table border="1" id="input_form_table">
+        <table id="input_form_table">
             <tbody>
                 <tr>
-                    <!-- <td>카테고리</td>
-                    <td>
-                        <select name="category">
-                            <option value="0">선택안함</option>
-                            <option th:each="category, i : ${categoryList}"th:text="${category.cateName}" th:value="${category.cateSeq}"></option>
-                        </select>
-                    </td> -->
-                    <td>이름</td>
-                    <td colspan="2"><input type="text" name="sideTitle"></td>
-                    <td>메뉴 설명</td>
-                    <td colspan="6"><input type="text" name="sideDetail"></td>
+                    <label for="exampleFormControlInput1" class="form-label">이름</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name ="sideTitle" placeholder="name">
+                    <label for="exampleFormControlTextarea1" class="form-label">메뉴설명</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" name="sideDetail" rows="3"></textarea>
                 </tr>
                 <tr>
-                    <td>이미지 파일</td>
-                        <td colspan="6">
-                            <input type="file" name="sideFile">
-                        </td>
+                    <label for="formFile" class="form-label">이미지파일</label>
+                    <input class="form-control" type="file" name="sideFile" id="formFile">
                 </tr>
                 <tr>
+                    <br>
                     <td colspan="7">
-                        <button>저장</button>
-                        <a href="/">돌아가기</a>
+                        <button class="btn btn-dark">저장</button>
+                        <a href="/" >돌아가기</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </form>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </html>

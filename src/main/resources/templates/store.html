@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<meta charset="UTF-8">
+<title>Insert</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+function kakaopost() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            document.querySelector("#zipcode").value = data.zonecode;
+            document.querySelector("#address").value =  data.address
+        }
+    }).open();
+}
+</script>
+</head>
+<body>
+    <div class="p-3 mb-2 bg-secondary text-white">매장 추가</div>
+    <form action="/menu/add/store" method="post">
+        <table id="input_form_table">
+            <tbody>
+                <tr>
+                    <label for="exampleFormControlInput1" class="form-label">지점 명</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name ="name" placeholder="name">
+                <tr>
+                <tr>
+                    <td width="200">우편주소</td>
+                </tr>
+                <tr>
+                    <label class="form-label">우편주소</label>
+                    <input type="text" class="form-control" name="zipcode" id="zipcode" size="7"
+                        readonly>  
+                        <input type="button" value="주소찾기"
+                        onclick="kakaopost()">
+                        <br>
+                    <label for="address" class="form-label">주소</label>
+                    <input type="text" class="form-control" id="address" name ="address" placeholder="address">
+                    <input type="text" class="form-control" name="detailAddress" id="detailAddress" placeholder="상세주소">
+                </tr>
+                <tr>
+                    개점시간
+                    <div class="container">
+                        <div class="row">
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <div class='input-group date' id='opentimepicker3' >
+                                    <input type='time' class="form-control" name="openTime" />
+                                    <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                $(function () {
+                                    $('#datetimepicker3').datetimepicker({
+                                        format: 'LT'
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </tr>
+                <tr>
+                    폐점시간
+                    <div class="container">
+                        <div class="row">
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetime'>
+                                    <input type='time' class="form-control" name="closeTime" />
+                                    <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                $(function () {
+                                    $('#datetimepicker3').datetimepicker({
+                                        format: 'LT'
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </tr>
+                <tr>
+                    <label for="exampleFormControlInput2" class="form-label">최소배달비</label>
+                    <input type="number" class="form-control" id="exampleFormControlInput1" name ="deliveryPrice" placeholder="price">
+                </tr>
+                <tr>
+                    <label for="phone" class="form-label">전화번호</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name ="phone" placeholder="phone">
+                </tr>
+                <tr>
+                    <label for="deliveryArea" class="form-label">배달 가능 지역</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name ="deliveryArea" placeholder="area">
+                </tr>
+                <tr>
+                    <td>
+                        <button>저장</button>
+                        <a href="/">돌아가기</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</html>
