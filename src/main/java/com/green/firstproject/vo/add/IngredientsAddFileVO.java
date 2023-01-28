@@ -13,4 +13,5 @@ public class IngredientsAddFileVO {
     private String iiName;
     private Integer iiPrice;
     private MultipartFile ingredientsFile;
+    private Long eventSeq;
 }

@@ -48,6 +48,7 @@ public class AddMenuController {
     @Autowired SideOptionRepository soRepo;
     @Autowired MenuInfoRepository menuRepo;
     @Autowired MenuInfoService menuService;
+    @Autowired MenuInfoRepository menuRepo;
 
     @GetMapping("/side")
     public String getsideAdd(Model model) {
@@ -109,10 +110,12 @@ public class AddMenuController {
     @GetMapping("/ingredients")
     public String getIngredient(Model model){
         model.addAttribute("ingredientsList", iiRepo.findAll());
+        model.addAttribute("menu", menuRepo.findAll());
         return "/ingredients";
     }
     @PostMapping("/ingredients")
     public String postIngredientAdd(IngredientsAddFileVO data) {
+        System.out.println("sss");
         menuService.saveIngredientFile(data);
         return "redirect:/menu/add/ingredients";
     }
