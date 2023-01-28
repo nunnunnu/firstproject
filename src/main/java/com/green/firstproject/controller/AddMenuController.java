@@ -48,7 +48,6 @@ public class AddMenuController {
     @Autowired SideOptionRepository soRepo;
     @Autowired MenuInfoRepository menuRepo;
     @Autowired MenuInfoService menuService;
-    @Autowired MenuInfoRepository menuRepo;
 
     @GetMapping("/side")
     public String getsideAdd(Model model) {
@@ -156,6 +155,7 @@ public class AddMenuController {
     public String getsellMenuAdd(Model model){
         model.addAttribute("sellMenuList", menuRepo.findAll());
         model.addAttribute("burgerList", bRepo.findAll());
+        model.addAttribute("eventList", eventRepo.findAll());
         model.addAttribute("sideList", sRepo.findAll());
         model.addAttribute("drinkList", dRepo.findAll());
         model.addAttribute("drink2List", dRepo.findAll());

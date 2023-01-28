@@ -1,93 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        body {text-align: center;}
-        #input_form_table {margin: 0 auto; border-collapse: collapse; border: 0;}
-        #input_form_table input {width: 70%;}
-        #input_form_table td {padding: 10px;}
-    </style>
 </head>
 <body>
-    <h1>판매 메뉴 추가</h1>
+    <div class="p-3 mb-2 bg-secondary text-white">판매 메뉴 추가</div>
     <form action="/menu/add/sellmenu" method="post" enctype="multipart/form-data">
-        <table border="1" id="input_form_table">
+        <table id="input_form_table">
             <tbody>
                 <tr>
-                    <td>메뉴 이름</td>
-                    <td ><input type="text" name="menuName"></td>
-                    <td>메뉴 설명</td>
-                    <td colspan="6"><input type="text" name="menuEx"></td>
-                    <td>메뉴 가격</td>
-                    <td colspan="2"><input type="number" name="menuPrice"></td>
+                    <label for="exampleFormControlInput1" class="form-label">메뉴 이름</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name ="menuName" placeholder="name">
                 </tr>
                 <tr>
-                    <td>이미지 파일</td>
-                        <td colspan="14">
-                            <input type="file" name="menufile">
-                        </td>
+                    <label for="exampleFormControlTextarea1" class="form-label">메뉴 설명</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" name="menuEx" rows="3"></textarea>
                 </tr>
                 <tr>
-                    <td>사이즈</td>
-                    <td>
-                        <select name="menuSize">
+                    <label for="exampleFormControlInput2" class="form-label">메뉴 가격</label>
+                    <input type="number" class="form-control" id="exampleFormControlInput1" name ="menuPrice" placeholder="price">
+                </tr>
+                <tr>
+                    <label for="formFile" class="form-label">이미지파일</label>
+                    <input class="form-control" type="file" name="menufile" id="formFile">
+                </tr>
+                <tr>
+                    사이즈
+                    <select class="form-select" id="floatingSelect1" name="menuSize">
                             <option value="0">선택안함</option>
                             <option value="1">Regular</option>
                             <option value="2">Large</option>
-                        </select>
-                    </td>
-                    <td>재료 추가 기능</td>
-                    <td>
-                        <select name="menuselect">
-                            <option value="0">선택안함</option>
-                            <option value="1">가능</option>
-                            <option value="2">불가능</option>
-                        </select>
-                    </td>
+                    </select>
                 </tr>
                 <tr>
-                    <td>버거 선택</td>
-                    <td>
-                        <select name="menuBiSeq">
+                    재료 추가 기능
+                    <select class="form-select" id="floatingSelect2" name="menuselect">
+                            <option value="2">불가능</option>
+                            <option value="1">가능</option>
+                    </select>
+                </tr>
+                <tr>
+                    버거 선택
+                    <select class="form-select" id="floatingSelect3" name="menuBiSeq">
                             <option value="0">선택안함</option>
                             <option th:each="menuBiSeq, i : ${burgerList}"th:text="${menuBiSeq.biName}" th:value="${menuBiSeq.biSeq}"></option>
-                        </select>
-                    </td>
-                    <td>사이드 선택</td>
-                    <td>
-                        <select name="menuSideSeq">
+                    </select>
+                </tr>
+                <tr>
+                    이벤트 선택
+                    <select class="form-select" id="floatingSelect3" name="menuEiSeq">
                             <option value="0">선택안함</option>
-                            <option th:each="menuSideSeq, i : ${sideList}"th:text="${menuSideSeq.sideName}" th:value="${menuSideSeq.sideSeq}"></option>
-                        </select>
-                    </td>
-                    <td>음료 선택</td>
-                    <td>
-                        <select name="menuDiSeq">
-                            <option value="0">선택안함</option>
-                            <option th:each="menuDiSeq, i : ${drinkList}"th:text="${menuDiSeq.diName}" th:value="${menuDiSeq.diSeq}"></option>
-                        </select>
-                    </td>
-                    <td>음료2 선택</td>
-                    <td>
-                        <select name="menuDi2Seq">
-                            <option value="0">선택안함</option>
-                            <option th:each="menuDi2Seq, i : ${drink2List}"th:text="${menuDi2Seq.diName}" th:value="${menuDi2Seq.diSeq}"></option>
-                        </select>
-                    </td>
-                    <td>독퍼 선택</td>
-                    <td>
-                        <select name="menuDogSeq">
-                            <option value="0">선택안함</option>
-                            <option th:each="menuDogSeq, i : ${dogList}"th:text="${menuDogSeq.dogName}" th:value="${menuDogSeq.dogSeq}"></option>
-                        </select>
-                    </td>
+                            <option th:each="menuEiSeq, i : ${eventList}"th:text="${menuEiSeq.eiName}" th:value="${menuEiSeq.eiSeq}"></option>
+                    </select>
+                </tr>
+                <tr>
+                    사이드 선택
+                    <select class="form-select" id="floatingSelect4" name="menuSideSeq">
+                        <option value="0">선택안함</option>
+                        <option th:each="menuSideSeq, i : ${sideList}"th:text="${menuSideSeq.sideName}" th:value="${menuSideSeq.sideSeq}"></option>
+                    </select>
+                </tr>
+                <tr>
+                    음료 선택
+                    <select class="form-select" id="floatingSelect5" name="menuDiSeq">
+                        <option value="0">선택안함</option>
+                        <option th:each="menuDiSeq, i : ${drinkList}"th:text="${menuDiSeq.diName}" th:value="${menuDiSeq.diSeq}"></option>
+                    </select>
+                </tr>
+                <tr>
+                    음료2 선택
+                    <select class="form-select" id="floatingSelect6" name="menuDi2Seq">
+                        <option value="0">선택안함</option>
+                        <option th:each="menuDi2Seq, i : ${drink2List}"th:text="${menuDi2Seq.diName}" th:value="${menuDi2Seq.diSeq}"></option>
+                    </select>
+                </tr>
+                <tr>
+                    독퍼 선택
+                    <select class="form-select" id="floatingSelect7" name="menuDogSeq">
+                        <option value="0">선택안함</option>
+                        <option th:each="menuDogSeq, i : ${dogList}"th:text="${menuDogSeq.dogName}" th:value="${menuDogSeq.dogSeq}"></option>
+                    </select>
                 </tr>
                 <tr>
                     <td colspan="14">
-                        <button>저장</button>
+                        <button class="btn btn-dark">저장</button>
                         <a href="/">돌아가기</a>
                     </td>
                 </tr>
@@ -95,4 +94,5 @@
         </table>
     </form>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </html>

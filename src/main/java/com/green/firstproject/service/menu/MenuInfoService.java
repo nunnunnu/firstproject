@@ -516,6 +516,7 @@ public class MenuInfoService {
                 .menuPrice(data.getMenuPrice()).menuSize(data.getMenuSize()).menuEx(data.getMenuEx())
                 .dog(dogRepo.findByDogSeq(data.getMenuDogSeq()))
                 .burger(burgerRepo.findByBiSeq(data.getMenuBiSeq()))
+                .event(eventRepo.findByEiSeq(data.getMenuEiSeq()))
                 .drink(drinkRepo.findByDiSeq(data.getMenuDiSeq()))
                 .drink2(drinkRepo.findByDiSeq(data.getMenuDi2Seq()))
                 .side(sideRepo.findBySideSeq(data.getMenuSideSeq()))
