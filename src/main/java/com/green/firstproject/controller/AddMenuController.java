@@ -101,7 +101,7 @@ public class AddMenuController {
     @PostMapping("/store")
     public String postStoreAdd(StoreAddForm data){
         StoreInfoEntity store = new StoreInfoEntity(null, data.getName(), data.getAddress(), data.getDetailAddress(), data.getPhone(),
-        data.getOpenTime(), data.getCloseTime(), data.getDeliveryPrice(), 1, data.getDeliveryArea());
+        data.getOpenTime(), data.getCloseTime(), data.getDeliveryPrice(), 1, data.getDeliveryArea(), null, null);
         siRepo.save(store);
         return "redirect:/";
     }

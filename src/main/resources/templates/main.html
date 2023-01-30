@@ -73,24 +73,34 @@
                         <li><a class="dropdown-item" href="/menu/stock/side">사이드 재고 관리</a></li>
                         <li><a class="dropdown-item" href="/menu/stock/ingredient">재료 재고 관리</a></li>
                     </ul>
-                </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="/admin/logout" style="color: white; font-weight: 700;">로그아웃</a>
+                    </li> -->
             </ul>
         </div>
         </div>
     </nav>
-<h4 class="p-3 mb-2 bg-dark text-white">메인페이지</h4>
+    <div class="p-3 mb-2 bg-dark text-white">
+        <div class="row">
+            <div class="col-7" th:if="${session.loginUser != null}">
+                <h4>메인페이지</h4>
+            </div>
+            <div class="col-3">
+                <span id="login_user">
+                    <span th:text="${session.loginUser.adminName}"></span>
+                    (<a herf="/admin/detail" th:text="${session.loginUser.adminEmail}"></a>)
+                님
+                </span>
+            </div>
+            <div class="col-2">
+                <a href="/admin/logout" style="color: white;">로그아웃 </a>
+            </div>
+        </div>
+    </div>
 
-<div th:if="${session.loginUser != null}">
-    <span id="login_user">
-    <b>
-        <span th:text="${session.loginUser.adminName}"></span>
-        (<a herf="/admin/detail" th:text="${session.loginUser.adminEmail}"></a>)
-    </b>
-    님
-    <a href="/admin/logout">로그아웃</a>
-    </span>
-</div>
-</div>
+    <img src="https://d1cua0vf0mkpiy.cloudfront.net/images/event/normal/32ad365e-5c50-4038-9306-52c413f84795.png" width="428" height="700">
+    <img src="https://d1cua0vf0mkpiy.cloudfront.net/images/event/normal/e86db439-f2c6-44d5-81ff-8b63c5c1341b.png" width="428" height="700">
+    <img src="https://d1cua0vf0mkpiy.cloudfront.net/images/event/normal/e4efdbb3-f1b7-4f94-8b28-5efbd26dfc7f.png" width="428" height="700">
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>

@@ -489,7 +489,7 @@ public class MenuInfoService {
         drnikoptRepo.save(entity);
     }
     
-    @Value("${file.image.sideOpt}")String sideOpt_img_path;
+    @Value("${file.image.sideOpt}") String sideOpt_img_path;
     public void saveSideOptFile(SideOptAddFileVO data) {
         MultipartFile file = data.getSideOptfile();
         Path folderLocation = null;

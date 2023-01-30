@@ -17,7 +17,7 @@ public class IngredientVo {
         this.ingredirentSeq=ingredient.getIiSeq();
         this.ingredientPrice=ingredient.getIiPrice();
         this.ingredientName=ingredient.getIiName();
-        this.ingredientFile=ingredient.getIiFile();
+        this.ingredientFile=ingredient.getIiUri();
     }
 
     public IngredientVo(String name, Integer price) {
