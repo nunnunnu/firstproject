@@ -57,18 +57,21 @@ public class StockMenuController {
     @Autowired DogStockRepository dogsRepo;
     @Autowired IngredientsStockRepository isRepo;
     @Autowired EventStockRepository esRepo;
-        @Autowired StockService stockService;
+    @Autowired StockService stockService;
 
     @GetMapping("/side")
     public String getSideStock(Model model){
-        List<SideInfoEntity> sideStockList =new ArrayList<SideInfoEntity>();
-        model.addAttribute("sideStockList", sRepo.findAll());
+        StoreInfoEntity store = siRepo.findAll().get(0);
+        List<BurgerStockVO> sideStockList = ssRepo.stockAll(store.getSiSeq());
+        System.out.println(sideStockList.get(0).getStock());
+        model.addAttribute("sideStockList", sideStockList);
+        model.addAttribute("store", store);
         return "/stock/sideStock";
     }
     @GetMapping("/burger")
     public String getBurgerStock(Model model){
-    StoreInfoEntity store = siRepo.findAll().get(0);
-        List<BurgerStockVO> burgerStockList = bsRepo.stockAll(siRepo.findAll().get(0).getSiSeq());
+        StoreInfoEntity store = siRepo.findAll().get(0);
+        List<BurgerStockVO> burgerStockList = bsRepo.stockAll(store.getSiSeq());
         model.addAttribute("burgerStockList", burgerStockList);
         model.addAttribute("store", store);
         return "/stock/burgerStock";
@@ -76,8 +79,10 @@ public class StockMenuController {
 
     @GetMapping("/drink")
     public String getDrinkStock(Model model){
-        List<DrinkInfoEntity> drinkStockList =new ArrayList<DrinkInfoEntity>();
-        model.addAttribute("drinkStockList", dRepo.findAll());
+        StoreInfoEntity store = siRepo.findAll().get(0);
+        List<BurgerStockVO> drinkStockList = dsRepo.stockAll(store.getSiSeq());
+        model.addAttribute("drinkStockList", drinkStockList);
+        model.addAttribute("store", store);
         return "/stock/drinkStock";
     }
     
@@ -92,15 +97,19 @@ public class StockMenuController {
     
     @GetMapping("/event")
     public String geteventStock(Model model){
-        List<EventInfoEntity> eventStockList =new ArrayList<EventInfoEntity>();
-        model.addAttribute("eventStockList", eventRepo.findAll());
+        StoreInfoEntity store = siRepo.findAll().get(0);
+        List<BurgerStockVO> eventStockList = esRepo.stockAll(store.getSiSeq());
+        model.addAttribute("eventStockList", eventStockList);
+        model.addAttribute("store", store);
         return "/stock/eventStock";
     }
     
     @GetMapping("/ingredient")
     public String getingredientStock(Model model){
-        List<IngredientsInfoEntity> ingredientStockList =new ArrayList<IngredientsInfoEntity>();
-        model.addAttribute("ingredientStockList", iiRepo.findAll());
+        StoreInfoEntity store = siRepo.findAll().get(0);
+        List<BurgerStockVO> ingredientStockList = isRepo.stockAll(store.getSiSeq());
+        model.addAttribute("ingredientStockList", ingredientStockList);
+        model.addAttribute("store", store);
         return "/stock/ingredientStock";
     }
 
@@ -111,7 +120,27 @@ public class StockMenuController {
     }
     @GetMapping("/dog/update")
     public String getDog(@RequestParam Long seq, @RequestParam Long store){
-        stockService.updateBurgerStatus(seq, store);
-        return "redirect:/menu/stock/burger";
+        stockService.updateDogStatus(seq, store);
+        return "redirect:/menu/stock/dog";
+    }
+    @GetMapping("/drink/update")
+    public String getDrink(@RequestParam Long seq, @RequestParam Long store){
+        stockService.updateDrinkStatus(seq, store);
+        return "redirect:/menu/stock/drink";
+    }
+    @GetMapping("/event/update")
+    public String getEvent(@RequestParam Long seq, @RequestParam Long store){
+        stockService.updateEventStatus(seq, store);
+        return "redirect:/menu/stock/event";
+    }
+    @GetMapping("/ingredient/update")
+    public String getIngredient(@RequestParam Long seq, @RequestParam Long store){
+        stockService.updateIngredientStatus(seq, store);
+        return "redirect:/menu/stock/ingredient";
+    }
+    @GetMapping("/side/update")
+    public String getSide(@RequestParam Long seq, @RequestParam Long store){
+        stockService.updateSideStatus(seq, store);
+        return "redirect:/menu/stock/side";
     }
 }

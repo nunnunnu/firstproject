@@ -66,26 +66,30 @@
         </div>
     </nav>
     <h4 class="p-3 mb-2 bg-dark text-white">음료 재고 관리</h4>
+    <div class="row">
+        <div class="col-2">
+            <p class="btn btn-dark">현재 선택 된 매장 : </p>
+        </div>
+        <div class="col-2">
+            <p class="btn btn-dark" th:text="${store.siName}"></p>
+        </div>
+    </div>
     <table class="table">
         <thead class="table-dark">
             <th>번호</th>
             <th>재고명</th>
             <th>재고</th>
+            <th></th>
         </thead>
         <tbody>
             <tr th:each="list : ${drinkStockList}">
-                <td th:text="${list.diSeq}"></td>
+                <td th:text="${list.seq}"></td>
                 <td>
-                    <a th:text="${list.diName}"></a>
+                    <a th:text="${list.name}"></a>
                 </td>
-                    <td colspan="6"><input type="number" name="diStock"></td>
+                <td th:text="${list.stock}"></td>
                 <td>
-                    <tr>
-                        <td colspan="7">
-                            <button>저장</button>
-                            <a href="/">돌아가기</a>
-                        </td>
-                    </tr>
+                    <a th:href="@{/menu/stock/drink/update?(seq=${list.seq}, store=${store.siSeq})}" method="post" class="btn btn-dark">상태 변경</a>
                 </td>
             </tr>
         </tbody>

@@ -7,8 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.menu.CategoryEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
+import com.green.firstproject.entity.stock.BurgerStockEntity;
+import com.green.firstproject.entity.stock.DogStockEntity;
 import com.green.firstproject.vo.menu.DogCateVO;
 
 @Repository
@@ -27,5 +30,6 @@ public interface DogInfoRepository extends JpaRepository<DogInfoEntity, Long>{
             +"where a.dog_cate =:cate"
         , nativeQuery = true)
     List<DogCateVO> searchDog(@Param("cate") Long cate, @Param("store") Long store);
+
 
 }
