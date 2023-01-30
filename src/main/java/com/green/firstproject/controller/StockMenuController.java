@@ -2,23 +2,21 @@ package com.green.firstproject.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
-import com.green.firstproject.entity.stock.SideStockEntity;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -36,11 +34,8 @@ import com.green.firstproject.repository.stock.EventStockRepository;
 import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
 import com.green.firstproject.service.menu.MenuInfoService;
+import com.green.firstproject.service.stock.StockService;
 import com.green.firstproject.vo.stock.BurgerStockVO;
-
-import jakarta.servlet.http.HttpSession;
-
-import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/menu/stock")
@@ -62,6 +57,7 @@ public class StockMenuController {
     @Autowired DogStockRepository dogsRepo;
     @Autowired IngredientsStockRepository isRepo;
     @Autowired EventStockRepository esRepo;
+        @Autowired StockService stockService;
 
     @GetMapping("/side")
     public String getSideStock(Model model){
@@ -71,11 +67,10 @@ public class StockMenuController {
     }
     @GetMapping("/burger")
     public String getBurgerStock(Model model){
-        System.out.println("!11");
+    StoreInfoEntity store = siRepo.findAll().get(0);
         List<BurgerStockVO> burgerStockList = bsRepo.stockAll(siRepo.findAll().get(0).getSiSeq());
-        System.out.println(burgerStockList.size());
-        System.out.println("!222");
         model.addAttribute("burgerStockList", burgerStockList);
+        model.addAttribute("store", store);
         return "/stock/burgerStock";
     }
 
@@ -88,8 +83,10 @@ public class StockMenuController {
     
     @GetMapping("/dog")
     public String getdogStock(Model model){
-        List<DogInfoEntity> dogStockList =new ArrayList<DogInfoEntity>();
-        model.addAttribute("dogStockList", dogRepo.findAll());
+        StoreInfoEntity store = siRepo.findAll().get(0);
+        List<BurgerStockVO> dogStockList = dogsRepo.stockAll(store.getSiSeq());
+        model.addAttribute("dogStockList", dogStockList);
+        model.addAttribute("store", store);
         return "/stock/dogStock";
     }
     
@@ -105,5 +102,16 @@ public class StockMenuController {
         List<IngredientsInfoEntity> ingredientStockList =new ArrayList<IngredientsInfoEntity>();
         model.addAttribute("ingredientStockList", iiRepo.findAll());
         return "/stock/ingredientStock";
+    }
+
+    @GetMapping("/burger/update")
+    public String getBurger(@RequestParam Long seq, @RequestParam Long store){
+        stockService.updateBurgerStatus(seq, store);
+        return "redirect:/menu/stock/burger";
+    }
+    @GetMapping("/dog/update")
+    public String getDog(@RequestParam Long seq, @RequestParam Long store){
+        stockService.updateBurgerStatus(seq, store);
+        return "redirect:/menu/stock/burger";
     }
 }

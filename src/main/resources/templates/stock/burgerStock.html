@@ -58,7 +58,7 @@
                         <li><a class="dropdown-item" href="/menu/stock/dog">독퍼 재고 관리</a></li>
                         <li><a class="dropdown-item" href="/menu/stock/drink">음료 재고 관리</a></li>
                         <li><a class="dropdown-item" href="/menu/stock/side">사이드 재고 관리</a></li>
-                        <li><a class="dropdown-item" href="/menu/stock/ingredients">재료 재고 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/ingredient">재료 재고 관리</a></li>
                     </ul>
                 </li>
             </ul>
@@ -66,12 +66,19 @@
         </div>
     </nav>
     <h4 class="p-3 mb-2 bg-dark text-white">버거 재고 관리</h4>
+    <div class="row">
+        <div class="col-2">
+            <p class="btn btn-dark">현재 선택 된 매장 : </p>
+        </div>
+        <div class="col-2">
+            <p class="btn btn-dark" th:text="${store.siName}"></p>
+        </div>
+    </div>
     <table class="table">
         <thead class="table-dark">
             <th>번호</th>
             <th>재고명</th>
-            <th>기존 재고</th>
-            <th>변경할 재고</th>
+            <th>상태</th>
             <th> </th>
         </thead>
         <tbody>
@@ -81,11 +88,8 @@
                     <a th:text="${list.name}"></a>
                 </td>
                 <td th:text="${list.stock}"></td>
-                    <td>
-                        <input type="number" name="biStock">
-                    </td>
                 <td>
-                    <button class="btn btn-dark">저장</button>
+                    <a th:href="@{/menu/stock/burger/update?(seq=${list.seq}, store=${store.siSeq})}" method="post" class="btn btn-dark">상태 변경</a>
                 </td>
             </tr>
         </tbody>
