@@ -34,4 +34,6 @@ public class StoreInfoEntity {
     @Column(name = "si_status")      @ColumnDefault("1")        
     private Integer siStatus;
     @Column(name="si_delivery_area") private String siDeliveryArea;
+    @Column(name="si_latitude")   private String siLatitude;
+    @Column(name="si_longgitude")   private String siLonggitude;
 }
