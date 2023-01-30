@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>관리자 로그인 페이지</h1>
+    <div>
+        <form action="/admin/login" method="post">
+            <p>Admin Email</p>
+            <input type="text" name="adminEmail" id="adminEmail">
+            <p>Password</p>
+            <input type="password" name="adminPwd" id="adminPwd">
+            <button id="admin_login">로그인</button>
+            <p th:text="${message}"></p>
+        </form>
+    </div>
+</body>
+</html>
