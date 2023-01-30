@@ -26,29 +26,36 @@ public class CartVo {
     private List<CartIngredientVO> ingredient; //중복 제거를 위해 set으로 변경함
     private int price;
 
-    public CartVo(CartDetail cart, MenuInfoEntity menu, Boolean event, 
+    public CartVo(CartDetail cart, MenuInfoEntity menu,
         SideOptionEntity sideOpt, DrinkOptionEntity drinkOpt, DrinkOptionEntity drink2Opt,
         List<IngredientsInfoEntity> ingredients
     ){
-        // this.cartSeq=cart.getCartSeq();
         this.menuCount=cart.getCount();
         this.ingredient = new ArrayList<>();
-        if(cart.getMenu()!=null){
-            this.menuName=menu.getMenuName();
-            this.price+=menu.getMenuPrice();
+        this.menuName=menu.getMenuName();
+        this.price+=menu.getMenuPrice();
+        System.out.println(price);
+        if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){
             if(cart.getSideOpt()!=null){
                 this.side = new CartSideInfoVO(sideOpt, menu.getMenuSize());
                 this.price+=side.getSidePrice();
+                System.out.println(price);
             }
             if(cart.getDrinkOpt()!=null){
                 this.drink= new CartDrinkInfoVO(drinkOpt, menu.getMenuSize());
                 this.price+=drink.getDrinkPrice();
+                System.out.println(price);
             }
-            if(event && cart.getDrink2Opt()!=null){
-                if(cart.getDrink2Opt()!=null){
-                    this.drink2= new CartDrinkInfoVO(drink2Opt);
-                    this.price += drink2.getDrinkPrice();
-                }
+        }else if(menu.getEvent()!=null){
+            if(cart.getDrinkOpt()!=null){
+                this.drink= new CartDrinkInfoVO(drinkOpt, menu.getMenuSize());
+                this.price+=drink.getDrinkPrice();
+                System.out.println(price);
+            }
+            if(cart.getDrink2Opt()!=null){
+                this.drink2= new CartDrinkInfoVO(drink2Opt);
+                this.price += drink2.getDrinkPrice();
+                System.out.println(price);
             }
         }
         if(ingredients.size()!=0){
@@ -56,7 +63,7 @@ public class CartVo {
         }
         this.price = this.price * this.menuCount;
     }
-
+    
     public void checkIngredient(List<IngredientsInfoEntity> ingredients){
         int count = 0;
         for(IngredientsInfoEntity i : ingredients){
@@ -64,6 +71,9 @@ public class CartVo {
             this.ingredient.add(iVo);
             if(i.getIiPrice()==0){
                 count++;
+            }else{
+                this.price+=i.getIiPrice();
+                System.out.println(price);
             }
         }
         if(count>1){

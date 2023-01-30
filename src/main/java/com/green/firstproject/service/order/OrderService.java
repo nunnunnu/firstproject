@@ -134,29 +134,44 @@ public class OrderService {
           
           oiRepository.save(order);
           for(CartDetail c : carts){
-               MenuInfoEntity menu = menuRepo.findByMenuSeq(c.getMenu());
-               SideOptionEntity side = soRepo.findBySoSeq(c.getSideOpt());
-               DrinkOptionEntity drink = diRepo.findByDoSeq(c.getDrinkOpt());
-               DrinkOptionEntity drink2 = diRepo.findByDoSeq(c.getDrink2Opt());
+               OrderDetailEntity orderDetail = new OrderDetailEntity();
 
-               OrderDetailEntity orderDetail = new OrderDetailEntity(c, menu, side, drink, drink2);
+               MenuInfoEntity menu = menuRepo.findMenuSeq(c.getMenu());
+               orderDetail.setOdBiseq(menu);
+               if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){
+                    if(c.getSideOpt()!=null){
+                         SideOptionEntity side = soRepo.findBySoSeq(c.getSideOpt());
+                         orderDetail.setOdLsotSeq(side);
+                    }
+                    if(c.getDrinkOpt()!=null){
+                         DrinkOptionEntity drink = diRepo.findByDoSeq(c.getDrinkOpt());
+                         orderDetail.setOdLdotSeq(drink);
+                    }
+               }
+               if(menu.getEvent()!=null){
+                    if(c.getDrinkOpt()!=null){
+                         DrinkOptionEntity drink = diRepo.findByDoSeq(c.getDrinkOpt());
+                         orderDetail.setOdLdotSeq(drink);
+                    }
+                    if(c.getDrink2Opt()!=null){
+                         DrinkOptionEntity drink2 = diRepo.findByDoSeq(c.getDrink2Opt());
+                         orderDetail.setOdLdot2Seq(drink2);
+                    }
+               }
+
                orderDetail.setOdOiseq(order);
-               
+               orderDetail.setOdCount(c.getCount());
+
                if(menu.getBurger()!=null){
-                    BurgerInfoEntity burger = biRepo.findByBiSeq(menu.getBurger().getBiSeq());
-                    burger.upSales(c.getCount()); //판매량 증가
-                    biRepo.save(burger);
+                    menu.getBurger().upSales(c.getCount()); //판매량 증가
+                    biRepo.save(menu.getBurger());
                }
                
                odRepo.save(orderDetail);
                if(c.getIngredient()!=null){
                     List<IngredientsInfoEntity> ings = iiRepo.findByingSeq(c.getIngredient());
                     for(IngredientsInfoEntity i : ings){
-                         System.out.println(i);
                          OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity(i, orderDetail);
-                         orderIngredient.setIngredient(i);
-                         orderIngredient.setOrderdetail(orderDetail);
-                         System.out.println(orderIngredient);
                          oidRepo.save(orderIngredient);
                     }
                }
@@ -283,14 +298,14 @@ public class OrderService {
                return map;
           }
           order.setOiStatus(5);
-          List<OrderDetailEntity> orderDetails = odRepo.findByOdOiseq(order);
+          List<OrderDetailEntity> orderDetails = odRepo.findBurgerFetch(order);
 
           for(OrderDetailEntity od : orderDetails){
-               StoreInfoEntity store = order.getStore();
+               // StoreInfoEntity store = order.getStore();
                BurgerInfoEntity burger = od.getOdBiseq().getBurger();
-               DogInfoEntity dog = od.getOdBiseq().getDog();
-               DrinkInfoEntity drink = od.getOdBiseq().getDrink();
-               SideInfoEntity side = od.getOdBiseq().getSide();
+               // DogInfoEntity dog = od.getOdBiseq().getDog();
+               // DrinkInfoEntity drink = od.getOdBiseq().getDrink();
+               // SideInfoEntity side = od.getOdBiseq().getSide();
                if(burger!=null){
                     // BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, burger);
                     // int stock = burgerStock.getBsStock()+od.getOdCount();
@@ -345,7 +360,7 @@ public class OrderService {
           }
           List<OrderVO> resultOrder = new ArrayList<>();
           for(OrderInfoEntity o : orders){
-               List<OrderDetailEntity> orderDetails = odRepo.findByOdOiseq(o);
+               List<OrderDetailEntity> orderDetails = odRepo.findFetchAll(o);
                OrderVO order = new OrderVO(o);
                // List<OrderDetailVO> orderDetailVo = new ArrayList<>();
                if(orderDetails!=null){
@@ -393,7 +408,7 @@ public class OrderService {
                return map;
           }    
           MyOrderViewVO myOrderVo = new MyOrderViewVO(order);
-          List<OrderDetailEntity> orderDetail = odRepo.findByOdOiseq(order);
+          List<OrderDetailEntity> orderDetail = odRepo.findFetchAll(order);
           for(OrderDetailEntity od : orderDetail){
                MyOrderDetailVO oDetailVO = new MyOrderDetailVO(od);
                List<OrderIngredientsDetailEntity> ing = oidRepo.findByOrderdetail(od);
@@ -435,13 +450,12 @@ public class OrderService {
           List<CartVo> carts = new ArrayList<>();
           for(CartDetail cart : c){
                MenuInfoEntity menu = menuRepo.findByMenuSeq(cart.getMenu());
-               Boolean event = !(menu.getEvent()==null);
                SideOptionEntity sideOpt = soRepo.findBySoSeq(cart.getSideOpt());
                DrinkOptionEntity drinkOpt = diRepo.findByDoSeq(cart.getDrinkOpt());
                DrinkOptionEntity drink2Opt = diRepo.findByDoSeq(cart.getDrink2Opt());
                List<IngredientsInfoEntity> ingredients = iiRepo.findByingSeq(cart.getIngredient());
                
-               CartVo cVo = new CartVo(cart, menu, event, sideOpt, drinkOpt, drink2Opt, ingredients);
+               CartVo cVo = new CartVo(cart, menu, sideOpt, drinkOpt, drink2Opt, ingredients);
                carts.add(cVo);
                order.addPrice(cVo);
 

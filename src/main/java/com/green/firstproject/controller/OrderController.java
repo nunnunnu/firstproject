@@ -132,7 +132,6 @@ public class OrderController {
      }
      @GetMapping("/info")
      public ResponseEntity<Object> orderPayment(HttpSession session, @RequestBody OrderFormVO oVo){
-          System.out.println(oVo);
           Map<String, Object> map = new LinkedHashMap<>();
           LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
           // if(loginUser==null){
