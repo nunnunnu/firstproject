@@ -321,22 +321,52 @@ public class MenuInfoService {
         BasicVO basic;
         if(type.equalsIgnoreCase("burger")){
             BurgerInfoEntity burger = burgerRepo.findByBiSeq(seq);
+            if(burger==null){
+                resultMap.put("status", false);
+                resultMap.put("message", "해당 메뉴가 존재하지 않습니다. 번호를 확인해주세요.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }
             list = menuRepo.findByBurger(burger);
             basic = new BasicVO(burger);
         }else if(type.equalsIgnoreCase("side")){
             SideInfoEntity side = sideRepo.findBySideSeq(seq);
+            if(side==null){
+                resultMap.put("status", false);
+                resultMap.put("message", "해당 메뉴가 존재하지 않습니다. 번호를 확인해주세요.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }
             list = menuRepo.findBySideAndBurgerIsNullAndEventIsNull(side);
             basic = new BasicVO(side);
         }else if(type.equalsIgnoreCase("drink")){
             DrinkInfoEntity drink = drinkRepo.findByDiSeq(seq);
+            if(drink==null){
+                resultMap.put("status", false);
+                resultMap.put("message", "해당 메뉴가 존재하지 않습니다. 번호를 확인해주세요.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }
             list = menuRepo.findDrinkMenu(drink);
             basic = new BasicVO(drink);
         }else if(type.equalsIgnoreCase("event")){
             EventInfoEntity event = eventRepo.findByEiSeq(seq);
+            if(event==null){
+                resultMap.put("status", false);
+                resultMap.put("message", "해당 메뉴가 존재하지 않습니다. 번호를 확인해주세요.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }
             list = menuRepo.findEventMenu(event);
             basic = new BasicVO(event);
         }else if(type.equalsIgnoreCase("dog")){
             DogInfoEntity dog = dogRepo.findByDogSeq(seq);
+            if(dog==null){
+                resultMap.put("status", false);
+                resultMap.put("message", "해당 메뉴가 존재하지 않습니다. 번호를 확인해주세요.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }
             list = menuRepo.findDogMenu(dog);
             basic = new BasicVO(dog);
         }else{
