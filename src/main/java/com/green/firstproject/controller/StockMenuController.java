@@ -1,22 +1,15 @@
 package com.green.firstproject.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
-import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.repository.menu.CategoryRepository;
 import com.green.firstproject.repository.menu.basicmenu.BurgerInfoRepository;
@@ -35,7 +28,10 @@ import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
 import com.green.firstproject.service.menu.MenuInfoService;
 import com.green.firstproject.service.stock.StockService;
+import com.green.firstproject.vo.member.AdminInfoVO;
 import com.green.firstproject.vo.stock.BurgerStockVO;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/menu/stock")
@@ -60,17 +56,31 @@ public class StockMenuController {
     @Autowired StockService stockService;
 
     @GetMapping("/side")
-    public String getSideStock(Model model){
-        StoreInfoEntity store = siRepo.findAll().get(0);
+    public String getSideStock(Model model, HttpSession session){
+        AdminInfoVO admin = (AdminInfoVO)session.getAttribute("loginUser");
+        if(admin==null){
+            return "redirect:/";
+        }
+        StoreInfoEntity store = siRepo.findBySiSeq(admin.getAdminStore());
+        if(store==null){
+            return "redirect:/";
+        }
+        
         List<BurgerStockVO> sideStockList = ssRepo.stockAll(store.getSiSeq());
-        System.out.println(sideStockList.get(0).getStock());
         model.addAttribute("sideStockList", sideStockList);
         model.addAttribute("store", store);
         return "/stock/sideStock";
     }
     @GetMapping("/burger")
-    public String getBurgerStock(Model model){
-        StoreInfoEntity store = siRepo.findAll().get(0);
+    public String getBurgerStock(Model model, HttpSession session){
+        AdminInfoVO admin = (AdminInfoVO)session.getAttribute("loginUser");
+        if(admin==null){
+            return "redirect:/";
+        }
+        StoreInfoEntity store = siRepo.findBySiSeq(admin.getAdminStore());
+        if(store==null){
+            return "redirect:/";
+        }
         List<BurgerStockVO> burgerStockList = bsRepo.stockAll(store.getSiSeq());
         model.addAttribute("burgerStockList", burgerStockList);
         model.addAttribute("store", store);
@@ -78,8 +88,15 @@ public class StockMenuController {
     }
 
     @GetMapping("/drink")
-    public String getDrinkStock(Model model){
-        StoreInfoEntity store = siRepo.findAll().get(0);
+    public String getDrinkStock(Model model, HttpSession session){
+        AdminInfoVO admin = (AdminInfoVO)session.getAttribute("loginUser");
+        if(admin==null){
+            return "redirect:/";
+        }
+        StoreInfoEntity store = siRepo.findBySiSeq(admin.getAdminStore());
+        if(store==null){
+            return "redirect:/";
+        }
         List<BurgerStockVO> drinkStockList = dsRepo.stockAll(store.getSiSeq());
         model.addAttribute("drinkStockList", drinkStockList);
         model.addAttribute("store", store);
@@ -87,8 +104,15 @@ public class StockMenuController {
     }
     
     @GetMapping("/dog")
-    public String getdogStock(Model model){
-        StoreInfoEntity store = siRepo.findAll().get(0);
+    public String getdogStock(Model model, HttpSession session){
+        AdminInfoVO admin = (AdminInfoVO)session.getAttribute("loginUser");
+        if(admin==null){
+            return "redirect:/";
+        }
+        StoreInfoEntity store = siRepo.findBySiSeq(admin.getAdminStore());
+        if(store==null){
+            return "redirect:/";
+        }
         List<BurgerStockVO> dogStockList = dogsRepo.stockAll(store.getSiSeq());
         model.addAttribute("dogStockList", dogStockList);
         model.addAttribute("store", store);
@@ -96,8 +120,15 @@ public class StockMenuController {
     }
     
     @GetMapping("/event")
-    public String geteventStock(Model model){
-        StoreInfoEntity store = siRepo.findAll().get(0);
+    public String geteventStock(Model model, HttpSession session){
+        AdminInfoVO admin = (AdminInfoVO)session.getAttribute("loginUser");
+        if(admin==null){
+            return "redirect:/";
+        }
+        StoreInfoEntity store = siRepo.findBySiSeq(admin.getAdminStore());
+        if(store==null){
+            return "redirect:/";
+        }
         List<BurgerStockVO> eventStockList = esRepo.stockAll(store.getSiSeq());
         model.addAttribute("eventStockList", eventStockList);
         model.addAttribute("store", store);
@@ -105,8 +136,15 @@ public class StockMenuController {
     }
     
     @GetMapping("/ingredient")
-    public String getingredientStock(Model model){
-        StoreInfoEntity store = siRepo.findAll().get(0);
+    public String getingredientStock(Model model, HttpSession session){
+        AdminInfoVO admin = (AdminInfoVO)session.getAttribute("loginUser");
+        if(admin==null){
+            return "redirect:/";
+        }
+        StoreInfoEntity store = siRepo.findBySiSeq(admin.getAdminStore());
+        if(store==null){
+            return "redirect:/";
+        }
         List<BurgerStockVO> ingredientStockList = isRepo.stockAll(store.getSiSeq());
         model.addAttribute("ingredientStockList", ingredientStockList);
         model.addAttribute("store", store);

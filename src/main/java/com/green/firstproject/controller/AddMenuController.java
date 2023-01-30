@@ -100,7 +100,6 @@ public class AddMenuController {
     }
     @PostMapping("/store")
     public String postStoreAdd(StoreAddForm data){
-        System.out.println(data);
         StoreInfoEntity store = new StoreInfoEntity(null, data.getName(), data.getAddress(), data.getDetailAddress(), data.getPhone(),
         data.getOpenTime(), data.getCloseTime(), data.getDeliveryPrice(), 1, data.getDeliveryArea());
         siRepo.save(store);
