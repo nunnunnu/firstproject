@@ -63,7 +63,7 @@ public class OrderTest {
           //주문
           PaymentInfoEntity pay = piRepo.findAll().get(0);
           MemberInfoEntity member = new MemberInfoEntity(null, "user999@test.com", "123456", "이름", "010-0000-0000", 1, LocalDate.now(), null, null);
-          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로");
+          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, "조심히와주세요", "대구 중구 동성로999길 건물 1층"); 
 
           mRepo.save(member);
@@ -95,7 +95,7 @@ public class OrderTest {
      @Test
      void 재고감소(){
 
-          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로");
+          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
           siRepo.save(store);
 
           MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
@@ -172,7 +172,7 @@ public class OrderTest {
 
      @Test
      void 재고부족시주문불가(){
-          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로");
+          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
           siRepo.save(store);
 
           MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
@@ -199,7 +199,7 @@ public class OrderTest {
      void 주문취소(){
           PaymentInfoEntity pay = piRepo.findAll().get(0);
           MemberInfoEntity member = new MemberInfoEntity(null, "user999@test.com", "123456", "이름", "010-0000-0000", 1, LocalDate.now(), null, null);
-          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로");
+          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
           siRepo.save(store);
 
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, "조심히와주세요", "대구 중구 동성로999길 건물 1층"); 
@@ -236,7 +236,7 @@ public class OrderTest {
      void 주문취소실패(){
           PaymentInfoEntity pay = piRepo.findAll().get(0);
           MemberInfoEntity member = new MemberInfoEntity(null, "user999@test.com", "123456", "이름", "010-0000-0000", 1, LocalDate.now(), null, null);
-          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로");
+          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 4, pay, null, "조심히와주세요", "대구 중구 동성로999길 건물 1층"); 
           
           MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
@@ -268,7 +268,7 @@ public class OrderTest {
      void 주문내역조회(){
           PaymentInfoEntity pay = piRepo.findAll().get(0);
           MemberInfoEntity member = new MemberInfoEntity(null, "user999@test.com", "123456", "이름", "010-0000-0000", 1, LocalDate.now(), null, null);
-          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로");
+          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, "조심히와주세요", "대구 중구 동성로999길 건물 1층"); 
 
           mRepo.save(member);

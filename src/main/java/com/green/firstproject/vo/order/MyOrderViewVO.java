@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.vo.master.PaymentInfoVO;
@@ -60,28 +61,25 @@ public class MyOrderViewVO {
      }
 
      public void setOrderPrice(OrderDetailEntity orderDetail){
-          Integer rSizeSidePrice=2700;
-          Integer lSizeSidePrice=3200;
-          Integer rSizeDrinkPrice = 2600;
-          Integer lSizeDrinkPrice = 2800;
+          
+          MenuInfoEntity menu = orderDetail.getOdBiseq();
 
-          if(orderDetail.getOdBiseq()!=null){ //메뉴 선택
-               this.totalPrice += orderDetail.getOdBiseq().getMenuPrice();
-               if(orderDetail.getOdBiseq().getBurger()!=null && orderDetail.getOdBiseq().getSide()!=null && orderDetail.getOdBiseq().getDrink()!=null){ //세트메뉴
+          if(menu!=null){ //메뉴 선택
+               this.totalPrice += menu.getMenuPrice();
+               if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){ //세트메뉴
                     if(orderDetail.getOdLsotSeq()!=null){
-                         totalPrice += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+                         totalPrice += orderDetail.getOdLsotSeq().getSoPrice();
                     }
                     if(orderDetail.getOdLdotSeq()!=null){
-                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice();
                     }
-               }else if(orderDetail.getOdEiSeq()!=null){
+               }else if(menu.getEvent()!=null){
                     if(orderDetail.getOdLdotSeq()!=null){
-                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice();
                     }
                     if(orderDetail.getOdLdot2Seq()!=null){
-                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice();
                     }
-
                }
           }
      }

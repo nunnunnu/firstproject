@@ -60,15 +60,8 @@ public class OrderController {
                map.put("code", HttpStatus.ACCEPTED);
                return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           }
-          // List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
-
-          if(!orderService.stockCheck(oVo.getCart(), store)){ //재고가 부족하다면
-               return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          }
           
           map = orderService.order(member, store, oVo.getPay(), oVo.getCart(), oVo.getMessage(), oVo.getCouponSeq(), address, detailAddress);  
-          // session.setAttribute("cart", map.get("notOrders"));
-          // map.remove("notOrders");
 
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }

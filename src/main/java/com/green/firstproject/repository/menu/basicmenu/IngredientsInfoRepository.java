@@ -14,7 +14,7 @@ import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 @Repository
 public interface IngredientsInfoRepository extends JpaRepository<IngredientsInfoEntity, Long>{
 
-     @Query("select i from IngredientsInfoEntity i join fetch i.menu m where i.iiSeq in (:ingSeqs)")
+     @Query("select i from IngredientsInfoEntity i where i.iiSeq in (:ingSeqs)")
      public List<IngredientsInfoEntity> findByingSeq(@Param("ingSeqs") Collection<Long> seqs);
 
      @Query("select i from IngredientsInfoEntity i join fetch i.menu m where i.iiSeq in (:ingSeqs)")

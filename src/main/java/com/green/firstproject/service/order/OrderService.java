@@ -135,12 +135,11 @@ public class OrderService {
           oiRepository.save(order);
           for(CartDetail c : carts){
                MenuInfoEntity menu = menuRepo.findByMenuSeq(c.getMenu());
-               Boolean event = !(menu.getEvent()==null);
                SideOptionEntity side = soRepo.findBySoSeq(c.getSideOpt());
                DrinkOptionEntity drink = diRepo.findByDoSeq(c.getDrinkOpt());
                DrinkOptionEntity drink2 = diRepo.findByDoSeq(c.getDrink2Opt());
 
-               OrderDetailEntity orderDetail = new OrderDetailEntity(c, menu, event, side, drink, drink2);
+               OrderDetailEntity orderDetail = new OrderDetailEntity(c, menu, side, drink, drink2);
                orderDetail.setOdOiseq(order);
                
                if(menu.getBurger()!=null){
@@ -149,22 +148,15 @@ public class OrderService {
                     biRepo.save(burger);
                }
                
-               //재고 감소 기능
-               discountStock(store, orderDetail);
-               
                odRepo.save(orderDetail);
                if(c.getIngredient()!=null){
                     List<IngredientsInfoEntity> ings = iiRepo.findByingSeq(c.getIngredient());
-                    List<IngredientVo> ingsVo = new ArrayList<>();
-                    for(IngredientsInfoEntity ing : ings){
-                         ingsVo.add(new IngredientVo(ing));
-                    }
-                    // Set<IngredientsInfoEntity> ingEntity = iiRepo.findByingSeq(ingSeqs);
                     for(IngredientsInfoEntity i : ings){
+                         System.out.println(i);
                          OrderIngredientsDetailEntity orderIngredient = new OrderIngredientsDetailEntity(i, orderDetail);
-                         // orderIngredient.setIngredient(i);
-                         // orderIngredient.setOrderdetail(orderDetail);
-                         discountIngredientStock(store, i, c.getCount());
+                         orderIngredient.setIngredient(i);
+                         orderIngredient.setOrderdetail(orderDetail);
+                         System.out.println(orderIngredient);
                          oidRepo.save(orderIngredient);
                     }
                }
@@ -180,99 +172,98 @@ public class OrderService {
           resultMap.put("status", true);
           resultMap.put("message", "주문이 완료되었습니다.");
           resultMap.put("code", HttpStatus.ACCEPTED);
-          // resultMap.put("notOrders", notOrders);
           return resultMap;
      }
 
      //기본메뉴 재고감소
-     public void discountStock(StoreInfoEntity store, OrderDetailEntity orderDetail){   
-          if(orderDetail.getOdBiseq().getBurger()!=null){
-               BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, orderDetail.getOdBiseq().getBurger());
-               int bStock = burgerStock.getBsStock() - orderDetail.getOdCount();
-               burgerStock.setBsStock(bStock);
-          }
-          if(orderDetail.getOdBiseq().getDog()!=null){
-               DogStockEntity dogStock = dogsRepo.findByStoreAndDog(store, orderDetail.getOdBiseq().getDog());
-               int dogSto = dogStock.getDogsStock() - orderDetail.getOdCount();
-               dogStock.setDogsStock(dogSto);
-          }
-          if(orderDetail.getOdBiseq().getDrink()!=null){
-               DrinkStockEntity drinkStock = dsRepo.findByStoreAndDrink(store, orderDetail.getOdBiseq().getDrink());
-               int dStock = drinkStock.getDsStock() - orderDetail.getOdCount();
-               drinkStock.setDsStock(dStock);
-          }
-          if(orderDetail.getOdBiseq().getSide()!=null){
-               SideStockEntity side = ssRepo.findByStoreAndSide(store, orderDetail.getOdBiseq().getSide());
-               int sideStock = side.getSsStock() - orderDetail.getOdCount();
-               side.setSsStock(sideStock);
-          }
-          if(orderDetail.getOdEiSeq()!=null){
-               EventStockEntity event = esRepo.findByStoreAndEvent(store, orderDetail.getOdEiSeq());
-               int eventStock = event.getEsStock() - orderDetail.getOdCount();
-               event.setEsStock(eventStock);
-          }
-     }
+     // public void discountStock(StoreInfoEntity store, OrderDetailEntity orderDetail){   
+     //      if(orderDetail.getOdBiseq().getBurger()!=null){
+     //           BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, orderDetail.getOdBiseq().getBurger());
+     //           int bStock = burgerStock.getBsStock() - orderDetail.getOdCount();
+     //           burgerStock.setBsStock(bStock);
+     //      }
+     //      if(orderDetail.getOdBiseq().getDog()!=null){
+     //           DogStockEntity dogStock = dogsRepo.findByStoreAndDog(store, orderDetail.getOdBiseq().getDog());
+     //           int dogSto = dogStock.getDogsStock() - orderDetail.getOdCount();
+     //           dogStock.setDogsStock(dogSto);
+     //      }
+     //      if(orderDetail.getOdBiseq().getDrink()!=null){
+     //           DrinkStockEntity drinkStock = dsRepo.findByStoreAndDrink(store, orderDetail.getOdBiseq().getDrink());
+     //           int dStock = drinkStock.getDsStock() - orderDetail.getOdCount();
+     //           drinkStock.setDsStock(dStock);
+     //      }
+     //      if(orderDetail.getOdBiseq().getSide()!=null){
+     //           SideStockEntity side = ssRepo.findByStoreAndSide(store, orderDetail.getOdBiseq().getSide());
+     //           int sideStock = side.getSsStock() - orderDetail.getOdCount();
+     //           side.setSsStock(sideStock);
+     //      }
+     //      if(orderDetail.getOdEiSeq()!=null){
+     //           EventStockEntity event = esRepo.findByStoreAndEvent(store, orderDetail.getOdEiSeq());
+     //           int eventStock = event.getEsStock() - orderDetail.getOdCount();
+     //           event.setEsStock(eventStock);
+     //      }
+     // }
      //재료 재고 감소
-     public void discountIngredientStock(StoreInfoEntity store, IngredientsInfoEntity ingredirent, int count){
-          IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredirent);
-          int ingStock = ing.getIsStock()-count;
-          ing.setIsStock(ingStock);
-     }
+     // public void discountIngredientStock(StoreInfoEntity store, IngredientsInfoEntity ingredirent, int count){
+     //      IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredirent);
+     //      int ingStock = ing.getIsStock()-count;
+     //      ing.setIsStock(ingStock);
+     // }
      // 매장 재고 검사
-     public Boolean stockCheck(List<CartDetail> carts, StoreInfoEntity store){
-          for(CartDetail c : carts){
-               MenuInfoEntity menu = menuRepo.findMenuSeq(c.getMenu());
-               BurgerInfoEntity burger = menu.getBurger();
-               DogInfoEntity dog = menu.getDog();
-               DrinkInfoEntity drink = menu.getDrink();
-               SideInfoEntity side = menu.getSide();
-               EventInfoEntity event = menu.getEvent();
-               if(burger!=null){
-                    BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
-                    if(bs.getBsStock()<c.getCount()){
-                         return false; //재고없음
-                    }
-               }
-               if(dog!=null){
-                    DogStockEntity dogstock = dogsRepo.findByStoreAndDog(store, dog);
-                    if(dogstock.getDogsStock()<c.getCount()){
-                         return false; //재고없음
-                    }
-               }
-               if(drink!=null){
-                    DrinkStockEntity ds = dsRepo.findByStoreAndDrink(store, drink);
-                    if(ds.getDsStock()<c.getCount()){
-                         return false; //재고없음
-                    }
-               }
-               if(side!=null){
-                    SideStockEntity ss = ssRepo.findByStoreAndSide(store, side);
-                    if(ss.getSsStock()<c.getCount()){
-                         return false; //재고없음
-                    }
-               }
-               if(event!=null){
-                    EventStockEntity es = esRepo.findByStoreAndEvent(store, event);
-                    if(es.getEsStock()<c.getCount()){
-                         return false; //재고없음
-                    }
-               }
-               if(c.getIngredient()!=null){
-                    // List<IngredientsInfoEntity> ingredients = iiRepo.findByingSeq(c.getIngredient());
-                    // for(IngredientVo i : ings){
-                    //      ingSeq.add(i.getIngredirentSeq());
-                    // }
-                    // Set<IngredientsInfoEntity> ingredientsInfoEntity = iiRepo.findByingSeq(ingSeq);
-                    List<IngredientsStockEntity> ings = isRepo.findStoreAndIngredient(store, c.getIngredient());
-                    for(IngredientsStockEntity ing : ings){
-                         if(ing.getIsStock()<c.getCount()){
-                              return false;
-                         }
-                    }
-               }
-          }
-          return true;
-     }
+     // public Boolean stockCheck(List<CartDetail> carts, StoreInfoEntity store){
+     //      for(CartDetail c : carts){
+     //           MenuInfoEntity menu = menuRepo.findMenuSeq(c.getMenu());
+     //           BurgerInfoEntity burger = menu.getBurger();
+     //           DogInfoEntity dog = menu.getDog();
+     //           DrinkInfoEntity drink = menu.getDrink();
+     //           SideInfoEntity side = menu.getSide();
+     //           EventInfoEntity event = menu.getEvent();
+     //           if(burger!=null){
+     //                BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
+     //                if(bs.getBsStock()<c.getCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+     //           if(dog!=null){
+     //                DogStockEntity dogstock = dogsRepo.findByStoreAndDog(store, dog);
+     //                if(dogstock.getDogsStock()<c.getCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+     //           if(drink!=null){
+     //                DrinkStockEntity ds = dsRepo.findByStoreAndDrink(store, drink);
+     //                if(ds.getDsStock()<c.getCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+     //           if(side!=null){
+     //                SideStockEntity ss = ssRepo.findByStoreAndSide(store, side);
+     //                if(ss.getSsStock()<c.getCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+     //           if(event!=null){
+     //                EventStockEntity es = esRepo.findByStoreAndEvent(store, event);
+     //                if(es.getEsStock()<c.getCount()){
+     //                     return false; //재고없음
+     //                }
+     //           }
+     //           if(c.getIngredient()!=null){
+     //                // List<IngredientsInfoEntity> ingredients = iiRepo.findByingSeq(c.getIngredient());
+     //                // for(IngredientVo i : ings){
+     //                //      ingSeq.add(i.getIngredirentSeq());
+     //                // }
+     //                // Set<IngredientsInfoEntity> ingredientsInfoEntity = iiRepo.findByingSeq(ingSeq);
+     //                List<IngredientsStockEntity> ings = isRepo.findStoreAndIngredient(store, c.getIngredient());
+     //                for(IngredientsStockEntity ing : ings){
+     //                     if(ing.getIsStock()<c.getCount()){
+     //                          return false;
+     //                     }
+     //                }
+     //           }
+     //      }
+     //      return true;
+     // }
 
      //주문 취소
      public Map<String, Object> orderCancel(Long seq, LoginUserVO login){
@@ -300,34 +291,33 @@ public class OrderService {
                DogInfoEntity dog = od.getOdBiseq().getDog();
                DrinkInfoEntity drink = od.getOdBiseq().getDrink();
                SideInfoEntity side = od.getOdBiseq().getSide();
-               EventInfoEntity event = od.getOdEiSeq();
                if(burger!=null){
-                    BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, burger);
-                    int stock = burgerStock.getBsStock()+od.getOdCount();
+                    // BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, burger);
+                    // int stock = burgerStock.getBsStock()+od.getOdCount();
                     int sale = burger.getBiSalesRate()-od.getOdCount();
                     burger.setBiSalesRate(sale);
-                    burgerStock.setBsStock(stock);
+                    // burgerStock.setBsStock(stock);
                }
-               if(dog!=null){
-                    DogStockEntity dogStock = dogsRepo.findByStoreAndDog(store, dog);
-                    int dogSto = dogStock.getDogsStock() + od.getOdCount();
-                    dogStock.setDogsStock(dogSto);
-               }
-               if(drink!=null){
-                    DrinkStockEntity drinkStock = dsRepo.findByStoreAndDrink(store, od.getOdBiseq().getDrink());
-                    int dStock = drinkStock.getDsStock()  + od.getOdCount();
-                    drinkStock.setDsStock(dStock);
-               }
-               if(side!=null){
-                    SideStockEntity sideStock = ssRepo.findByStoreAndSide(store, od.getOdBiseq().getSide());
-                    int sStock = sideStock.getSsStock() + od.getOdCount();
-                    sideStock.setSsStock(sStock);
-               }
-               if(event!=null){
-                    EventStockEntity eventStock = esRepo.findByStoreAndEvent(store, od.getOdEiSeq());
-                    int eStock = eventStock.getEsStock() + od.getOdCount();
-                    eventStock.setEsStock(eStock);
-               }
+               // if(dog!=null){
+               //      DogStockEntity dogStock = dogsRepo.findByStoreAndDog(store, dog);
+               //      int dogSto = dogStock.getDogsStock() + od.getOdCount();
+               //      dogStock.setDogsStock(dogSto);
+               // }
+               // if(drink!=null){
+               //      DrinkStockEntity drinkStock = dsRepo.findByStoreAndDrink(store, od.getOdBiseq().getDrink());
+               //      int dStock = drinkStock.getDsStock()  + od.getOdCount();
+               //      drinkStock.setDsStock(dStock);
+               // }
+               // if(side!=null){
+               //      SideStockEntity sideStock = ssRepo.findByStoreAndSide(store, od.getOdBiseq().getSide());
+               //      int sStock = sideStock.getSsStock() + od.getOdCount();
+               //      sideStock.setSsStock(sStock);
+               // }
+               // if(event!=null){
+               //      EventStockEntity eventStock = esRepo.findByStoreAndEvent(store, od.getOdEiSeq());
+               //      int eStock = eventStock.getEsStock() + od.getOdCount();
+               //      eventStock.setEsStock(eStock);
+               // }
 
           }
 
@@ -415,6 +405,9 @@ public class OrderService {
                }
                oDetailVO.addPrice(od);
                oDetailVO.addOrderIngredients(ingVo);
+               if(oDetailVO.getComposition().equals("")){
+                    oDetailVO.setComposition(null);
+               }
                myOrderVo.addOrderDetail(oDetailVO);
           }
           myOrderVo.totalPrice();
