@@ -1,5 +1,9 @@
 package com.green.firstproject;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,5 +35,6 @@ public class AddMemberTest {
             // resultMap.put("message", "회원 가입이 완료되었습니다.");
             // resultMap.put("code", HttpStatus.CREATED);
     }
-            
 }
+    
+
