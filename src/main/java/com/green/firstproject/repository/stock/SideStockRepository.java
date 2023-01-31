@@ -16,7 +16,7 @@ import com.green.firstproject.vo.stock.BurgerStockVO;
 public interface SideStockRepository extends JpaRepository<SideStockEntity,Long>{
      SideStockEntity findByStoreAndSide(StoreInfoEntity store, SideInfoEntity side);
 
-     @Query(value="select a.side_seq as seq , a.side_name as name ,if(ifnull(c.ss_stock,0)>=1,'판매 가능', '판매 불가능') as stock from (select * from side_stock b where b.ss_si_seq = :store ) c right outer join side_info a on a.side_seq = c.ss_side_seq"
+     @Query(value="select a.side_seq as seq , a.side_name as name ,if(ifnull(c.ss_stock,0)>=1,'판매 가능', '판매 불가') as stock from (select * from side_stock b where b.ss_si_seq = :store ) c right outer join side_info a on a.side_seq = c.ss_side_seq"
           ,nativeQuery = true)
      List<BurgerStockVO> stockAll(@Param("store") Long store);
 }

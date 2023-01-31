@@ -16,7 +16,7 @@ import com.green.firstproject.vo.stock.BurgerStockVO;
 public interface BurgerStockRepository extends JpaRepository<BurgerStockEntity,Long>{
      BurgerStockEntity findByStoreAndBurger(StoreInfoEntity store, BurgerInfoEntity burger);
 
-     @Query(value="select bi.bi_seq as seq , bi.bi_name as name ,if(ifnull(bs.bs_stock,0)>=1,'판매 가능', '판매 불가능') as stock from (select * from burger_stock b where b.bs_si_seq = :store ) bs right outer join burger_info bi on bi.bi_seq = bs.bs_bi_seq"
+     @Query(value="select bi.bi_seq as seq , bi.bi_name as name ,if(ifnull(bs.bs_stock,0)>=1,'판매 가능', '판매 불가') as stock from (select * from burger_stock b where b.bs_si_seq = :store ) bs right outer join burger_info bi on bi.bi_seq = bs.bs_bi_seq"
           ,nativeQuery = true)
      List<BurgerStockVO> stockAll(@Param("store") Long store);
 }

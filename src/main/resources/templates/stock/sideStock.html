@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body class="container">
-     <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #ED1C24">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #ED1C24">
         <div class="container-fluid">
             <a class="navbar-brand" href="/main">
                 <img src="https://blog.kakaocdn.net/dn/k5tQM/btrXn5R4yNY/VU87wkiJbkOMwFMbqaQ8K0/img.png" alt="Logo" width="50" height="30" class="d-inline-block align-text-left">
@@ -50,22 +50,37 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; font-weight: 700;">
-                        재고관리
+                        판매관리
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/menu/stock/burger">버거 재고 관리</a></li>
-                        <li><a class="dropdown-item" href="/menu/stock/event">이벤트 재고 관리</a></li>
-                        <li><a class="dropdown-item" href="/menu/stock/dog">독퍼 재고 관리</a></li>
-                        <li><a class="dropdown-item" href="/menu/stock/drink">음료 재고 관리</a></li>
-                        <li><a class="dropdown-item" href="/menu/stock/side">사이드 재고 관리</a></li>
-                        <li><a class="dropdown-item" href="/menu/stock/ingredient">재료 재고 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/burger">버거 판매 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/event">이벤트 판매 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/dog">독퍼 판매 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/drink">음료 판매 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/side">사이드 판매 관리</a></li>
+                        <li><a class="dropdown-item" href="/menu/stock/ingredient">재료 판매 관리</a></li>
                     </ul>
-                </li>
             </ul>
         </div>
         </div>
     </nav>
-    <h4 class="p-3 mb-2 bg-dark text-white">사이드 재고 관리</h4>
+    <div class="p-3 mb-2 bg-dark text-white">
+        <div class="row">
+            <div class="col-7" th:if="${session.loginUser != null}">
+                <h4>사이드 판매 관리</h4>
+            </div>
+            <div class="col-3">
+                    <span id="login_user">
+                        <span th:text="${session.loginUser.adminName}"></span>
+                        (<a href="/admin/update" style="color: white;" th:text="${session.loginUser.adminEmail}"></a>)
+                        님
+                    </span>
+            </div>
+            <div class="col-2">
+                <a href="/admin/logout" style="color: white;">로그아웃 </a>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-2">
             <p class="btn btn-dark">현재 선택 된 매장 : </p>
@@ -77,8 +92,8 @@
     <table class="table">
         <thead class="table-dark">
             <th>번호</th>
-            <th>재고명</th>
-            <th>재고</th>
+            <th>메뉴명</th>
+            <th>상태</th>
             <th></th>
         </thead>
         <tbody>

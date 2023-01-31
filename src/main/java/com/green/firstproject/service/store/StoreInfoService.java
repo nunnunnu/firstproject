@@ -81,6 +81,7 @@ public class StoreInfoService {
             resultMap.put("message", "가게 정보가 변경되었습니다.");
             resultMap.put("code", HttpStatus.OK);
         }
+        System.out.println(store);
         return resultMap;
 
     }
@@ -95,13 +96,11 @@ public class StoreInfoService {
                 entity = s;
             }
         }
-
         if(entity.getSiSeq()==null){
             map.put("status", false);
             map.put("message", "배달 불가능한 지역입니다.");
             map.put("code", HttpStatus.NO_CONTENT);
         }else{
-
             StoreVO result =  new StoreVO(entity);
             map.put("store", result);
             map.put("status", true);

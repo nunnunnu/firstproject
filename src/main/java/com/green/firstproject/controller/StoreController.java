@@ -56,6 +56,6 @@ public class StoreController {
     @GetMapping("/store/select")
     public ResponseEntity<Object> selectStore(@RequestParam String address){
         Map<String, Object> map = siService.findStore(address);
-        return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

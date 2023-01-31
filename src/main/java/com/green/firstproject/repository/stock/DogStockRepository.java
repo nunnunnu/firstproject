@@ -16,7 +16,7 @@ import com.green.firstproject.vo.stock.BurgerStockVO;
 public interface DogStockRepository extends JpaRepository<DogStockEntity,Long>{
      DogStockEntity findByStoreAndDog(StoreInfoEntity store, DogInfoEntity dog);
 
-     @Query(value="select a.dog_seq as seq , a.dog_name as name ,if(ifnull(c.dogs_stock,0)>=1,'판매 가능', '판매 불가능') as stock from (select * from dog_stock b where b.dogs_si_seq = :store ) c right outer join dog_info a on a.dog_seq = c.dogs_dog_seq"
+     @Query(value="select a.dog_seq as seq , a.dog_name as name ,if(ifnull(c.dogs_stock,0)>=1,'판매 가능', '판매 불가') as stock from (select * from dog_stock b where b.dogs_si_seq = :store ) c right outer join dog_info a on a.dog_seq = c.dogs_dog_seq"
           ,nativeQuery = true)
      List<BurgerStockVO> stockAll(@Param("store") Long store);
 }

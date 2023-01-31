@@ -3,6 +3,7 @@ package com.green.firstproject.vo.order;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
 import com.green.firstproject.vo.menu.IngredientVo;
@@ -31,8 +32,10 @@ public class OrderDetailVO {
           // this.Seq = orderDetail.getOdSeq();
           // this.order = new OrderVO(orderDetail.getOdOiseq());
           this.menuCount=orderDetail.getOdCount();
-          if(orderDetail.getOdBiseq()!=null){
-               this.menuName = orderDetail.getOdBiseq().getMenuName();
+
+          MenuInfoEntity menu = orderDetail.getOdBiseq();
+          if(menu!=null){
+               this.menuName = menu.getMenuName();
           }
           if(orderDetail.getOdLsotSeq()!=null){
                this.sideOpt=orderDetail.getOdLsotSeq().getSoName();
@@ -59,26 +62,21 @@ public class OrderDetailVO {
      }
 
      public void addPrice(OrderDetailEntity orderDetail){
-          Integer rSizeSidePrice=2700;
-          Integer lSizeSidePrice=3200;
-          Integer rSizeDrinkPrice = 2600;
-          Integer lSizeDrinkPrice = 2800;
-          if(orderDetail.getOdBiseq()!=null){
-               this.price += orderDetail.getOdBiseq().getMenuPrice();
-          }
-          if(orderDetail.getOdBiseq().getBurger()!=null && orderDetail.getOdBiseq().getSide()!=null && orderDetail.getOdBiseq().getDrink()!=null){
+          MenuInfoEntity menu = orderDetail.getOdBiseq();
+          this.price += menu.getMenuPrice();
+          if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){
                if(orderDetail.getOdLsotSeq()!=null){
-                    price += orderDetail.getOdLsotSeq().getSoPrice()-(orderDetail.getOdBiseq().getMenuSize()==1?rSizeSidePrice:lSizeSidePrice) ;
+                    price += orderDetail.getOdLsotSeq().getSoPrice();
                }
                if(orderDetail.getOdLdotSeq()!=null){
-                    price += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    price += orderDetail.getOdLdotSeq().getDoPrice();
                }
-          }else if(orderDetail.getOdEiSeq() !=null){
+          }else if(menu.getEvent()!=null){
                if(orderDetail.getOdLdotSeq()!=null){
-                    price += orderDetail.getOdLdotSeq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    price += orderDetail.getOdLdotSeq().getDoPrice();
                }
                if(orderDetail.getOdLdot2Seq()!=null){
-                    price += orderDetail.getOdLdot2Seq().getDoPrice() - (orderDetail.getOdBiseq().getMenuSize()==1?rSizeDrinkPrice:lSizeDrinkPrice);
+                    price += orderDetail.getOdLdot2Seq().getDoPrice();
                }
           }
      }

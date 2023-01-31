@@ -18,11 +18,11 @@ public interface DrinkInfoRepository extends JpaRepository<DrinkInfoEntity, Long
     DrinkInfoEntity findByDiSeq(Long seq);
     DrinkInfoEntity findByDiUri(String uri);
 
-    @Query(value = "select di.di_seq as seq, di.di_name as name, di.di_detail as detail, di.di_uri as uri, "
-                +"mi.count, mi.price, if(ds.ds_stock=0,'true', 'false') as soldout "
+    @Query(value = "select if(mi.count>1, di.di_seq, mi.menu_seq) as seq, di.di_name as name, di.di_detail as detail, di.di_uri as uri, "
+                +"mi.count, mi.price, if(ds.ds_stock=0,'true', 'false') as soldout, 'SINGLE' as type "
                 +"from drink_info di "
                 +"join (select * from drink_stock where ds_si_seq=:store) ds on di.di_seq =ds.ds_di_seq "
-                +"join (select menu_di_seq, count(menu_di_seq) as 'count', min(menu_price) as 'price' from menu_info where menu_bi_seq is null group by menu_di_seq) mi "
+                +"join (select menu_di_seq, menu_seq, count(menu_di_seq) as 'count', min(menu_price) as 'price' from menu_info where menu_bi_seq is null group by menu_di_seq) mi "
                 +" on mi.menu_di_seq =di.di_seq "
                 +"where di.di_cate =:cate"
             , nativeQuery = true)

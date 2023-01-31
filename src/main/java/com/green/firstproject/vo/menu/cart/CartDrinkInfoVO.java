@@ -14,34 +14,13 @@ public class CartDrinkInfoVO {
           if(drink!=null){
                this.drinkSeq = drink.getDoSeq();
                this.drinkName = drink.getDoName();
-               this.drinkPrice=0;
-               if(menuSize == 1){
-                    int price = drink.getDoPrice()-2600;
-                    if(price<0){
-                         this.drinkPrice = 0;
-     
-                    }else{
-                         this.drinkPrice = price;
-                    }
-               }else if(menuSize==2){
-                    int price = drink.getDoPrice()-2800;
-                    if(price<0){
-                         this.drinkPrice = 0;
-     
-                    }else{
-                         this.drinkPrice += price;
-                    }
-               }
+               this.drinkPrice = drink.getDoPrice();
           }
      }
      public CartDrinkInfoVO(DrinkOptionEntity drink){
           this.drinkSeq = drink.getDoSeq();
           this.drinkName = drink.getDoName();
-          int price = drink.getDoPrice()-2600;
-          if(price<0){
-               this.drinkPrice = 0;
-          }else{
-               this.drinkPrice = price;
-          }
+          int price = drink.getDoPrice();
+          this.drinkPrice = price;
      }
 }

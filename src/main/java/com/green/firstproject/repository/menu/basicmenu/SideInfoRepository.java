@@ -17,11 +17,11 @@ public interface SideInfoRepository extends JpaRepository<SideInfoEntity, Long> 
         SideInfoEntity findBySideSeq(Long seq);
         SideInfoEntity findBySideUri(String uri);
 
-    @Query(value = "select a.side_seq as Seq, a.side_name as Name , a.side_detail as detail , "
-                    +"a.side_uri as uri , c.count, c.price, if(b.ss_stock=0,'true', 'false') as soldout "
+    @Query(value = "select if(c.count>1, a.side_seq, c.menu_seq ) as Seq, a.side_name as Name , a.side_detail as detail , "
+                    +"a.side_uri as uri , c.count, c.price, if(b.ss_stock=0,'true', 'false') as soldout, 'SINGLE' as type "
                 +"from side_info a "
                 +"join (select * from side_stock where ss_si_seq=:store) b on a.side_seq =b.ss_side_seq "
-                +"join (select menu_side_seq, count(menu_side_seq) as 'count', min(menu_price) as 'price' "
+                +"join (select menu_side_seq, menu_seq , count(menu_side_seq) as 'count', min(menu_price) as 'price' "
                 +"from menu_info where menu_bi_seq is null group by menu_side_seq) c on c.menu_side_seq = a.side_seq "
                 +"where a.side_cate =:cate"
         , nativeQuery = true)

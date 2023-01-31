@@ -12,6 +12,8 @@ import com.green.firstproject.entity.order.OrderInfoEntity;
 
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity,Long> {
-     @Query("select od from OrderDetailEntity od left join fetch od.odBiseq left join fetch od.odEiSeq left join fetch od.odLsotSeq left join fetch od.odLdotSeq left join fetch od.odLdot2Seq where od.odOiseq=:order")
-     List<OrderDetailEntity> findByOdOiseq(@Param("order") OrderInfoEntity odOiseq);
+     @Query("select od from OrderDetailEntity od left join fetch od.odBiseq left join fetch od.odLsotSeq left join fetch od.odLdotSeq left join fetch od.odLdot2Seq where od.odOiseq=:order")
+     List<OrderDetailEntity> findFetchAll(@Param("order") OrderInfoEntity odOiseq);
+     @Query("select od from OrderDetailEntity od left join fetch od.odBiseq left join fetch od.odLsotSeq left join fetch od.odLdotSeq left join fetch od.odLdot2Seq where od.odOiseq=:order")
+     List<OrderDetailEntity> findBurgerFetch(@Param("order") OrderInfoEntity odOiseq);
 }

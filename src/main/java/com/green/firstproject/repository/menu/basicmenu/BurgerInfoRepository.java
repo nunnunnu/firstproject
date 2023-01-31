@@ -26,7 +26,8 @@ public interface BurgerInfoRepository extends JpaRepository<BurgerInfoEntity, Lo
                         +"c.bi_cate as category,"
                         +"c.bi_detail as detail, c.bi_uri as uri, min(e.menu_price) as price, "
                         +"if(DATEDIFF(CURDATE( ),c.bi_reg_dt)<=30,'true','false') as new,"
-                        +"if(ranking<=10,'true','false') as best, if(d.bs_stock=0, 'true','false') as soldout, f.count as 'count' "
+                        +"if(ranking<=10,'true','false') as best, if(d.bs_stock=0, 'true','false') as soldout, f.count as 'count', "
+                        +"'SET' as type "
                 +"from burger_info c "
                 +"join(select RANK() OVER (ORDER BY a.bi_sales_rate desc) as ranking, a.bi_seq from burger_info a) b on c.bi_seq=b.bi_seq "
                 +"join (select * from burger_stock bs where bs.bs_si_seq=:store) d on d.bs_bi_seq =c.bi_seq "
@@ -36,6 +37,4 @@ public interface BurgerInfoRepository extends JpaRepository<BurgerInfoEntity, Lo
             , nativeQuery = true)
     List<BurgerCateVo> searchBurger(@Param("cate") Long cate, @Param("store") Long store);
 
-    List<BurgerInfoEntity> findAllByOrderByBiSalesRateDesc();
-    
 }

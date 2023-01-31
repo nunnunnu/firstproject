@@ -94,6 +94,8 @@ public class FileService {
         else if (type.equals("sideOpt")) {
             folderLocation = Paths.get(sideOpt_img_path);
             filename = sideOptRepo.findBySoUri(uri).getSoFile();
+        }else{
+            return null;
         }
         String[] split = filename.split("\\.");
         String ext = split[split.length - 1];

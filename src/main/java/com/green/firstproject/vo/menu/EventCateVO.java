@@ -10,5 +10,6 @@ public interface EventCateVO {
      Integer getCount();
      Integer getPrice();
      Boolean getSoldout();
+     String getType();
      
 }

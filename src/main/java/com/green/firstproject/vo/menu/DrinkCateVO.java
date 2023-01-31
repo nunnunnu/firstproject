@@ -11,4 +11,5 @@ public interface DrinkCateVO {
      Integer getCount();
      Integer getPrice();
      Boolean getSoldout();
+     String getType();
 }
