@@ -20,25 +20,15 @@ import com.green.firstproject.entity.member.LatelyDeliveryEntity;
 import com.green.firstproject.entity.member.MemberCouponEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.BurgerInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.DogInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.DrinkInfoEntity;
 import com.green.firstproject.entity.menu.basicmenu.IngredientsInfoEntity;
-import com.green.firstproject.entity.menu.basicmenu.SideInfoEntity;
 import com.green.firstproject.entity.menu.option.DrinkOptionEntity;
 import com.green.firstproject.entity.menu.option.SideOptionEntity;
-import com.green.firstproject.entity.menu.sellermenu.EventInfoEntity;
 import com.green.firstproject.entity.menu.sellermenu.MenuInfoEntity;
 import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
 import com.green.firstproject.entity.order.cart.CartVo;
-import com.green.firstproject.entity.stock.BurgerStockEntity;
-import com.green.firstproject.entity.stock.DogStockEntity;
-import com.green.firstproject.entity.stock.DrinkStockEntity;
-import com.green.firstproject.entity.stock.EventStockEntity;
-import com.green.firstproject.entity.stock.IngredientsStockEntity;
-import com.green.firstproject.entity.stock.SideStockEntity;
 import com.green.firstproject.repository.master.CouponInfoRepository;
 import com.green.firstproject.repository.master.PaymentInfoRepository;
 import com.green.firstproject.repository.master.StoreInfoRepository;
@@ -62,7 +52,6 @@ import com.green.firstproject.repository.stock.IngredientsStockRepository;
 import com.green.firstproject.repository.stock.SideStockRepository;
 import com.green.firstproject.vo.master.CouponVO;
 import com.green.firstproject.vo.member.LoginUserVO;
-import com.green.firstproject.vo.menu.IngredientVo;
 import com.green.firstproject.vo.order.MyOrderDetailVO;
 import com.green.firstproject.vo.order.MyOrderViewVO;
 import com.green.firstproject.vo.order.OrderDeliveryVO;
@@ -109,6 +98,17 @@ public class OrderService {
                resultMap.put("code", HttpStatus.BAD_REQUEST);
                return resultMap;
           }
+          List<Long> menuSeq = new ArrayList<>();
+          for(CartDetail c : carts){
+               menuSeq.add(c.getMenu());
+          }
+          if(menuRepo.countMenu(menuSeq)==0){
+               resultMap.put("status", false);
+               resultMap.put("message", "일치하는 메뉴가 존재하지 않습니다. 번호를 다시 확인해주세요.");
+               resultMap.put("code", HttpStatus.BAD_REQUEST);
+               return resultMap;
+          }
+
           PaymentInfoEntity pay = piRepo.findByPaySeq(paySeq);
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, message, address+" "+detailAddress); 
           

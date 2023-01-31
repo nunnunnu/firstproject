@@ -21,6 +21,7 @@
     </script>
 </head>
 <body class="container">
+    
         <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #ED1C24">
         <div class="container-fluid">
             <a class="navbar-brand" href="/main">
@@ -83,11 +84,11 @@
                 <h4>메인페이지</h4>
             </div>
             <div class="col-3">
-                <span id="login_user">
-                    <span th:text="${session.loginUser.adminName}"></span>
-                    (<a herf="/admin/detail" th:text="${session.loginUser.adminEmail}"></a>)
-                님
-                </span>
+                    <span id="login_user">
+                        <span th:text="${session.loginUser.adminName}"></span>
+                        (<a href="/admin/update" style="color: white;" th:text="${session.loginUser.adminEmail}"></a>)
+                        님
+                    </span>
             </div>
             <div class="col-2">
                 <a href="/admin/logout" style="color: white;">로그아웃 </a>

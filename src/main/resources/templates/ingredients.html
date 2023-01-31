@@ -70,11 +70,11 @@
                 <h4>재료 옵션 추가</h4>
             </div>
             <div class="col-3">
-                <span id="login_user">
-                    <span th:text="${session.loginUser.adminName}"></span>
-                    (<a herf="/admin/detail" th:text="${session.loginUser.adminEmail}"></a>)
-                님
-                </span>
+                    <span id="login_user">
+                        <span th:text="${session.loginUser.adminName}"></span>
+                        (<a href="/admin/update" style="color: white;" th:text="${session.loginUser.adminEmail}"></a>)
+                        님
+                    </span>
             </div>
             <div class="col-2">
                 <a href="/admin/logout" style="color: white;">로그아웃 </a>

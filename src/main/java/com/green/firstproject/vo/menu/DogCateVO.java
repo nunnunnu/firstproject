@@ -10,4 +10,5 @@ public interface DogCateVO {
      Integer getCount();
      Integer getPrice();
      Boolean getSoldout();
+     String getType();
 }

@@ -37,8 +37,8 @@ public class MenuAPIController {
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
     @GetMapping("/category")
-    public Map<String, Object> selectCategories(@RequestParam Long seq) {
-        Map<String, Object> resultMap = mService.cateSeq(seq);
+    public Map<String, Object> selectCategories(@RequestParam Long seq, @RequestParam Long store) {
+        Map<String, Object> resultMap = mService.cateSeq(seq, store);
         return resultMap;
     }
     //옵션 조회

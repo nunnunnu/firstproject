@@ -13,4 +13,5 @@ public interface BurgerCateVo {
     Integer getPrice();
     Integer getCount();
     boolean getSoldout();
+    String getType();
 }

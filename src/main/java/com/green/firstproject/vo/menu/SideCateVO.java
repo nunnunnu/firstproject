@@ -10,4 +10,5 @@ public interface SideCateVO {
      Integer getCount();
      Integer getPrice();
      Boolean getSoldout();
+     String getType();
 }

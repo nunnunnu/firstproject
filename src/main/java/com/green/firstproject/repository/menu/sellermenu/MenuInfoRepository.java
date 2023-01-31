@@ -1,5 +1,6 @@
 package com.green.firstproject.repository.menu.sellermenu;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,4 +40,7 @@ public interface MenuInfoRepository extends JpaRepository<MenuInfoEntity, Long>{
      
      @Query("select m from MenuInfoEntity m where m.event=:event and side is null and burger is null")
      List<MenuInfoEntity> findEventMenu(@Param("event") EventInfoEntity event);
+
+     @Query("select count(m) from MenuInfoEntity m where m.menuSeq in (:menuSeq)")
+     Integer countMenu(@Param("menuSeq") Collection<Long> seqs);
 }

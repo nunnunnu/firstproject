@@ -34,28 +34,25 @@ public class CartVo {
         this.ingredient = new ArrayList<>();
         this.menuName=menu.getMenuName();
         this.price+=menu.getMenuPrice();
-        System.out.println(price);
         if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){
             if(cart.getSideOpt()!=null){
                 this.side = new CartSideInfoVO(sideOpt, menu.getMenuSize());
                 this.price+=side.getSidePrice();
-                System.out.println(price);
             }
             if(cart.getDrinkOpt()!=null){
+                ;
                 this.drink= new CartDrinkInfoVO(drinkOpt, menu.getMenuSize());
+                System.out.println(drink);
                 this.price+=drink.getDrinkPrice();
-                System.out.println(price);
             }
         }else if(menu.getEvent()!=null){
             if(cart.getDrinkOpt()!=null){
                 this.drink= new CartDrinkInfoVO(drinkOpt, menu.getMenuSize());
                 this.price+=drink.getDrinkPrice();
-                System.out.println(price);
             }
             if(cart.getDrink2Opt()!=null){
                 this.drink2= new CartDrinkInfoVO(drink2Opt);
                 this.price += drink2.getDrinkPrice();
-                System.out.println(price);
             }
         }
         if(ingredients.size()!=0){
@@ -73,7 +70,6 @@ public class CartVo {
                 count++;
             }else{
                 this.price+=i.getIiPrice();
-                System.out.println(price);
             }
         }
         if(count>1){

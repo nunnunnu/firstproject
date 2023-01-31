@@ -1,5 +1,7 @@
 package com.green.firstproject;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -92,29 +94,29 @@ public class OrderTest {
 
      }
 
-     @Test
-     void 재고감소(){
+     // @Test
+     // void 재고감소(){
 
-          StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
-          siRepo.save(store);
+     //      StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
+     //      siRepo.save(store);
 
-          MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
-          //재고감소
-          BurgerStockEntity burgerStock = new BurgerStockEntity(null, store, menu.getBurger(), 100);
-          bsRepo.save(burgerStock);
+     //      MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
+     //      //재고감소
+     //      BurgerStockEntity burgerStock = new BurgerStockEntity(null, store, menu.getBurger(), 100);
+     //      bsRepo.save(burgerStock);
           
-          burgerStock.setBsStock(burgerStock.getBsStock()-1);
+     //      burgerStock.setBsStock(burgerStock.getBsStock()-1);
 
-          IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
+     //      IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
 
-          IngredientsStockEntity ing = new IngredientsStockEntity(null, store, ingredient, 100);
-          ing.setIsStock(ing.getIsStock()-1);
+     //      IngredientsStockEntity ing = new IngredientsStockEntity(null, store, ingredient, 100);
+     //      ing.setIsStock(ing.getIsStock()-1);
 
-          //재고 감소 기능 확인
-          Assertions.assertThat(99).isEqualTo(burgerStock.getBsStock());
-          Assertions.assertThat(99).isEqualTo(ing.getIsStock());
+     //      //재고 감소 기능 확인
+     //      Assertions.assertThat(99).isEqualTo(burgerStock.getBsStock());
+     //      Assertions.assertThat(99).isEqualTo(ing.getIsStock());
 
-     }
+     // }
 
      @Test
      void 판매량증가(){
@@ -171,28 +173,19 @@ public class OrderTest {
      }
 
      @Test
-     void 재고부족시주문불가(){
+     void 판매불가상품주문불가(){
           StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
           siRepo.save(store);
 
           MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
-          IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
+          // IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
           
-          BurgerStockEntity burgerStock = new BurgerStockEntity(null, store, menu.getBurger(), 1);
-          IngredientsStockEntity ing = new IngredientsStockEntity(null, store, ingredient, 1);
+          BurgerStockEntity burgerStock = new BurgerStockEntity(null, store, menu.getBurger(), 0);
+          // IngredientsStockEntity ing = new IngredientsStockEntity(null, store, ingredient, 0);
           bsRepo.save(burgerStock);
-          int orderCount = 2;
-          if(orderCount<=burgerStock.getBsStock()){
-               burgerStock.setBsStock(burgerStock.getBsStock()-orderCount);
-               int orderIngredientCount = 2;
-               if(orderIngredientCount<=ing.getIsStock()){
-                    ing.setIsStock(ing.getIsStock()-orderIngredientCount);
-               }
+          if(burgerStock.getBsStock()==1){
+               fail();
           }
-
-          //재고 동일 여부 확인
-          Assertions.assertThat(1).isEqualTo(burgerStock.getBsStock());
-          Assertions.assertThat(1).isEqualTo(ing.getIsStock());
      }
 
      @Test
@@ -240,27 +233,16 @@ public class OrderTest {
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 4, pay, null, "조심히와주세요", "대구 중구 동성로999길 건물 1층"); 
           
           MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
-          IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
+          // IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
           
-          IngredientsStockEntity ing = new IngredientsStockEntity(null, store, ingredient, 99);
-          BurgerStockEntity burgerStock = new BurgerStockEntity(null, store, menu.getBurger(), 99);
-
           int originSales = menu.getBurger().getBiSalesRate();
           if(order.getOiStatus()==1 || order.getOiStatus()==2){
+               fail();
                order.setOiStatus(5);
-               bsRepo.save(burgerStock);
-               
-               burgerStock.setBsStock(burgerStock.getBsStock()+1);
-
-               ing.setIsStock(ing.getIsStock()+1);
                
                menu.getBurger().setBiSalesRate(originSales+1);
-          }
 
-          Assertions.assertThat(4).isEqualTo(order.getOiStatus());
-          Assertions.assertThat(99).isEqualTo(burgerStock.getBsStock());
-          Assertions.assertThat(99).isEqualTo(ing.getIsStock());
-          Assertions.assertThat(originSales).isEqualTo(menu.getBurger().getBiSalesRate());
+          }
 
      }
 

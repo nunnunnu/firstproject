@@ -130,7 +130,7 @@ public class MenuInfoService {
             return resultMap;
         }
         List<DrinkOptionEntity> list = new ArrayList<>();
-        if(menu.getMenuSize() == 1){
+        if(menu.getMenuSize() == 1 || menu.getMenuSize()==0){
             list = drnikoptRepo.findAll();
         }else if(menu.getMenuSize() == 2){
             list = drnikoptRepo.findByDoSize(menu.getMenuSize());
