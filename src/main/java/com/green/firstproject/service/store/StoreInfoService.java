@@ -119,15 +119,14 @@ public class StoreInfoService {
 
     public Map<String, Object> getStoreOpenStatus(Long seq){
         Map<String, Object> map = new LinkedHashMap<>();
-        // SimpleDateFormat now = new SimpleDateFormat("HH:mm:ss");
         StoreInfoEntity entity = siRepo.findBySiSeq(seq);
-        StoreOpenVO store = new StoreOpenVO(entity);
         if(entity==null){
             map.put("status", false);
             map.put("message", "매장 번호 확인해주세요.");
             map.put("code",HttpStatus.BAD_REQUEST);
         }
         else{
+        StoreOpenVO store = new StoreOpenVO(entity);
         map.put("store", store);
         map.put("status", true);
         map.put("message", "매장 오픈 여부 조회");
