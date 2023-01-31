@@ -39,7 +39,6 @@ public class OrderController {
      @PutMapping("")
      public ResponseEntity<Object> order(HttpSession session, @RequestBody OrderFormVO oVo
      ){
-          System.out.println(oVo);
           Map<String, Object> map = new LinkedHashMap<>();
           // if(session.getAttribute("loginUser")==null){
                //      map.put("status", false);
@@ -49,10 +48,10 @@ public class OrderController {
           // } //로그인 기능 아직 안됨
           // String address = (String)session.getAttribute("address");
           // String detailAddress = (String)session.getAttribute("address");
-          String address = "대구광역시 중구 109-2";
-          String detailAddress = "그린컴퓨터학원 5층";
+          // String address = "대구광역시 중구 109-2";
+          // String detailAddress = "그린컴퓨터학원 5층";
           MemberInfoEntity member = mReposiroty.findAll().get(0); //로그인회원 임시 고정
-          StoreInfoEntity store = sRepository.findAll().get(0); //선택 매장 임시 고정
+          StoreInfoEntity store = sRepository.findBySiSeq(oVo.getStore()); //선택 매장 임시 고정
           
           if(LocalTime.now().isBefore(store.getSiOpenTime()) || LocalTime.now().isAfter(store.getSiCloseTime())){
                map.put("status", false);
@@ -61,7 +60,7 @@ public class OrderController {
                return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
           }
           
-          map = orderService.order(member, store, oVo.getPay(), oVo.getCart(), oVo.getMessage(), oVo.getCouponSeq(), address, detailAddress);  
+          map = orderService.order(member, store, oVo.getPay(), oVo.getCart(), oVo.getMessage(), oVo.getCouponSeq(), oVo.getAddress(), oVo.getDetailAddress());  
 
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }

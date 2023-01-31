@@ -94,30 +94,6 @@ public class OrderTest {
 
      }
 
-     // @Test
-     // void 재고감소(){
-
-     //      StoreInfoEntity store = new StoreInfoEntity(null, "매장이름", "매장주소", "상세주소", "053-000-000", LocalTime.now(), LocalTime.now(), 13000, 1,"동성로", null, null);
-     //      siRepo.save(store);
-
-     //      MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
-     //      //재고감소
-     //      BurgerStockEntity burgerStock = new BurgerStockEntity(null, store, menu.getBurger(), 100);
-     //      bsRepo.save(burgerStock);
-          
-     //      burgerStock.setBsStock(burgerStock.getBsStock()-1);
-
-     //      IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
-
-     //      IngredientsStockEntity ing = new IngredientsStockEntity(null, store, ingredient, 100);
-     //      ing.setIsStock(ing.getIsStock()-1);
-
-     //      //재고 감소 기능 확인
-     //      Assertions.assertThat(99).isEqualTo(burgerStock.getBsStock());
-     //      Assertions.assertThat(99).isEqualTo(ing.getIsStock());
-
-     // }
-
      @Test
      void 판매량증가(){
           //주문
@@ -128,7 +104,6 @@ public class OrderTest {
           menu.getBurger().upSales(1);
 
           //판매량 증가 확인
-
           Assertions.assertThat(originSales+1).isEqualTo(menu.getBurger().getBiSalesRate());
      }
 
@@ -165,11 +140,9 @@ public class OrderTest {
                (coupon.getMcDate().getMonth()==LocalDate.now().getMonth() 
                && coupon.getMcDate().getYear()==LocalDate.now().getYear())
           ){
+               fail();
                coupon.setMcUse(false);
           }
-
-          //쿠폰 사용여부 변경 확인
-          Assertions.assertThat(coupon.getMcUse()).isTrue();
      }
 
      @Test
@@ -178,10 +151,8 @@ public class OrderTest {
           siRepo.save(store);
 
           MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
-          // IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
           
           BurgerStockEntity burgerStock = new BurgerStockEntity(null, store, menu.getBurger(), 0);
-          // IngredientsStockEntity ing = new IngredientsStockEntity(null, store, ingredient, 0);
           bsRepo.save(burgerStock);
           if(burgerStock.getBsStock()==1){
                fail();
@@ -199,28 +170,18 @@ public class OrderTest {
 
 
           MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
-          IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
           
-          IngredientsStockEntity ing = new IngredientsStockEntity(null, store, ingredient, 99);
-          BurgerStockEntity burgerStock = new BurgerStockEntity(null, store, menu.getBurger(), 99);
-
           int originSales = menu.getBurger().getBiSalesRate();
 
           if(order.getOiStatus()==1 || order.getOiStatus()==2){
                order.setOiStatus(5);
 
-               bsRepo.save(burgerStock);
-               
-               burgerStock.setBsStock(burgerStock.getBsStock()+1);
-
-               ing.setIsStock(ing.getIsStock()+1);
-               
                menu.getBurger().setBiSalesRate(originSales+1);
+          }else{
+               fail();
           }
 
           Assertions.assertThat(5).isEqualTo(order.getOiStatus());
-          Assertions.assertThat(100).isEqualTo(burgerStock.getBsStock());
-          Assertions.assertThat(100).isEqualTo(ing.getIsStock());
           Assertions.assertThat(originSales+1).isEqualTo(menu.getBurger().getBiSalesRate());
 
      }

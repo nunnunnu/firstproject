@@ -11,4 +11,7 @@ public class OrderFormVO {
      private List<CartDetail> cart;
      private String message;
      private Long couponSeq;
+     private String address;
+     private String detailAddress;
+     private Long store;
 }
