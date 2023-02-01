@@ -50,14 +50,14 @@
             <div class="col-7" th:if="${session.loginUser != null}">
                 <h4>매장 정보 수정</h4>
             </div>
-            <div class="col-3">
+            <div class="col-3"  align="right">
                 <span id="login_user">
                     <span th:text="${session.loginUser.adminName}"></span>
                     (<a href="/admin/update" style="color: white;" th:text="${session.loginUser.adminEmail}"></a>)
                     님
                 </span>
             </div>
-            <div class="col-2">
+            <div class="col-2"  align="center">
                 <a href="/admin/logout" style="color: white;">로그아웃 </a>
             </div>
         </div>
