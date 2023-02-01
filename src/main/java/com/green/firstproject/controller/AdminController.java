@@ -96,14 +96,15 @@ public class AdminController {
 
         return "store/order";
     }
-    @PostMapping("/order")
+    @GetMapping("/order/update")
     public String postOrderStatus(@RequestParam Integer status, @RequestParam Long seq){
+        System.out.println("aaaaa");
         System.out.println(status);
         System.out.println(seq);
         OrderInfoEntity order = orderRepo.findById(seq).get();
         order.setOiStatus(status);
         orderRepo.save(order);
         
-        return "redirect:/store/order";
+        return "redirect:/admin/order";
     }
 }
