@@ -153,7 +153,7 @@ public class MemberService {
             member = mRepo.findByMiSeq(seq);
             if (member == null) {
                 resultMap.put("status", false);
-                resultMap.put("message", "이메일 또는 비밀번호 오류입니다.");
+                resultMap.put("message", "찾을 수 없는 회원번호 입니다.");
                 resultMap.put("code", HttpStatus.BAD_REQUEST);
                 return resultMap;
             }
@@ -182,7 +182,7 @@ public class MemberService {
             MemberInfoEntity member = mRepo.findByMiSeq(seq);
             if (member == null) {
                 map.put("status", false);
-                map.put("message", "로그인 해주세요!");
+                map.put("message", "없는 회원번호 입니다.");
                 map.put("code", HttpStatus.BAD_REQUEST);
                 return map;
             }
@@ -199,7 +199,7 @@ public class MemberService {
         MemberInfoEntity member = mRepo.findByMiSeq(seq);
         if (member == null) {
             map.put("status", false);
-            map.put("message", "이메일 또는 비밀번호 오류입니다.");
+            map.put("message", "찾을 수 없는 회원번호 입니다.");
             map.put("code", HttpStatus.BAD_REQUEST);
             return map;
             }
