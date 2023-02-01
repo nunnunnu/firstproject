@@ -58,4 +58,10 @@ public class StoreController {
         Map<String, Object> map = siService.findStore(address);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
+    @GetMapping("/store/open")
+    public ResponseEntity<Object> openStatus(@RequestParam Long seq){
+        Map<String, Object> map = siService.getStoreOpenStatus(seq);
+        return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
+    }
 }

@@ -1,6 +1,11 @@
 package com.green.firstproject.service.store;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.green.firstproject.entity.master.StoreInfoEntity;
 import com.green.firstproject.repository.master.StoreInfoRepository;
 import com.green.firstproject.vo.store.StoreInfoVO;
+import com.green.firstproject.vo.store.StoreOpenVO;
 import com.green.firstproject.vo.store.StoreVO;
 
 import io.micrometer.common.lang.Nullable;
@@ -108,6 +114,24 @@ public class StoreInfoService {
             map.put("code", HttpStatus.OK);
         }
 
+        return map;
+    }
+
+    public Map<String, Object> getStoreOpenStatus(Long seq){
+        Map<String, Object> map = new LinkedHashMap<>();
+        StoreInfoEntity entity = siRepo.findBySiSeq(seq);
+        if(entity==null){
+            map.put("status", false);
+            map.put("message", "매장 번호 확인해주세요.");
+            map.put("code",HttpStatus.BAD_REQUEST);
+        }
+        else{
+        StoreOpenVO store = new StoreOpenVO(entity);
+        map.put("store", store);
+        map.put("status", true);
+        map.put("message", "매장 오픈 여부 조회");
+        map.put("code",HttpStatus.OK);
+        }
         return map;
     }
 }
