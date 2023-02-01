@@ -344,11 +344,10 @@ public class OrderService {
      }
      
      //주문 리스트 조회
-     public Map<String, Object> showMyOrder(LoginUserVO login){
+     public Map<String, Object> showMyOrder(MemberInfoEntity member){
           Map<String, Object> map = new LinkedHashMap<>();
           /* 귀찮아서 주석함 나중에 풀어야함 */
           // MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
-          MemberInfoEntity member = mRepo.findAll().get(0);
           
           List<OrderInfoEntity> orders = oiRepository.findMember(member.getMiSeq());
           
@@ -362,14 +361,8 @@ public class OrderService {
           for(OrderInfoEntity o : orders){
                List<OrderDetailEntity> orderDetails = odRepo.findFetchAll(o);
                OrderVO order = new OrderVO(o);
-               // List<OrderDetailVO> orderDetailVo = new ArrayList<>();
                if(orderDetails!=null){
-                    for(OrderDetailEntity od : orderDetails){                         
-                         // OrderDetailVO orderDe = new OrderDetailVO(od);
-                         // orderDe.addPrice(od);
-                         // orderDetailVo.add(orderDe);
-                         
-                         order.setOrderPrice(od);
+                    for(OrderDetailEntity od : orderDetails){                                            
                          List<OrderIngredientsDetailEntity> ingredients = oidRepo.findByOrderdetail(od);
                          if(ingredients!=null){
                               int count=0;
@@ -377,13 +370,14 @@ public class OrderService {
                                    if(i.getIngredient().getIiPrice()==0){
                                         count++;
                                    }else{
-                                        order.addIngredientPrice(i);
+                                        order.addIngredientPrice(i, od.getOdCount());
                                    }
                               }
                               if(count>1){
-                                   order.addCheckIngredientPrice();
+                                   order.addCheckIngredientPrice(od.getOdCount());
                               }
                          }
+                         order.setOrderPrice(od);
                     }   
                }
                resultOrder.add(order);
@@ -396,10 +390,8 @@ public class OrderService {
           return map;
      }
 
-     public Map<String, Object> showDetailOrderList(LoginUserVO login, Long seq) {
+     public Map<String, Object> showDetailOrderList(MemberInfoEntity member, Long seq) {
           Map<String, Object> map = new LinkedHashMap<>();
-           // MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
-          MemberInfoEntity member = mRepo.findAll().get(0);
           OrderInfoEntity order = oiRepository.findByOiSeqAndMember(seq, member);
           if(order==null){
                map.put("status", false);
@@ -419,7 +411,7 @@ public class OrderService {
                     oDetailVO.ingredientName(i);
                }
                oDetailVO.addPrice(od);
-               oDetailVO.addOrderIngredients(ingVo);
+               oDetailVO.addOrderIngredients(ingVo, od.getOdCount());
                if(oDetailVO.getComposition().equals("")){
                     oDetailVO.setComposition(null);
                }
@@ -434,7 +426,7 @@ public class OrderService {
      }
 
      //결제 페이지
-     public Map<String, Object> orderPage(LoginUserVO login, StoreInfoEntity store, List<CartDetail> c){
+     public Map<String, Object> orderPage(StoreInfoEntity store, List<CartDetail> c){
           Map<String, Object> map = new LinkedHashMap<>();
           if(c==null || c.size()==0){ 
                map.put("status", false);

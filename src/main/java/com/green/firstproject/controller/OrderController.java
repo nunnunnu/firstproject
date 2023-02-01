@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
@@ -24,34 +25,21 @@ import com.green.firstproject.service.order.PaymentService;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.order.OrderFormVO;
 
-import jakarta.servlet.http.HttpSession;
-
 @RestController
 @RequestMapping("/order")
 public class OrderController {
 
-     // @Autowired CartService cartService;
      @Autowired MemberInfoReposiroty mReposiroty;
      @Autowired StoreInfoRepository sRepository;
      @Autowired OrderService orderService;
      @Autowired PaymentService payService;
 
      @PutMapping("")
-     public ResponseEntity<Object> order(HttpSession session, @RequestBody OrderFormVO oVo
+     public ResponseEntity<Object> order(@RequestBody OrderFormVO oVo
      ){
           Map<String, Object> map = new LinkedHashMap<>();
-          // if(session.getAttribute("loginUser")==null){
-               //      map.put("status", false);
-               //      map.put("message", "로그인을 먼저 해주세요.");
-               //      map.put("code", HttpStatus.ACCEPTED);
-               //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          // } //로그인 기능 아직 안됨
-          // String address = (String)session.getAttribute("address");
-          // String detailAddress = (String)session.getAttribute("address");
-          // String address = "대구광역시 중구 109-2";
-          // String detailAddress = "그린컴퓨터학원 5층";
-          MemberInfoEntity member = mReposiroty.findAll().get(0); //로그인회원 임시 고정
-          StoreInfoEntity store = sRepository.findBySiSeq(oVo.getStore()); //선택 매장 임시 고정
+          MemberInfoEntity member = mReposiroty.findByMiSeq(oVo.getMember());
+          StoreInfoEntity store = sRepository.findBySiSeq(oVo.getStore()); 
           
           if(LocalTime.now().isBefore(store.getSiOpenTime()) || LocalTime.now().isAfter(store.getSiCloseTime())){
                map.put("status", false);
@@ -65,84 +53,45 @@ public class OrderController {
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
      
-     @PatchMapping("/cancel/{seq}")
-     public ResponseEntity<Object> orderCancel(@PathVariable Long seq, HttpSession session){
+     @PatchMapping("/cancel/{seq}/{member}")
+     public ResponseEntity<Object> orderCancel(@PathVariable Long seq, @PathVariable Long member){
           Map<String, Object> map = new LinkedHashMap<>();
           
-          // LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
-          // if(loginUser==null){
-          //      map.put("status", false);
-          //      map.put("message", "로그인 후 사용가능한 기능입니다.");
-          //      map.put("code", HttpStatus.BAD_GATEWAY);
-          
-          //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          // } //귀찮아서 주석처리함
-          LoginUserVO loginUser = new LoginUserVO(mReposiroty.findAll().get(0));
+          LoginUserVO loginUser = new LoginUserVO(mReposiroty.findByMiSeq(member));
           map = orderService.orderCancel(seq, loginUser);
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
      
-     @GetMapping("/list")
-     public ResponseEntity<Object> showMyOrderList(HttpSession session){
+     @GetMapping("/list/{member}")
+     public ResponseEntity<Object> showMyOrderList(@PathVariable Long member){
           Map<String, Object> map = new LinkedHashMap<>();
-          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
-          // if(loginUser==null){
-          //      map.put("status", false);
-          //      map.put("message", "로그인 후 사용가능한 기능입니다.");
-          //      map.put("code", HttpStatus.BAD_GATEWAY);
-               
-          //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          // } //귀찮아서 주석처리함
-          map=orderService.showMyOrder(login);
+          
+          map=orderService.showMyOrder(mReposiroty.findByMiSeq(member));
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
-     @GetMapping("/detail/{seq}")
-     public ResponseEntity<Object> showDetailMyOrder(@PathVariable("seq") Long seq, HttpSession session){
+     @GetMapping("/detail/{seq}/{member}")
+     public ResponseEntity<Object> showDetailMyOrder(@PathVariable("seq") Long seq, @PathVariable Long member){
           Map<String, Object> map = new LinkedHashMap<>();
-          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
-          // if(loginUser==null){
-               //      map.put("status", false);
-               //      map.put("message", "로그인 후 사용가능한 기능입니다.");
-               //      map.put("code", HttpStatus.BAD_GATEWAY);
-               
-               //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          // } //귀찮아서 주석처리함
-          map = orderService.showDetailOrderList(login, seq);
+          
+          map = orderService.showDetailOrderList(mReposiroty.findByMiSeq(member), seq);
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
      
      @GetMapping("payment/{type}")
-     public ResponseEntity<Object> paymentPage(HttpSession session, @PathVariable Integer type){
+     public ResponseEntity<Object> paymentPage(@PathVariable Integer type){
           Map<String, Object> map = new LinkedHashMap<>();
-          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
           
-          // if(loginUser==null){
-               //      map.put("status", false);
-               //      map.put("message", "로그인 후 사용가능한 기능입니다.");
-               //      map.put("code", HttpStatus.BAD_GATEWAY);
-               
-               //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          // } //귀찮아서 주석처리함
           map = payService.paymentSelect(type);
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
      @GetMapping("/info")
-     public ResponseEntity<Object> orderPayment(HttpSession session, @RequestBody OrderFormVO oVo){
+     public ResponseEntity<Object> orderPayment(@RequestBody OrderFormVO oVo){
           Map<String, Object> map = new LinkedHashMap<>();
-          LoginUserVO login = (LoginUserVO) session.getAttribute("loginUser");
-          // if(loginUser==null){
-               //      map.put("status", false);
-               //      map.put("message", "로그인 후 사용가능한 기능입니다.");
-               //      map.put("code", HttpStatus.BAD_GATEWAY);
-               
-               //      return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-          // } //귀찮아서 주석처리함
           StoreInfoEntity store = sRepository.findAll().get(0); //매장 고정. 이후 변경 필요
-          // List<CartDetail> carts = (List<CartDetail>)session.getAttribute("cart");
-          map = orderService.orderPage(login, store, oVo.getCart());
+          map = orderService.orderPage(store, oVo.getCart());
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }

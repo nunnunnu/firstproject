@@ -13,16 +13,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MyDeliveryVO {
+    // private Long seq;
     private Long seq;
-    private Long miSeq;
     private String address;
     private String detailAddress;
     private String name;
     private Integer basic;
 
     public MyDeliveryVO(MyDeliveryEntity my){
-        this.seq = my.getMdSeq();
-        this.miSeq = my.getMember().getMiSeq();
+        // this.seq = my.getMdSeq();
+        this.seq = my.getMember().getMiSeq();
         this.address = my.getMdAddress();
         this.detailAddress = my.getMdDetailAddress();
         this.name = my.getMdName();

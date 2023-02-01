@@ -89,48 +89,36 @@ public class OrderVO {
                menuList+="+";
           }
           MenuInfoEntity menu = orderDetail.getOdBiseq();
+          int price = 0;
           if(menu!=null){ //메뉴 선택
                menuList += menu.getMenuName();
-               this.totalPrice += menu.getMenuPrice();
+               price += menu.getMenuPrice();
                if(menu.getBurger()!=null && menu.getSide()!=null && menu.getDrink()!=null){ //세트메뉴
                     if(orderDetail.getOdLsotSeq()!=null){
-                         totalPrice += orderDetail.getOdLsotSeq().getSoPrice();
+                         price += orderDetail.getOdLsotSeq().getSoPrice();
                     }
                     if(orderDetail.getOdLdotSeq()!=null){
-                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice();
+                         price += orderDetail.getOdLdotSeq().getDoPrice();
                     }
                }else if(menu.getEvent()!=null){ //이벤트 메뉴
                     if(orderDetail.getOdLdotSeq()!=null){
-                         totalPrice += orderDetail.getOdLdotSeq().getDoPrice();
+                         price += orderDetail.getOdLdotSeq().getDoPrice();
                     }
                     if(orderDetail.getOdLdot2Seq()!=null){
-                         totalPrice += orderDetail.getOdLdot2Seq().getDoPrice();
+                         price += orderDetail.getOdLdot2Seq().getDoPrice();
                     }
                }
           }
           
-          // int count = 0;
-          // if(menu.getMenuSelect()){
-          //      for(IngredientsInfoEntity i : orderDetail.get){
-          //           if(i.getIiPrice()==0){
-          //                if(count>1){
-          //                     totalPrice+=400;
-          //                }
-          //                count++;
-          //           }else{
-          //                totalPrice+= i.getIiPrice();
-          //           }
-          //      }
-          // }
-
+          this.totalPrice += price * orderDetail.getOdCount();
      }
 
-     public void addIngredientPrice(OrderIngredientsDetailEntity ing){
-          this.totalPrice += ing.getIngredient().getIiPrice();
+     public void addIngredientPrice(OrderIngredientsDetailEntity ing, int count){
+          this.totalPrice += ing.getIngredient().getIiPrice() * count;
      }
 
-     public void addCheckIngredientPrice(){
-          this.totalPrice+=400;
+     public void addCheckIngredientPrice(int count){
+          this.totalPrice+=400 * count;
      }
      
 }

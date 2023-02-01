@@ -40,17 +40,19 @@ public class MyOrderDetailVO {
                this.composition+=od.getOdLdot2Seq().getDoName();
           }
      }
-     public void addOrderIngredients(Set<OrderIngredientsVO> ingredientsVOs){
+     public void addOrderIngredients(Set<OrderIngredientsVO> ingredientsVOs, int num){
           int count=0;
+          int temp = 0;
           for(OrderIngredientsVO vo : ingredientsVOs){
-               this.price+=vo.getIngredient().getIngredientPrice();
+               temp+=vo.getIngredient().getIngredientPrice();
                if(vo.getIngredient().getIngredientPrice()==0){
                     count++;
                }
           }
           if(count>1){
-               this.price+=400;
+               temp+=400;
           }
+          this.price += temp * num;
      }
      public void addPrice(OrderDetailEntity orderDetail){
           MenuInfoEntity menu = orderDetail.getOdBiseq();
@@ -71,6 +73,7 @@ public class MyOrderDetailVO {
                     price += orderDetail.getOdLdot2Seq().getDoPrice();
                }
           }
+          this.price = price * orderDetail.getOdCount();
      }
      public void ingredientName(OrderIngredientsDetailEntity i) {
           if(composition!=null && !composition.equals("")){

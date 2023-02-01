@@ -194,7 +194,6 @@ public class OrderTest {
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 4, pay, null, "조심히와주세요", "대구 중구 동성로999길 건물 1층"); 
           
           MenuInfoEntity menu = menuRepo.findByMenuSeq(menuRepo.findAll().get(0).getMenuSeq());
-          // IngredientsInfoEntity ingredient = new IngredientsInfoEntity(null, "재료", 5000, "파일", "uri", null);
           
           int originSales = menu.getBurger().getBiSalesRate();
           if(order.getOiStatus()==1 || order.getOiStatus()==2){

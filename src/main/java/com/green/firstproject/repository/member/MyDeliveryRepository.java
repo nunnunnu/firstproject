@@ -14,4 +14,7 @@ public interface MyDeliveryRepository extends JpaRepository<MyDeliveryEntity, Lo
     MyDeliveryEntity findByMdAddressAndMdDetailAddress(String address, String detailAddress);
     @Query("select m from MyDeliveryEntity m join fetch m.member where m.member=member")
     List<MyDeliveryEntity> findMember(@Param("member") MemberInfoEntity member);
+
+    MyDeliveryEntity findByMdSeqAndMember(Long seq, MemberInfoEntity member);
+    MyDeliveryEntity findByMemberAndMdBasic(MemberInfoEntity member, Integer num);
 }

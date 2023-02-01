@@ -14,4 +14,5 @@ public class OrderFormVO {
      private String address;
      private String detailAddress;
      private Long store;
+     private Long member;
 }
