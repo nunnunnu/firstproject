@@ -11,12 +11,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.green.firstproject.entity.member.LatelyDeliveryEntity;
+import com.green.firstproject.entity.member.MemberCouponEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.entity.member.MyDeliveryEntity;
 import com.green.firstproject.repository.member.LatelyDeliveryRepository;
+import com.green.firstproject.repository.member.MemberCouponRepository;
 import com.green.firstproject.repository.member.MemberInfoReposiroty;
 import com.green.firstproject.repository.member.MyDeliveryRepository;
 import com.green.firstproject.utils.AESAlgorithm;
+import com.green.firstproject.vo.master.CouponVO;
 import com.green.firstproject.vo.member.DeliveryVO;
 import com.green.firstproject.vo.member.LoginSession;
 import com.green.firstproject.vo.member.LoginUserVO;
@@ -28,9 +31,17 @@ public class MemberService {
     @Autowired MemberInfoReposiroty mRepo;
     @Autowired LatelyDeliveryRepository ldRepo;
     @Autowired MyDeliveryRepository mdRepo;
+    @Autowired MemberCouponRepository mcRepo;
 
     public Map<String, Object> addMember(MemberInfoEntity data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        System.out.println(data);
+        if(data.getMiEmail()==null && data.getMiPwd()==null && data.getMiPhone()==null){
+            resultMap.put("status", false);
+            resultMap.put("message", "값이 입력되지 않았습니다.");
+            resultMap.put("code", HttpStatus.BAD_REQUEST);
+            return resultMap;
+        }
         String emailPattern = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
         String phonePattern = "^\\d{3}-\\d{3,4}-\\d{4}$";
         String passwordPattern = "^[a-zA-Z\\d`~!@#$%^&*()-_=+]{6,}$";
@@ -70,43 +81,30 @@ public class MemberService {
     
     public Map<String, Object> findEmail(String name, String phone){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        for(MemberInfoEntity data : mRepo.findAll()){
-            if (data.getMiName().equals(name) && data.getMiPhone().equals(phone)) {
-            if(mRepo.countByMiNameAndMiPhone(data.getMiName(), data.getMiPhone()) == 1){
+        MemberInfoEntity member = mRepo.findByMiNameAndMiPhone(name, phone);
+        if (member!=null) {
                 resultMap.put("status", true);
-                resultMap.put("message", "회원님의 이메일은"+data.getMiEmail()+" 입니다.");
+                resultMap.put("message", "회원님의 이메일은"+member.getMiEmail()+" 입니다.");
                 resultMap.put("code", HttpStatus.ACCEPTED);
-            }
-        }
-            else{
-                resultMap.put("status", false);
-                resultMap.put("message", "등록된 회원 정보가 없습니다.");
-                resultMap.put("code", HttpStatus.BAD_REQUEST);
-            }
+        }else{
+            resultMap.put("status", false);
+            resultMap.put("message", "등록된 회원 정보가 없습니다.");
+            resultMap.put("code", HttpStatus.BAD_REQUEST);
         }
         return resultMap;
     }
 
     public Map<String, Object> findPwd(String name, String email){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        for(MemberInfoEntity data : mRepo.findAll()){ //쿼리문으로 변경
-            if (data.getMiName().equals(name) && data.getMiEmail().equals(email)) {
-                if(mRepo.countByMiNameAndMiEmail(data.getMiName(), data.getMiEmail()) == 1){
-                    try{
-                    resultMap.put("status", true);
-                    resultMap.put("message", "회원님의 비밀번호는"+ AESAlgorithm.Decrypt(data.getMiPwd())+" 입니다.");
-                    resultMap.put("code", HttpStatus.ACCEPTED);
-                    }
-                    catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-            else{
-                resultMap.put("status", false);
-                resultMap.put("message", "이름 또는 이메일을 확인하여 주십시오.");
-                resultMap.put("code", HttpStatus.BAD_REQUEST);
-            }
+        MemberInfoEntity member = mRepo.findByMiNameAndMiEmail(name, email);
+        if (member!=null) {
+                resultMap.put("status", true);
+                resultMap.put("message", "해당 정보와 일치하는 회원이 존재합니다.");
+                resultMap.put("code", HttpStatus.ACCEPTED);
+        }else{
+            resultMap.put("status", false);
+            resultMap.put("message", "이름 또는 이메일을 확인하여 주십시오.");
+            resultMap.put("code", HttpStatus.BAD_REQUEST);
         }
         return resultMap;
     }
@@ -114,6 +112,15 @@ public class MemberService {
     public Map<String, Object> loginMember (LoginUserVO data){
             Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             MemberInfoEntity user = null;
+            System.out.println(data.getEmail());
+            System.out.println(data.getPwd());
+            System.out.println(data);
+            if(data.getEmail()==null || data.getPwd()==null){
+                resultMap.put("status", false);
+                resultMap.put("message", "값이 입력되지 않았습니다.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }
             try{
                 user = mRepo.findByMiEmailAndMiPwd(data.getEmail(), AESAlgorithm.Encrypt(data.getPwd()));
             } catch(Exception e){e.printStackTrace();}
@@ -214,7 +221,7 @@ public class MemberService {
     public Map<String, Object> showMyLatelyDelivery(Long seq) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         MemberInfoEntity member = mRepo.findByMiSeq(seq);
-        List<LatelyDeliveryEntity> list = ldRepo.findMember(member);
+        List<LatelyDeliveryEntity> list = ldRepo.findByMember(member);
 
         if(list.size()==0){
             map.put("status", false);
@@ -237,21 +244,24 @@ public class MemberService {
     public Map<String, Object> showMyDeliveryAddress(Long seq){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         MemberInfoEntity member = mRepo.findByMiSeq(seq);
-        List<MyDeliveryEntity> list = mdRepo.findMember(member);
-            if(list.size()==0){
-                map.put("status", false);
-                map.put("message", member.getMiEmail()+"님 \n"+"평소에 자주 배달받는 주소를 등록해 보세요.");
-                map.put("code", HttpStatus.ACCEPTED);
-            }
-            List<DeliveryVO> result = new ArrayList<>();
-            for(MyDeliveryEntity m : list){
-                DeliveryVO my = new DeliveryVO(m);
-                result.add(my);
-            }
-            map.put("status", true);
-            map.put("message", "MY배달지");
+        List<MyDeliveryEntity> list = mdRepo.findByMember(member);
+
+        if(list.size()==0){
+            map.put("status", false);
+            map.put("message", member.getMiEmail()+"님 \n"+"평소에 자주 배달받는 주소를 등록해 보세요.");
             map.put("code", HttpStatus.ACCEPTED);
-            map.put("list", result);
+            return map;
+        }
+        List<DeliveryVO> result = new ArrayList<>();
+        for(MyDeliveryEntity m : list){
+            DeliveryVO my = new DeliveryVO(m);
+            result.add(my);
+        }
+        map.put("status", true);
+        map.put("message", "MY배달지");
+        map.put("code", HttpStatus.ACCEPTED);
+        map.put("list", result);
+
         return map;
     }
 
@@ -305,7 +315,6 @@ public class MemberService {
             if(basic!=null){
                 basic.setMdBasic(1);
             }
-
         }else{
             map.put("status", false);
             map.put("message", "회원 번호를 확인해주세요.");
@@ -338,4 +347,33 @@ public class MemberService {
     //     }
     //     return map;
     // }
+
+    public Map<String, Object> showCoupon(Long seq){
+        Map<String, Object> map = new LinkedHashMap<>();
+
+        MemberInfoEntity member = mRepo.findByMiSeq(seq); 
+        if(member==null){
+            map.put("status", false);
+            map.put("message", "회원번호가 잘못되었습니다.");
+            map.put("code", HttpStatus.BAD_REQUEST);
+            return map;
+        }
+        List<MemberCouponEntity> memberCoupon = mcRepo.findByMember(member);
+        List<CouponVO> couponList = new ArrayList<>();
+        if(memberCoupon.size()!=0){
+            for(MemberCouponEntity m : memberCoupon){
+                CouponVO coVo = new CouponVO(m);
+                couponList.add(coVo);
+            }
+            map.put("status", true);
+            map.put("message", "쿠폰리스트를 조회하였습니다.");
+            map.put("code", HttpStatus.ACCEPTED);
+            map.put("coupon", couponList);
+        }else{
+            map.put("status", false);
+            map.put("message", "보유중인 쿠폰이 없습니다.");
+            map.put("code", HttpStatus.NO_CONTENT);
+        }
+        return map;
+    }
 }    

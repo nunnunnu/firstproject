@@ -57,7 +57,6 @@ public class AddMenuController {
     }
     @PostMapping("/side")
     public String postsideAdd(SideAddFileVO data) {
-        System.out.println(data.getSideFile().getOriginalFilename());
         menuService.saveFile(data);
         return "redirect:/menu/add/side";
     }
@@ -113,7 +112,6 @@ public class AddMenuController {
     }
     @PostMapping("/ingredients")
     public String postIngredientAdd(IngredientsAddFileVO data) {
-        System.out.println("sss");
         menuService.saveIngredientFile(data);
         return "redirect:/menu/add/ingredients";
     }
@@ -166,4 +164,5 @@ public class AddMenuController {
         menuService.savesellMenuFile(data);
         return "redirect:/menu/add/sellmenu";
     }
+
 }

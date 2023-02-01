@@ -16,5 +16,7 @@ public interface MemberCouponRepository extends JpaRepository<MemberCouponEntity
      @Query("select mc from MemberCouponEntity mc join fetch mc.coupon join fetch mc.member where mc.member=:member")
      List<MemberCouponEntity> findByMember(@Param("member") MemberInfoEntity member);
      @Query("select mc from MemberCouponEntity mc join fetch mc.coupon join fetch mc.member where mc.member=:member and mc.coupon=:coupon")
-     MemberCouponEntity findByMemberAndSeq(@Param("member") MemberInfoEntity member, @Param("coupon") CouponInfoEntity coupon);
+     List<MemberCouponEntity> findByMemberAndSeq(@Param("member") MemberInfoEntity member, @Param("coupon") CouponInfoEntity coupon);
+
+     MemberCouponEntity findByMcSeq(Long seq);
 }

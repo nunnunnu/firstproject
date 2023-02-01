@@ -17,4 +17,6 @@ public interface MyDeliveryRepository extends JpaRepository<MyDeliveryEntity, Lo
 
     MyDeliveryEntity findByMdSeqAndMember(Long seq, MemberInfoEntity member);
     MyDeliveryEntity findByMemberAndMdBasic(MemberInfoEntity member, Integer num);
+
+    List<MyDeliveryEntity> findByMember(MemberInfoEntity member);
 }

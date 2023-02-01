@@ -30,8 +30,6 @@ import lombok.NoArgsConstructor;
 public class MemberCouponEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="mc_seq") private Long mcSeq;
-    // @Column(name="mc_mi_seq") private Long mcMiSeq;
-    // @Column(name="mc_ci_seq") private Long mcCiSeq;
     @Column(name="mc_date") @ColumnDefault("CURRENT_TIMESTAMP")
     private LocalDate mcDate;
     @Column(name="mc_use")  @ColumnDefault("true")

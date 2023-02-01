@@ -42,7 +42,6 @@ public class CartVo {
             if(cart.getDrinkOpt()!=null){
                 ;
                 this.drink= new CartDrinkInfoVO(drinkOpt, menu.getMenuSize());
-                System.out.println(drink);
                 this.price+=drink.getDrinkPrice();
             }
         }else if(menu.getEvent()!=null){

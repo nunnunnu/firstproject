@@ -423,7 +423,6 @@ public class MenuInfoService {
                 .iiPrice(data.getIiPrice()).iiFile(saveFileName).iiUri(fileName)
                 .menu(menuRepo.findMenuSeq(data.getEventSeq()))
                 .build();
-        System.out.println(entity);
         ingRepo.save(entity);
     }
 

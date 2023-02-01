@@ -26,10 +26,10 @@ public class AdminService {
             map.put("status", false);
             map.put("message", "아이디 혹은 비밀번호 오류입니다.");
         }
-        else if(entity.getAdminGrade().getGiSeq() != 99){
-            map.put("status", false);
-            map.put("message", "관리자 전용 페이지 입니다.");
-        }
+        // else if(entity.getAdminGrade().getGiSeq() != 99){
+        //     map.put("status", false);
+        //     map.put("message", "관리자 전용 페이지 입니다.");
+        // }
         else{
             map.put("status", true);
             map.put("message", "로그인 되었습니다.");

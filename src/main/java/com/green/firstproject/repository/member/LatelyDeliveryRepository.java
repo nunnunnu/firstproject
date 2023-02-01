@@ -15,4 +15,6 @@ public interface LatelyDeliveryRepository extends JpaRepository<LatelyDeliveryEn
      @Query("select l from LatelyDeliveryEntity l join fetch l.member where l.member=:member")
      List<LatelyDeliveryEntity> findMember(@Param("member") MemberInfoEntity member);
 
+     List<LatelyDeliveryEntity> findByMember(@Param("member") MemberInfoEntity member);
+
 }

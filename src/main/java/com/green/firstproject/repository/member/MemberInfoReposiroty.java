@@ -16,4 +16,7 @@ public interface MemberInfoReposiroty extends JpaRepository<MemberInfoEntity, Lo
 
      MemberInfoEntity findByMiEmail(String email);
 
+     MemberInfoEntity findByMiNameAndMiPhone(String name, String phone);
+     MemberInfoEntity findByMiNameAndMiEmail(String name, String email);
+
 }

@@ -58,7 +58,6 @@ public class MenuService {
             }
         }else if(seq==8){
             List<DogCateVO> dogList = dogRepo.searchDog(seq, store);
-            System.out.println(dogList.size());
             if(dogList.size()!=0){
                 list.put("dog", dogList);
             }

@@ -21,7 +21,6 @@ import com.green.firstproject.entity.member.MemberInfoEntity;
 import com.green.firstproject.repository.menu.sellermenu.MenuInfoRepository;
 // import com.green.firstproject.service.MemberService;
 import com.green.firstproject.service.member.MemberService;
-import com.green.firstproject.vo.member.DeliveryVO;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.member.MyDeliveryVO;
 import com.green.firstproject.vo.member.UserUpdateVO;
@@ -33,6 +32,7 @@ import com.green.firstproject.vo.member.UserUpdateVO;
 public class MemberAPIController {
     @Autowired MemberService mService;
     @Autowired MenuInfoRepository menuRepo;
+
     @PutMapping("/join")
     public ResponseEntity<Object> memberJoin(@RequestBody MemberInfoEntity data){
         Map<String, Object> resultMap = mService.addMember(data);
@@ -48,7 +48,7 @@ public class MemberAPIController {
         Map<String, Object> resultMap = mService.findPwd(name, email);
         return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Object> memberLogin(@RequestBody LoginUserVO data){
       Map<String, Object> resultMap = mService.loginMember(data);
       return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
@@ -93,7 +93,7 @@ public class MemberAPIController {
 
     map = mService.showMyLatelyDelivery(seq);
     
-    return new ResponseEntity<Object>(map, (HttpStatus) map.get("code"));
+    return new ResponseEntity<Object>(map, HttpStatus.OK);
   }
   @GetMapping("/address/my/{seq}")
   public ResponseEntity<Object> myDeliveryAddress(@PathVariable Long seq){
@@ -111,8 +111,6 @@ public class MemberAPIController {
 
   @DeleteMapping("/delete/my")
   public ResponseEntity<Object> deleteMyDeliveryAddress(@RequestParam Long member, @RequestParam Long mySeq){
-    System.out.println(member);
-    System.out.println(mySeq);
     Map<String, Object> resultMap = mService.deleteMyDeliveryAddress(member, mySeq);
     return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
   }
@@ -123,10 +121,11 @@ public class MemberAPIController {
     return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
   }
 
-//   @PatchMapping("/update/my/basic/{seq}")
-//   public ResponseEntity<Object> updateMyDeliveryBasic(HttpSession session, @PathVariable Long seq, @RequestBody MyDeliveryVO data){
-//     LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
-//     Map<String, Object> resultMap = mService.updateMyDeliveryBasic(loginUser, seq, data.getBasic());
-//     return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
-//   }
+  @GetMapping("/coupon/{seq}")
+  public ResponseEntity<Object> orderPayment(@PathVariable Long seq){
+      Map<String, Object> map = new LinkedHashMap<>();
+      map = mService.showCoupon(seq);
+      
+      return new ResponseEntity<>(map, HttpStatus.OK);
+  }
 }

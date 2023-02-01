@@ -28,7 +28,6 @@ import com.green.firstproject.entity.order.OrderDetailEntity;
 import com.green.firstproject.entity.order.OrderInfoEntity;
 import com.green.firstproject.entity.order.OrderIngredientsDetailEntity;
 import com.green.firstproject.entity.order.cart.CartDetail;
-import com.green.firstproject.entity.order.cart.CartVo;
 import com.green.firstproject.repository.master.CouponInfoRepository;
 import com.green.firstproject.repository.master.PaymentInfoRepository;
 import com.green.firstproject.repository.master.StoreInfoRepository;
@@ -54,7 +53,6 @@ import com.green.firstproject.vo.master.CouponVO;
 import com.green.firstproject.vo.member.LoginUserVO;
 import com.green.firstproject.vo.order.MyOrderDetailVO;
 import com.green.firstproject.vo.order.MyOrderViewVO;
-import com.green.firstproject.vo.order.OrderDeliveryVO;
 import com.green.firstproject.vo.order.OrderIngredientsVO;
 import com.green.firstproject.vo.order.OrderVO;
 
@@ -87,8 +85,8 @@ public class OrderService {
 
      public Map<String, Object> order(MemberInfoEntity member, StoreInfoEntity store,
           Long paySeq ,List<CartDetail> carts, 
-          @Nullable String message,
-          @Nullable Long couponSeq,
+          String message,
+          Long couponSeq,
           String address, String detailAddress
      ){   
           Map<String, Object> resultMap = new LinkedHashMap<>();
@@ -108,28 +106,31 @@ public class OrderService {
                resultMap.put("code", HttpStatus.BAD_REQUEST);
                return resultMap;
           }
-
+          member = mRepo.findAll().get(0);
           PaymentInfoEntity pay = piRepo.findByPaySeq(paySeq);
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, message, address+" "+detailAddress); 
           
           if(couponSeq!=null){
-               CouponInfoEntity coupon = cRepo.findByCiSeq(couponSeq);
-               MemberCouponEntity mc = mcRepo.findByMemberAndSeq(member, coupon);
+               MemberCouponEntity mc = mcRepo.findByMcSeq(couponSeq);
                
-               if(mc==null || //보유중인 쿠폰이 아니거나
-                    !mc.getMcUse() || //이미 사용했거나
-                    (mc.getMcDate().getYear()!=LocalDate.now().getYear() //쿠폰 발급일자의 년도가 다르고
-                    &&mc.getMcDate().getMonth()!=LocalDate.now().getMonth()) //쿠폰 발급일자의 월이 다르거나
-               ){
+               if(mc==null){
                     resultMap.put("status", false);
-                    resultMap.put("message", "사용할 수 없는 쿠폰이 선택되었습니다. 다시 시도해주세요.");
+                    resultMap.put("message", "쿠폰번호가 잘못되었습니다.");
+                    resultMap.put("code", HttpStatus.BAD_REQUEST);
+                    return resultMap;
+               }else if(!mc.getMcUse() && //사용하지 않았고
+                    mc.getMcDate().getYear()==LocalDate.now().getYear() 
+                    &&mc.getMcDate().getMonth()==LocalDate.now().getMonth() 
+               ){
+                    order.setCoupon(mc.getCoupon());
+                    mc.setMcUse(true);
+                    mcRepo.save(mc);
+               }else{
+                    resultMap.put("status", false);
+                    resultMap.put("message", "사용불가능한 쿠폰이 포함되어있습니다.");
                     resultMap.put("code", HttpStatus.BAD_REQUEST);
                     return resultMap;
                }
-
-               order.setCoupon(coupon);
-               mc.setMcUse(false);
-               mcRepo.save(mc);
           }
           
           oiRepository.save(order);
@@ -190,96 +191,6 @@ public class OrderService {
           return resultMap;
      }
 
-     //기본메뉴 재고감소
-     // public void discountStock(StoreInfoEntity store, OrderDetailEntity orderDetail){   
-     //      if(orderDetail.getOdBiseq().getBurger()!=null){
-     //           BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, orderDetail.getOdBiseq().getBurger());
-     //           int bStock = burgerStock.getBsStock() - orderDetail.getOdCount();
-     //           burgerStock.setBsStock(bStock);
-     //      }
-     //      if(orderDetail.getOdBiseq().getDog()!=null){
-     //           DogStockEntity dogStock = dogsRepo.findByStoreAndDog(store, orderDetail.getOdBiseq().getDog());
-     //           int dogSto = dogStock.getDogsStock() - orderDetail.getOdCount();
-     //           dogStock.setDogsStock(dogSto);
-     //      }
-     //      if(orderDetail.getOdBiseq().getDrink()!=null){
-     //           DrinkStockEntity drinkStock = dsRepo.findByStoreAndDrink(store, orderDetail.getOdBiseq().getDrink());
-     //           int dStock = drinkStock.getDsStock() - orderDetail.getOdCount();
-     //           drinkStock.setDsStock(dStock);
-     //      }
-     //      if(orderDetail.getOdBiseq().getSide()!=null){
-     //           SideStockEntity side = ssRepo.findByStoreAndSide(store, orderDetail.getOdBiseq().getSide());
-     //           int sideStock = side.getSsStock() - orderDetail.getOdCount();
-     //           side.setSsStock(sideStock);
-     //      }
-     //      if(orderDetail.getOdEiSeq()!=null){
-     //           EventStockEntity event = esRepo.findByStoreAndEvent(store, orderDetail.getOdEiSeq());
-     //           int eventStock = event.getEsStock() - orderDetail.getOdCount();
-     //           event.setEsStock(eventStock);
-     //      }
-     // }
-     //재료 재고 감소
-     // public void discountIngredientStock(StoreInfoEntity store, IngredientsInfoEntity ingredirent, int count){
-     //      IngredientsStockEntity ing = isRepo.findByStoreAndIngredient(store, ingredirent);
-     //      int ingStock = ing.getIsStock()-count;
-     //      ing.setIsStock(ingStock);
-     // }
-     // 매장 재고 검사
-     // public Boolean stockCheck(List<CartDetail> carts, StoreInfoEntity store){
-     //      for(CartDetail c : carts){
-     //           MenuInfoEntity menu = menuRepo.findMenuSeq(c.getMenu());
-     //           BurgerInfoEntity burger = menu.getBurger();
-     //           DogInfoEntity dog = menu.getDog();
-     //           DrinkInfoEntity drink = menu.getDrink();
-     //           SideInfoEntity side = menu.getSide();
-     //           EventInfoEntity event = menu.getEvent();
-     //           if(burger!=null){
-     //                BurgerStockEntity bs = bsRepo.findByStoreAndBurger(store, burger);
-     //                if(bs.getBsStock()<c.getCount()){
-     //                     return false; //재고없음
-     //                }
-     //           }
-     //           if(dog!=null){
-     //                DogStockEntity dogstock = dogsRepo.findByStoreAndDog(store, dog);
-     //                if(dogstock.getDogsStock()<c.getCount()){
-     //                     return false; //재고없음
-     //                }
-     //           }
-     //           if(drink!=null){
-     //                DrinkStockEntity ds = dsRepo.findByStoreAndDrink(store, drink);
-     //                if(ds.getDsStock()<c.getCount()){
-     //                     return false; //재고없음
-     //                }
-     //           }
-     //           if(side!=null){
-     //                SideStockEntity ss = ssRepo.findByStoreAndSide(store, side);
-     //                if(ss.getSsStock()<c.getCount()){
-     //                     return false; //재고없음
-     //                }
-     //           }
-     //           if(event!=null){
-     //                EventStockEntity es = esRepo.findByStoreAndEvent(store, event);
-     //                if(es.getEsStock()<c.getCount()){
-     //                     return false; //재고없음
-     //                }
-     //           }
-     //           if(c.getIngredient()!=null){
-     //                // List<IngredientsInfoEntity> ingredients = iiRepo.findByingSeq(c.getIngredient());
-     //                // for(IngredientVo i : ings){
-     //                //      ingSeq.add(i.getIngredirentSeq());
-     //                // }
-     //                // Set<IngredientsInfoEntity> ingredientsInfoEntity = iiRepo.findByingSeq(ingSeq);
-     //                List<IngredientsStockEntity> ings = isRepo.findStoreAndIngredient(store, c.getIngredient());
-     //                for(IngredientsStockEntity ing : ings){
-     //                     if(ing.getIsStock()<c.getCount()){
-     //                          return false;
-     //                     }
-     //                }
-     //           }
-     //      }
-     //      return true;
-     // }
-
      //주문 취소
      public Map<String, Object> orderCancel(Long seq, LoginUserVO login){
           Map<String, Object> map = new LinkedHashMap<>();
@@ -301,39 +212,11 @@ public class OrderService {
           List<OrderDetailEntity> orderDetails = odRepo.findBurgerFetch(order);
 
           for(OrderDetailEntity od : orderDetails){
-               // StoreInfoEntity store = order.getStore();
                BurgerInfoEntity burger = od.getOdBiseq().getBurger();
-               // DogInfoEntity dog = od.getOdBiseq().getDog();
-               // DrinkInfoEntity drink = od.getOdBiseq().getDrink();
-               // SideInfoEntity side = od.getOdBiseq().getSide();
                if(burger!=null){
-                    // BurgerStockEntity burgerStock = bsRepo.findByStoreAndBurger(store, burger);
-                    // int stock = burgerStock.getBsStock()+od.getOdCount();
                     int sale = burger.getBiSalesRate()-od.getOdCount();
                     burger.setBiSalesRate(sale);
-                    // burgerStock.setBsStock(stock);
                }
-               // if(dog!=null){
-               //      DogStockEntity dogStock = dogsRepo.findByStoreAndDog(store, dog);
-               //      int dogSto = dogStock.getDogsStock() + od.getOdCount();
-               //      dogStock.setDogsStock(dogSto);
-               // }
-               // if(drink!=null){
-               //      DrinkStockEntity drinkStock = dsRepo.findByStoreAndDrink(store, od.getOdBiseq().getDrink());
-               //      int dStock = drinkStock.getDsStock()  + od.getOdCount();
-               //      drinkStock.setDsStock(dStock);
-               // }
-               // if(side!=null){
-               //      SideStockEntity sideStock = ssRepo.findByStoreAndSide(store, od.getOdBiseq().getSide());
-               //      int sStock = sideStock.getSsStock() + od.getOdCount();
-               //      sideStock.setSsStock(sStock);
-               // }
-               // if(event!=null){
-               //      EventStockEntity eventStock = esRepo.findByStoreAndEvent(store, od.getOdEiSeq());
-               //      int eStock = eventStock.getEsStock() + od.getOdCount();
-               //      eventStock.setEsStock(eStock);
-               // }
-
           }
 
           oiRepository.save(order);
@@ -346,8 +229,6 @@ public class OrderService {
      //주문 리스트 조회
      public Map<String, Object> showMyOrder(MemberInfoEntity member){
           Map<String, Object> map = new LinkedHashMap<>();
-          /* 귀찮아서 주석함 나중에 풀어야함 */
-          // MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
           
           List<OrderInfoEntity> orders = oiRepository.findMember(member.getMiSeq());
           
@@ -425,49 +306,5 @@ public class OrderService {
           return map;
      }
 
-     //결제 페이지
-     public Map<String, Object> orderPage(StoreInfoEntity store, List<CartDetail> c){
-          Map<String, Object> map = new LinkedHashMap<>();
-          if(c==null || c.size()==0){ 
-               map.put("status", false);
-               map.put("message", "주문 메뉴를 선택하지 않으셨습니다.");
-               map.put("code", HttpStatus.BAD_REQUEST);
-               return map;
-          }
-
-          // MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
-          MemberInfoEntity member = mRepo.findAll().get(0); //지워야함
-
-          OrderDeliveryVO order = new OrderDeliveryVO("임시주소", member, store); //주소 임시로 적음. 주소선택 기능 구현되면 수정해야함
-          List<CartVo> carts = new ArrayList<>();
-          for(CartDetail cart : c){
-               MenuInfoEntity menu = menuRepo.findByMenuSeq(cart.getMenu());
-               SideOptionEntity sideOpt = soRepo.findBySoSeq(cart.getSideOpt());
-               DrinkOptionEntity drinkOpt = diRepo.findByDoSeq(cart.getDrinkOpt());
-               DrinkOptionEntity drink2Opt = diRepo.findByDoSeq(cart.getDrink2Opt());
-               List<IngredientsInfoEntity> ingredients = iiRepo.findByingSeq(cart.getIngredient());
-               
-               CartVo cVo = new CartVo(cart, menu, sideOpt, drinkOpt, drink2Opt, ingredients);
-               carts.add(cVo);
-               order.addPrice(cVo);
-
-               order.orderMenuSetting(carts);
-          }
-          List<MemberCouponEntity> memberCoupon = mcRepo.findByMember(member);
-          List<CouponVO> couponList = new ArrayList<>();
-          if(memberCoupon.size()!=0){
-               for(MemberCouponEntity m : memberCoupon){
-                    CouponVO coVo = new CouponVO(m);
-                    couponList.add(coVo);
-               }
-               order.couponSetting(couponList);
-          }
-          
-          map.put("status", true);
-          map.put("message", "결제 페이지를 조회하였습니다.");
-          map.put("code", HttpStatus.ACCEPTED);
-          map.put("info", order);
-
-          return map;
-     }
+     
 }
