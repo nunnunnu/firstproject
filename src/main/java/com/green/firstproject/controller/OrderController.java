@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.firstproject.entity.master.StoreInfoEntity;
@@ -87,12 +86,5 @@ public class OrderController {
           
           return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
      }
-     @GetMapping("/info")
-     public ResponseEntity<Object> orderPayment(@RequestBody OrderFormVO oVo){
-          Map<String, Object> map = new LinkedHashMap<>();
-          StoreInfoEntity store = sRepository.findAll().get(0); //매장 고정. 이후 변경 필요
-          map = orderService.orderPage(store, oVo.getCart());
-          
-          return new ResponseEntity<>(map, (HttpStatus)map.get("code"));
-     }
+     
 }

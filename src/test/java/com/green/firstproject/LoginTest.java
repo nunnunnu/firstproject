@@ -17,7 +17,6 @@ public class LoginTest {
         String email = "member1@email.com";
         String pwd = "1234";
         MemberInfoEntity loginUser = mRepo.findByMiEmailAndMiPwd(email, pwd);
-        System.out.println(loginUser);
         assertNotEquals(loginUser, null);
     }
 }

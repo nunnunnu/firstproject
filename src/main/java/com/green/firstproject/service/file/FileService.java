@@ -67,9 +67,7 @@ public class FileService {
         }
         else if(type.equals("drink")){
             folderLocation = Paths.get(drink_img_path);
-            System.out.println("aaa");
             filename = dRepo.findByDiUri(uri).getDiFile();
-            System.out.println(filename);
         }
         else if(type.equals("dog")){
             folderLocation = Paths.get(dog_img_path);

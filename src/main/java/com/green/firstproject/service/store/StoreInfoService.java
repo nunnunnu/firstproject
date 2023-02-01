@@ -81,7 +81,6 @@ public class StoreInfoService {
             resultMap.put("message", "가게 정보가 변경되었습니다.");
             resultMap.put("code", HttpStatus.OK);
         }
-        System.out.println(store);
         return resultMap;
 
     }

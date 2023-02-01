@@ -8,22 +8,22 @@ import lombok.Data;
 
 @Data
 public class CouponVO {
-     private Long couponSeq;
-     private String couponName;
-     private Integer couponPrice;
-     private Boolean couponAvailability;
+     private Long seq;
+     private String name;
+     private Integer price;
+     private Boolean availability;
 
      public CouponVO(MemberCouponEntity coupon){
-          this.couponSeq=coupon.getCoupon().getCiSeq();
-          this.couponName = coupon.getCoupon().getCiName();
-          this.couponPrice = coupon.getCoupon().getCiDiscount();
-          if(coupon.getMcUse() || //이미 사용했거나
-               (coupon.getMcDate().getYear()!=LocalDate.now().getYear() //쿠폰 발급일자의 년도가 다르고
-               &&coupon.getMcDate().getMonth()!=LocalDate.now().getMonth()) //쿠폰 발급일자의 월이 다를때
+          this.seq=coupon.getMcSeq();
+          this.name = coupon.getCoupon().getCiName();
+          this.price = coupon.getCoupon().getCiDiscount();
+          if(!coupon.getMcUse() && //사용하지 않았고
+               coupon.getMcDate().getYear()==LocalDate.now().getYear() //쿠폰 발급일자의 년도가 같고
+               &&coupon.getMcDate().getMonth()==LocalDate.now().getMonth() //쿠폰 발급일자의 월이 같을때
           ){
-               this.couponAvailability=true;
+               this.availability=true;
           }else{
-               this.couponAvailability=false;
+               this.availability=false;
           }
      }
 }
