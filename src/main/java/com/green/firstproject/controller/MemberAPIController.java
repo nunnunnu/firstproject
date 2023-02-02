@@ -121,11 +121,18 @@ public class MemberAPIController {
     return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
   }
 
+<<<<<<< HEAD
   @GetMapping("/coupon/{seq}")
   public ResponseEntity<Object> orderPayment(@PathVariable Long seq){
       Map<String, Object> map = new LinkedHashMap<>();
       map = mService.showCoupon(seq);
       
       return new ResponseEntity<>(map, HttpStatus.OK);
+=======
+  @PatchMapping("/update/my/basic/{seq}")
+  public ResponseEntity<Object> updateMyDeliveryBasic(@PathVariable Long seq, @RequestBody MyDeliveryVO data){
+    Map<String, Object> resultMap = mService.updateMyDeliveryBasic(data, seq);
+    return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
+>>>>>>> hia30
   }
 }
