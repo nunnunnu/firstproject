@@ -229,6 +229,13 @@ public class OrderService {
      //주문 리스트 조회
      public Map<String, Object> showMyOrder(MemberInfoEntity member){
           Map<String, Object> map = new LinkedHashMap<>();
+
+          if(member==null){
+               map.put("status", false);
+               map.put("message", "회원번호가 잘못되었습니다.");
+               map.put("code", HttpStatus.BAD_REQUEST);
+               return map;
+          }
           
           List<OrderInfoEntity> orders = oiRepository.findMember(member.getMiSeq());
           

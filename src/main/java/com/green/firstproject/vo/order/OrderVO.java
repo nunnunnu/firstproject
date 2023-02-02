@@ -80,11 +80,6 @@ public class OrderVO {
      // }
 
      public void setOrderPrice(OrderDetailEntity orderDetail){
-          // Integer rSizeSidePrice=2700;
-          // Integer lSizeSidePrice=3200;
-          // Integer rSizeDrinkPrice = 2600;
-          // Integer lSizeDrinkPrice = 2800;
-
           if(!(menuList==null || menuList.equals(""))){
                menuList+="+";
           }

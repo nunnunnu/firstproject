@@ -112,9 +112,6 @@ public class MemberService {
     public Map<String, Object> loginMember (LoginUserVO data){
             Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             MemberInfoEntity user = null;
-            System.out.println(data.getEmail());
-            System.out.println(data.getPwd());
-            System.out.println(data);
             if(data.getEmail()==null || data.getPwd()==null){
                 resultMap.put("status", false);
                 resultMap.put("message", "값이 입력되지 않았습니다.");
