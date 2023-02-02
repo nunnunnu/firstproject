@@ -310,17 +310,13 @@ public class MemberService {
             map.put("status", true);
             map.put("message", "MY배달지 별칭이 수정되었습니다.");
             map.put("code", HttpStatus.ACCEPTED);
-<<<<<<< HEAD
         }else if( data.getBasic()!=null && entity!=null){
             MyDeliveryEntity basic = mdRepo.findByMemberAndMdBasic(member, 2);
             if(basic!=null){
                 basic.setMdBasic(1);
             }
-        }else{
-=======
         }
-        else{
->>>>>>> hia30
+       else{
             map.put("status", false);
             map.put("message", "회원 번호를 확인해주세요.");
             map.put("code", HttpStatus.BAD_REQUEST);
@@ -328,32 +324,30 @@ public class MemberService {
         return map;
     }
 
-<<<<<<< HEAD
-    // public Map<String, Object> updateMyDeliveryBasic(LoginUserVO login, Long seq, Integer baisc){
-    //     Map<String, Object> map = new LinkedHashMap<String, Object>();
-    //     MemberInfoEntity member = mRepo.findByMiEmail(login.getEmail());
-    //     MyDeliveryEntity entity = mdRepo.findById(seq).get();
-    //     if(member.getMiSeq() == entity.getMember().getMiSeq()){
-    //         if(entity.getMdBasic() == 2){
-    //             map.put("status", false);
-    //             map.put("message", "이미 지정된 대표 배달지 입니다.");
-    //             map.put("code", HttpStatus.BAD_REQUEST);
-    //         }
-    //         entity.setMdBasic(baisc);
-    //         mdRepo.save(entity);
-    //         map.put("status", true);
-    //         map.put("message", "기본 MY배달지가 변경되었습니다.");
-    //         map.put("code", HttpStatus.ACCEPTED);
-    //     }
 
-    //     else{
-    //         map.put("status", false);
-    //         map.put("message", "회원 번호를 확인해주세요.");
-    //         map.put("code", HttpStatus.BAD_REQUEST);
-    //     }
-    //     return map;
-    // }
-
+    public Map<String, Object> updateMyDeliveryBasic(MyDeliveryVO data, Long seq){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        MemberInfoEntity member = mRepo.findByMiSeq(data.getSeq());
+        MyDeliveryEntity entity = mdRepo.findByMdSeqAndMember(seq, member);
+        if( data.getBasic()!=null && entity!=null){
+            MyDeliveryEntity basic = mdRepo.findByMemberAndMdBasic(member, 2);
+            if(basic!=null){
+                basic.setMdBasic(1);
+                entity.setMdBasic(2);
+                mdRepo.save(basic);
+                mdRepo.save(entity);
+                map.put("status", true);
+                map.put("message", "기본 배달지가 변경되었습니다.");
+                map.put("code", HttpStatus.BAD_REQUEST);
+            }
+        }
+        else{
+            map.put("status", false);
+            map.put("message", "회원 번호를 확인해주세요.");
+            map.put("code", HttpStatus.BAD_REQUEST);
+        }
+        return map;
+    }
     public Map<String, Object> showCoupon(Long seq){
         Map<String, Object> map = new LinkedHashMap<>();
 
@@ -379,29 +373,7 @@ public class MemberService {
             map.put("status", false);
             map.put("message", "보유중인 쿠폰이 없습니다.");
             map.put("code", HttpStatus.NO_CONTENT);
-=======
-    public Map<String, Object> updateMyDeliveryBasic(MyDeliveryVO data, Long seq){
-        Map<String, Object> map = new LinkedHashMap<String, Object>();
-        MemberInfoEntity member = mRepo.findByMiSeq(data.getSeq());
-        MyDeliveryEntity entity = mdRepo.findByMdSeqAndMember(seq, member);
-        if( data.getBasic()!=null && entity!=null){
-            MyDeliveryEntity basic = mdRepo.findByMemberAndMdBasic(member, 2);
-            if(basic!=null){
-                basic.setMdBasic(1);
-                entity.setMdBasic(2);
-                mdRepo.save(basic);
-                mdRepo.save(entity);
-                map.put("status", true);
-                map.put("message", "기본 배달지가 변경되었습니다.");
-                map.put("code", HttpStatus.BAD_REQUEST);
-            }
-        }
-        else{
-            map.put("status", false);
-            map.put("message", "회원 번호를 확인해주세요.");
-            map.put("code", HttpStatus.BAD_REQUEST);
->>>>>>> hia30
-        }
+        }    
         return map;
     }
-}    
+}
