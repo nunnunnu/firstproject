@@ -1,6 +1,5 @@
 package com.green.firstproject.vo.member;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.member.MemberInfoEntity;
 
 import lombok.AllArgsConstructor;

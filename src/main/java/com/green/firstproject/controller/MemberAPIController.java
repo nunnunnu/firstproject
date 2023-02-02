@@ -123,10 +123,9 @@ public class MemberAPIController {
     return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
   }
 
-//   @PatchMapping("/update/my/basic/{seq}")
-//   public ResponseEntity<Object> updateMyDeliveryBasic(HttpSession session, @PathVariable Long seq, @RequestBody MyDeliveryVO data){
-//     LoginUserVO loginUser = (LoginUserVO) session.getAttribute("loginUser");
-//     Map<String, Object> resultMap = mService.updateMyDeliveryBasic(loginUser, seq, data.getBasic());
-//     return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
-//   }
+  @PatchMapping("/update/my/basic/{seq}")
+  public ResponseEntity<Object> updateMyDeliveryBasic(@PathVariable Long seq, @RequestBody MyDeliveryVO data){
+    Map<String, Object> resultMap = mService.updateMyDeliveryBasic(data, seq);
+    return new ResponseEntity<Object>(resultMap, (HttpStatus) resultMap.get("code"));
+  }
 }
