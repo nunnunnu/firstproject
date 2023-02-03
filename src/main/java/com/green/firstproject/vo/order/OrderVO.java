@@ -39,8 +39,8 @@ public class OrderVO {
           this.pay=order.getPay().getPayMethod();
           this.totalPrice = 0;
           if(order.getCoupon()!=null){
-               this.couponName=order.getCoupon().getCiName();
-               this.discountPrice=order.getCoupon().getCiDiscount();
+               this.couponName=order.getCoupon().getCoupon().getCiName();
+               this.discountPrice=order.getCoupon().getCoupon().getCiDiscount();
                this.totalPrice -= discountPrice;
           }
           this.request = order.getOiRequest();

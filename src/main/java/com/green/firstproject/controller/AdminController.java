@@ -98,9 +98,6 @@ public class AdminController {
     }
     @GetMapping("/order/update")
     public String postOrderStatus(@RequestParam Integer status, @RequestParam Long seq){
-        System.out.println("aaaaa");
-        System.out.println(status);
-        System.out.println(seq);
         OrderInfoEntity order = orderRepo.findById(seq).get();
         order.setOiStatus(status);
         orderRepo.save(order);

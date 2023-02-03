@@ -111,8 +111,7 @@ public class OrderService {
           OrderInfoEntity order = new OrderInfoEntity(null, member, LocalDateTime.now(), store, 1, pay, null, message, address+" "+detailAddress); 
           
           if(couponSeq!=null){
-               MemberCouponEntity mc = mcRepo.findByMcSeq(couponSeq);
-               
+               MemberCouponEntity mc = mcRepo.findByMcSeq(couponSeq);       
                if(mc==null){
                     resultMap.put("status", false);
                     resultMap.put("message", "쿠폰번호가 잘못되었습니다.");
@@ -120,9 +119,9 @@ public class OrderService {
                     return resultMap;
                }else if(!mc.getMcUse() && //사용하지 않았고
                     mc.getMcDate().getYear()==LocalDate.now().getYear() 
-                    &&mc.getMcDate().getMonth()==LocalDate.now().getMonth() 
+                    &&mc.getMcDate().getMonth()==LocalDate.now().getMonth() //발급일자가 이번달이면
                ){
-                    order.setCoupon(mc.getCoupon());
+                    order.setCoupon(mc);
                     mc.setMcUse(true);
                     mcRepo.save(mc);
                }else{
@@ -209,6 +208,9 @@ public class OrderService {
                return map;
           }
           order.setOiStatus(5);
+          if(order.getCoupon()!=null){
+               order.getCoupon().setMcUse(false);
+          }
           List<OrderDetailEntity> orderDetails = odRepo.findBurgerFetch(order);
 
           for(OrderDetailEntity od : orderDetails){
