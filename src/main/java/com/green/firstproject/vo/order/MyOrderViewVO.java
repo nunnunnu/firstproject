@@ -33,8 +33,8 @@ public class MyOrderViewVO {
           this.pay = new PaymentInfoVO(order.getPay());
           setStatus(order);
           if(order.getCoupon()!=null){
-               this.couponName=order.getCoupon().getCiName();
-               this.discountPrice=order.getCoupon().getCiDiscount();
+               this.couponName=order.getCoupon().getCoupon().getCiName();
+               this.discountPrice=order.getCoupon().getCoupon().getCiDiscount();
           }
           this.request = order.getOiRequest();
           this.totalPrice = 0;

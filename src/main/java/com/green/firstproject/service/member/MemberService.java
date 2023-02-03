@@ -35,7 +35,6 @@ public class MemberService {
 
     public Map<String, Object> addMember(MemberInfoEntity data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        System.out.println(data);
         if(data.getMiEmail()==null && data.getMiPwd()==null && data.getMiPhone()==null){
             resultMap.put("status", false);
             resultMap.put("message", "값이 입력되지 않았습니다.");
@@ -140,6 +139,12 @@ public class MemberService {
         
         public Map<String, Object> updateMember(Long seq, String pwd, String changePwd, String phone, Integer gen) {
             Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+            if(seq==null || pwd==null){
+                resultMap.put("status", false);
+                resultMap.put("message", "값이 입력되지 않았습니다.");
+                resultMap.put("code", HttpStatus.BAD_REQUEST);
+                return resultMap;
+            }
             String phonePattern = "^\\d{3}-\\d{3,4}-\\d{4}$";
             String passwordPattern = "^[a-zA-Z\\d`~!@#$%^&*()-_=+]{6,}$";
             if(!Pattern.matches(passwordPattern, changePwd)){ //공백없이 특수문자 가능 6자리 이상

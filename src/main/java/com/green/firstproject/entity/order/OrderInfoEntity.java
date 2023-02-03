@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.firstproject.entity.master.CouponInfoEntity;
 import com.green.firstproject.entity.master.PaymentInfoEntity;
 import com.green.firstproject.entity.master.StoreInfoEntity;
+import com.green.firstproject.entity.member.MemberCouponEntity;
 import com.green.firstproject.entity.member.MemberInfoEntity;
 
 import jakarta.persistence.Column;
@@ -40,7 +41,7 @@ public class OrderInfoEntity {
     @Column(name = "oi_status")          @ColumnDefault("1")   
     private Integer oiStatus;
     @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "oi_pay_seq") private PaymentInfoEntity pay;
-    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "oi_ci_seq")  private CouponInfoEntity coupon;
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIgnore @JoinColumn(name = "oi_ci_seq")  private MemberCouponEntity coupon;
     @Column(name = "oi_request") private String oiRequest;
     @Column(name = "oi_address") private String oiAddress;
 
