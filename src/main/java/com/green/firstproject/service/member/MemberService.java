@@ -138,8 +138,9 @@ public class MemberService {
         }
         
         public Map<String, Object> updateMember(Long seq, String pwd, String changePwd, String phone, Integer gen) {
+            System.out.println(changePwd);
             Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-            if(seq==null || pwd==null){
+            if(seq==null){
                 resultMap.put("status", false);
                 resultMap.put("message", "값이 입력되지 않았습니다.");
                 resultMap.put("code", HttpStatus.BAD_REQUEST);
@@ -147,24 +148,30 @@ public class MemberService {
             }
             String phonePattern = "^\\d{3}-\\d{3,4}-\\d{4}$";
             String passwordPattern = "^[a-zA-Z\\d`~!@#$%^&*()-_=+]{6,}$";
-            if(!Pattern.matches(passwordPattern, changePwd)){ //공백없이 특수문자 가능 6자리 이상
+            if(changePwd!=null && !Pattern.matches(passwordPattern, changePwd)){ //공백없이 특수문자 가능 6자리 이상
                 resultMap.put("status", false);
                 resultMap.put("message", "비밀번호는 공백없이 6자리 이상 가능합니다.");
                 resultMap.put("code", HttpStatus.BAD_REQUEST);
                 return resultMap;
-            }else if(!Pattern.matches(phonePattern, phone)){
+            }else if(phone!=null && !Pattern.matches(phonePattern, phone)){
                 resultMap.put("status", false);
                 resultMap.put("message", "올바른 전화번호 형식이 아닙니다. 번호를 다시 확인해주세요.");
                 resultMap.put("code", HttpStatus.BAD_REQUEST);
                 return resultMap;
             }
-            MemberInfoEntity member = new MemberInfoEntity();
-            member = mRepo.findByMiSeq(seq);
+            MemberInfoEntity member = mRepo.findByMiSeq(seq);
+            System.out.println("before:"+member);
             if (member == null) {
                 resultMap.put("status", false);
                 resultMap.put("message", "찾을 수 없는 회원번호 입니다.");
                 resultMap.put("code", HttpStatus.BAD_REQUEST);
                 return resultMap;
+            }
+            if(phone!=null){
+                member.setMiPhone(phone);
+            }
+            if(gen != null){
+                member.setMiGen(gen);
             }
             if(changePwd!=null){
                 try{
@@ -173,12 +180,7 @@ public class MemberService {
                     e.printStackTrace();
                 }
             }
-            if(phone!=null){
-                member.setMiPhone(phone);
-            }
-            if(gen != null){
-                member.setMiGen(gen);
-            }
+            System.out.println("after:"+member);
             mRepo.save(member);
 
             resultMap.put("status", true);

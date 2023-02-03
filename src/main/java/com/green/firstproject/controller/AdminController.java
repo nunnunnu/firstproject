@@ -91,9 +91,7 @@ public class AdminController {
         else if(admin.getAdminGrade() != 99){ 
             return "redirect:/main"; // 메인페이지로
         }
-        model.addAttribute("order", orderRepo.findByStore(siRepo.findBySiSeq(admin.getAdminStore())));
-
-
+        model.addAttribute("order", orderRepo.findByStoreOrderByOiOrderTimeDesc(siRepo.findBySiSeq(admin.getAdminStore())));
         return "store/order";
     }
     @GetMapping("/order/update")

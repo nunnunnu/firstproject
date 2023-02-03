@@ -84,11 +84,11 @@
                     </td>
                     <td th:text="${list.oiRequest}"></td>
                     <td th:text="${list.oiOrderTime}"></td>
-                    <td th:if="${list.oiStatus}==1">접수</td>
-                    <td th:if="${list.oiStatus}==2">준비중</td>
-                    <td th:if="${list.oiStatus}==3">배달중</td>
-                    <td th:if="${list.oiStatus}==4">배달완료</td>
-                    <td th:if="${list.oiStatus}==5">주문취소</td>
+                    <td th:if="${list.oiStatus}==1" style="color: red;">접수</td>
+                    <td th:if="${list.oiStatus}==2" style="color: green;">준비중</td>
+                    <td th:if="${list.oiStatus}==3" style="color: blue;">배달중</td>
+                    <td th:if="${list.oiStatus}==4" style="color: skyblue;">배달완료</td>
+                    <td th:if="${list.oiStatus}==5" style="color: orange;">주문취소</td>
                     <td>
                          <a th:href="@{/admin/order/update?(seq=${list.oiSeq}, status=2)}" method="post" class="btn btn-dark">준비중</a>
                     </td>
