@@ -34,15 +34,6 @@
 |관리자 페이지	|100	|프론트	|부트스트랩을 이용해서 데이터를 입력할 관리자 페이지 구현
 |마이배달지 등록	|30	|배송지	|구현 로직을 어떻게하면되는지 팀원에게 설명/도움
 
-### PPT 주소
-
-[](https://www.canva.com/design/DAFZONDccqE/Ledx98kAYBzpUJB8rLYDmg/edit?utm_content=DAFZONDccqE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
-
-- [정규화/테이블명세서/API명세서/간트차트 파일 (엑셀파일)]
-    
-    [버거킹 (2).xlsx](%E1%84%8B%E1%85%B3%E1%86%B7%E1%84%89%E1%85%B5%E1%86%A8%E1%84%87%E1%85%A2%E1%84%83%E1%85%A1%E1%86%AF%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%B5%E1%84%89%E1%85%B3%20-%20%E1%84%87%E1%85%A5%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AA%E1%86%BC%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%2045d2c034984147dab5fa7ec67c241758/%25EB%25B2%2584%25EA%25B1%25B0%25ED%2582%25B9_(2).xlsx)
-    
-
 ## 시연 동영상
 
 ### 프론트 구현
@@ -52,11 +43,17 @@
 [![Video Label](http://img.youtube.com/vi/snW6NWhX5_A/0.jpg)]
 (https://youtu.be/snW6NWhX5_A)
 
-
-
 ---
 ### 기타 주소
 
 [업무일지(노션 페이지)](https://coordinated-sunset-4f9.notion.site/da1e36c3ba8546a596374a686eaa107a?v=825104263b974533a2ae9d84edb26ea2)
 
 [회의록(노션 페이지)](https://coordinated-sunset-4f9.notion.site/189b61b04f1841a38882f3a042bb6eea?v=80280550f98d46c8bd390afdbf72af35)
+
+[ppt 링크](https://www.canva.com/design/DAFZONDccqE/Ledx98kAYBzpUJB8rLYDmg/edit?utm_content=DAFZONDccqE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+- [정규화/테이블명세서/API명세서/간트차트 파일 (엑셀파일)]
+    
+    [버거킹 (2).xlsx](%E1%84%8B%E1%85%B3%E1%86%B7%E1%84%89%E1%85%B5%E1%86%A8%E1%84%87%E1%85%A2%E1%84%83%E1%85%A1%E1%86%AF%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%B5%E1%84%89%E1%85%B3%20-%20%E1%84%87%E1%85%A5%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AA%E1%86%BC%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%2045d2c034984147dab5fa7ec67c241758/%25EB%25B2%2584%25EA%25B1%25B0%25ED%2582%25B9_(2).xlsx)
+    
+
