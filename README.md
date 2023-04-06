@@ -52,8 +52,6 @@
 
 [ppt 링크](https://www.canva.com/design/DAFZONDccqE/Ledx98kAYBzpUJB8rLYDmg/edit?utm_content=DAFZONDccqE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-- [정규화/테이블명세서/API명세서/간트차트 파일 (엑셀파일)]
-    
-    [버거킹 (2).xlsx](%E1%84%8B%E1%85%B3%E1%86%B7%E1%84%89%E1%85%B5%E1%86%A8%E1%84%87%E1%85%A2%E1%84%83%E1%85%A1%E1%86%AF%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%B5%E1%84%89%E1%85%B3%20-%20%E1%84%87%E1%85%A5%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AA%E1%86%BC%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%2045d2c034984147dab5fa7ec67c241758/%25EB%25B2%2584%25EA%25B1%25B0%25ED%2582%25B9_(2).xlsx)
+[정규화/테이블명세서/API명세서/간트차트 파일 (엑셀파일)](https://drive.google.com/file/d/1IZ9Ya9FhEj7FKt3GqUKQ7pjgUVCU_zdP/view?usp=share_link)
     
 
